@@ -1,0 +1,21 @@
+<?php
+
+namespace App\Services\{{module}};
+
+use App\Repositories\{{module}}\{{name}}Repository;
+use App\DTOs\{{module}}\{{name}}DTO;
+
+class {{name}}Service
+{
+    protected ${{nameLower}}Repo;
+
+    public function __construct({{name}}Repository ${{nameLower}}Repo)
+    {
+        $this->{{nameLower}}Repo = ${{nameLower}}Repo;
+    }
+
+    public function getAll()
+    {
+        return $this->{{nameLower}}Repo->all();
+    }
+}

@@ -1,0 +1,12 @@
+<?php
+
+namespace App\Repositories\{{module}};
+
+use App\Repositories\BaseRepository;
+
+class {{name}}Repository extends BaseRepository
+{
+    protected $table = '{{table}}'; // Change to actual table name
+
+    // Add custom repository methods here
+}
