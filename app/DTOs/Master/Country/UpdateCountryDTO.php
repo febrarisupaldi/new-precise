@@ -9,14 +9,16 @@ class UpdateCountryDTO extends BaseDTO
 {
     public string $country_code;
     public string $country_name;
-    public string $created_by;
+    public string $updated_by;
+    public string $reason;
 
     public static function fromRequest(Request $request): static
     {
         $dto = new self();
         $dto->country_code = $request->input('country_code');
         $dto->country_name = $request->input('country_name');
-        $dto->created_by   = $request->input('created_by');
+        $dto->updated_by   = $request->input('updated_by');
+        $dto->reason       = $request->input('reason');
         return $dto;
     }
 }

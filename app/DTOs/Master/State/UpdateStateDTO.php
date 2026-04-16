@@ -11,6 +11,7 @@ class UpdateStateDTO extends BaseDTO
     public string $state_name;
     public int $country_id;
     public string $updated_by;
+    public string $reason;
 
     public static function fromRequest(Request $request): static
     {
@@ -19,6 +20,7 @@ class UpdateStateDTO extends BaseDTO
         $dto->state_name = $request->input('state_name');
         $dto->country_id = (int) $request->input('country_id');
         $dto->updated_by = $request->input('updated_by');
+        $dto->reason     = $request->input('reason');
         return $dto;
     }
 }

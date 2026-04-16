@@ -32,10 +32,12 @@ class CountryRepository extends BaseRepository
 
     public function update($id, UpdateCountryDTO $dto): int
     {
+        $this->setAuditSession($dto->updated_by, $dto->reason);
+
         return $this->query()->where('country_id', $id)->update([
             'country_code' => $dto->country_code,
             'country_name' => $dto->country_name,
-            'created_by'   => $dto->created_by,
+            'updated_by'   => $dto->updated_by,
         ]);
     }
 

@@ -36,6 +36,16 @@ class MakeDtoCommand extends Command
         }
 
         $stub    = File::get($stubPath);
+        
+        // Inject audit fields for Update DTOs
+        if (Str::startsWith($name, 'Update')) {
+            $auditFields = "    public string \$updated_by;\n    public string \$reason;\n";
+            $auditMapping = "        \$dto->updated_by = \$request->input('updated_by');\n        \$dto->reason     = \$request->input('reason');\n";
+            
+            $stub = str_replace('// public $property;', $auditFields, $stub);
+            $stub = str_replace('// $dto->property = $request->input(\'property\');', $auditMapping, $stub);
+        }
+
         $content = str_replace(
             ['{{name}}', '{{module}}'],
             [$name, "{$module}\\{$menuName}"],

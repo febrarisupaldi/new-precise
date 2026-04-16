@@ -18,7 +18,8 @@ class UpdateCountryRequest extends BaseApiRequest
         return [
             'country_code' => ['required', 'string', 'max:10'],
             'country_name' => ['required', 'string', 'max:255'],
-            'created_by'   => ['sometimes', 'string', 'max:255'],
+            'updated_by'   => ['required', 'string', 'max:255'],
+            'reason'       => ['required', 'string', 'max:255'],
         ];
     }
 }

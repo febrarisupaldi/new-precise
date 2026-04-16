@@ -20,6 +20,7 @@ class UpdateStateRequest extends BaseApiRequest
             'state_name'   => ['required', 'string', 'max:255'],
             'country_id'   => ['required', 'integer', 'exists:country,country_id'],
             'updated_by'   => ['required', 'string', 'max:255'],
+            'reason'       => ['required', 'string', 'max:255'],
         ];
     }
 }

@@ -41,4 +41,25 @@ abstract class BaseRepository
     {
         return $this->query()->where($column, $id)->first();
     }
+
+    /**
+     * Set MySQL session variables for auditing
+     *
+     * @param string $updatedBy
+     * @param string $reason
+     * @return void
+     */
+    protected function setAuditSession(string $updatedBy, string $reason): void
+    {
+        DB::statement("SET @updated_by = ?, @reason = ?", [$updatedBy, $reason]);
+    }
+
+    /**
+     * Delete a record with auditing
+     */
+    public function delete($id, string $primaryKey, string $updatedBy, string $reason): int
+    {
+        $this->setAuditSession($updatedBy, $reason);
+        return $this->query()->where($primaryKey, $id)->delete();
+    }
 }

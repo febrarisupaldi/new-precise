@@ -37,15 +37,17 @@ class CountryService
 
     public function update($id, UpdateCountryDTO $dto): array
     {
-        $exists = $this->countryRepo->findById($id);
+        return \Illuminate\Support\Facades\DB::transaction(function () use ($id, $dto) {
+            $exists = $this->countryRepo->findById($id);
 
-        if (!$exists) {
-            return ['success' => false, 'message' => 'Country not found.'];
-        }
+            if (!$exists) {
+                return ['success' => false, 'message' => 'Country not found.'];
+            }
 
-        $this->countryRepo->update($id, $dto);
+            $this->countryRepo->update($id, $dto);
 
-        return ['success' => true, 'message' => 'Country updated successfully.'];
+            return ['success' => true, 'message' => 'Country updated successfully.'];
+        });
     }
 
     public function checkExist(string $column, mixed $value): bool

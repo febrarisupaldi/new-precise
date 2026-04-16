@@ -11,7 +11,6 @@ class CreateStateDTO extends BaseDTO
     public string $state_name;
     public int $country_id;
     public string $created_by;
-    public string $updated_by;
 
     public static function fromRequest(Request $request): static
     {
@@ -20,7 +19,6 @@ class CreateStateDTO extends BaseDTO
         $dto->state_name = $request->input('state_name');
         $dto->country_id = (int) $request->input('country_id');
         $dto->created_by = $request->input('created_by');
-        $dto->updated_by = $request->input('updated_by');
         return $dto;
     }
 }

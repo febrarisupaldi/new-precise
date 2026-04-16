@@ -3,7 +3,9 @@
 namespace App\Services\{{module}};
 
 use App\Repositories\{{module}}\{{name}}Repository;
-use App\DTOs\{{module}}\{{name}}DTO;
+use App\DTOs\{{module}}\{{name}}\Create{{name}}DTO;
+use App\DTOs\{{module}}\{{name}}\Update{{name}}DTO;
+use Illuminate\Support\Facades\DB;
 
 class {{name}}Service
 {
@@ -17,5 +19,43 @@ class {{name}}Service
     public function getAll()
     {
         return $this->{{nameLower}}Repo->all();
+    }
+
+    public function getById($id)
+    {
+        return $this->{{nameLower}}Repo->findById($id);
+    }
+
+    public function create(Create{{name}}DTO $dto): array
+    {
+        $success = $this->{{nameLower}}Repo->create($dto);
+
+        return [
+            'success' => $success,
+            'message' => $success ? '{{name}} created successfully.' : 'Failed to create {{name}}.',
+        ];
+    }
+
+    public function update($id, Update{{name}}DTO $dto): array
+    {
+        return DB::transaction(function () use ($id, $dto) {
+            $exists = $this->{{nameLower}}Repo->findById($id);
+
+            if (!$exists) {
+                return ['success' => false, 'message' => '{{name}} not found.'];
+            }
+
+            $affected = $this->{{nameLower}}Repo->update($id, $dto);
+
+            return [
+                'success' => $affected >= 0,
+                'message' => '{{name}} updated successfully.',
+            ];
+        });
+    }
+
+    public function checkExist(string $column, mixed $value): bool
+    {
+        return $this->{{nameLower}}Repo->checkExists($column, $value);
     }
 }

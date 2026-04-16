@@ -37,18 +37,20 @@ class StateService
 
     public function update($id, UpdateStateDTO $dto): array
     {
-        $exists = $this->stateRepo->findById($id);
+        return \Illuminate\Support\Facades\DB::transaction(function () use ($id, $dto) {
+            $exists = $this->stateRepo->findById($id);
 
-        if (!$exists) {
-            return ['success' => false, 'message' => 'State not found.'];
-        }
+            if (!$exists) {
+                return ['success' => false, 'message' => 'State not found.'];
+            }
 
-        $affected = $this->stateRepo->update($id, $dto);
+            $affected = $this->stateRepo->update($id, $dto);
 
-        return [
-            'success' => $affected >= 0,
-            'message' => 'State updated successfully.',
-        ];
+            return [
+                'success' => $affected >= 0,
+                'message' => 'State updated successfully.',
+            ];
+        });
     }
 
     public function checkExist(string $column, mixed $value): bool

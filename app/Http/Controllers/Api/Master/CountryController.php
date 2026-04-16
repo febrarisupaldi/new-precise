@@ -126,7 +126,6 @@ class CountryController extends Controller
             ]);
         } catch (\Throwable $e) {
             $this->logError($e, 'CountryController@check', ['query' => $request->query()]);
-
             return $this->jsonResponse('error', 'Failed to perform check.', code: 500);
         }
     }

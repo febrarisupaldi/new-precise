@@ -35,13 +35,14 @@ class StateRepository extends BaseRepository
             'state_code'   => $dto->state_code,
             'state_name'   => $dto->state_name,
             'country_id'   => $dto->country_id,
-            'created_by'   => $dto->created_by,
-            'updated_by'   => $dto->updated_by,
+            'created_by'   => $dto->created_by
         ]);
     }
 
     public function update($id, UpdateStateDTO $dto): int
     {
+        $this->setAuditSession($dto->updated_by, $dto->reason);
+
         return $this->query()->where('state_id', $id)->update([
             'state_code'   => $dto->state_code,
             'state_name'   => $dto->state_name,
