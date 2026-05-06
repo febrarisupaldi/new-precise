@@ -3,8 +3,8 @@
 namespace App\Services\{{module}};
 
 use App\Repositories\{{module}}\{{name}}Repository;
-use App\DTOs\{{module}}\{{name}}\Create{{name}}DTO;
-use App\DTOs\{{module}}\{{name}}\Update{{name}}DTO;
+use App\DTOs\{{module}}\Create{{name}}DTO;
+use App\DTOs\{{module}}\Update{{name}}DTO;
 use Illuminate\Support\Facades\DB;
 
 class {{name}}Service

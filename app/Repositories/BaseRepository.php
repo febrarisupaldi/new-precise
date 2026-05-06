@@ -37,7 +37,7 @@ abstract class BaseRepository
      * @param string $column
      * @return object|null
      */
-    public function find($id, $column = 'id'): ?object
+    public function find($id, $column): ?object
     {
         return $this->query()->where($column, $id)->first();
     }
@@ -61,5 +61,18 @@ abstract class BaseRepository
     {
         $this->setAuditSession($updatedBy, $reason);
         return $this->query()->where($primaryKey, $id)->delete();
+    }
+
+    /**
+     * Check if record exists
+     *
+     * @param array $columns
+     * @param array $value
+     * @return bool
+     */
+    public function exists(array $columns, array $value): bool
+    {
+        $data = array_combine($columns, $value);
+        return $this->query()->where($data)->exists();
     }
 }

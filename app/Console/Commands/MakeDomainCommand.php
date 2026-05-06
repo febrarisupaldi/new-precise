@@ -26,6 +26,9 @@ class MakeDomainCommand extends Command
         // Create Request files
         $this->call('make:api-request', ['name' => $name, 'module' => $module]);
 
+        // Create Controller
+        $this->call('make:controller', ['name' => "Api/{$module}/{$name}Controller"]);
+
         $studlyName   = \Illuminate\Support\Str::studly($name);
         $studlyModule = \Illuminate\Support\Str::studly($module);
 
@@ -33,6 +36,7 @@ class MakeDomainCommand extends Command
         $this->info("Domain files for {$studlyName} in {$studlyModule} created successfully!");
         $this->line("");
         $this->line("  <comment>Folder structure:</comment>");
+        $this->line("  app/Http/Controllers/Api/{$studlyModule}/{$studlyName}Controller.php");
         $this->line("  app/DTOs/{$studlyModule}/{$studlyName}/Create{$studlyName}DTO.php");
         $this->line("  app/DTOs/{$studlyModule}/{$studlyName}/Update{$studlyName}DTO.php");
         $this->line("  app/Repositories/{$studlyModule}/{$studlyName}/{$studlyName}Repository.php");
