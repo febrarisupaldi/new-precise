@@ -14,9 +14,11 @@ class UpdateCityRequest extends BaseApiRequest
     public function rules(): array
     {
         return [
-            // Define validation rules here
-            'updated_by' => ['required', 'string', 'max:255'],
-            'reason'     => ['required', 'string', 'max:255'],
+            "city_code"   => ["required", "string", "max:10"],
+            "city_name"   => ["required", "string", "max:255"],
+            "state_id"    => ["required", "integer", "exists:state,state_id"],
+            "updated_by"  => ["required", "string", "max:255"],
+            "reason"      => ["required", "string"],
         ];
     }
 }

@@ -26,8 +26,13 @@ class LogViewerJwtMiddleware
         }
 
         try {
+            $users = ['2015060', '2010037'];
             // Gunakan facade JWTAuth langsung agar lebih robust
             $user = JWTAuth::setToken($token)->authenticate();
+
+            if (!in_array($user->user_id, $users)) {
+                return response('Akses ditolak: User tidak memiliki hak akses untuk mengakses halaman ini.', 403);
+            }
         } catch (\Exception $e) {
             return response('Akses ditolak: Token JWT tidak valid atau sudah kadaluarsa. Error: ' . $e->getMessage(), 401);
         }

@@ -14,8 +14,22 @@ class StateRepository extends BaseRepository
     public function all(): Collection
     {
         return $this->query()
-            ->select('state.*', 'country.country_name')
-            ->join('country', 'state.country_id', '=', 'country.country_id')
+            ->select(
+                'state.state_id',
+                'state.state_code',
+                'state.state_name',
+                'country.country_name',
+                'state.created_by',
+                'state.created_on',
+                'state.updated_by',
+                'state.updated_on'
+            )
+            ->join(
+                'precise.country',
+                'state.country_id',
+                '=',
+                'country.country_id'
+            )
             ->orderBy('state.state_name')
             ->get();
     }

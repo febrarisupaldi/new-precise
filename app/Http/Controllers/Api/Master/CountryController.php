@@ -16,9 +16,9 @@ class CountryController extends Controller
 {
     protected CountryService $countryService;
 
-    public function __construct()
+    public function __construct(CountryService $countryService)
     {
-        $this->countryService = new CountryService(new CountryRepository());
+        $this->countryService = $countryService;
     }
 
     /**

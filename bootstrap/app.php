@@ -16,7 +16,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'jwt_log_token',
         ]);
 
-        $middleware->append(\App\Http\Middleware\AccessLogger::class);
+        $middleware->prependToGroup('api', \App\Http\Middleware\ForceJsonResponse::class);
+        $middleware->appendToGroup('api', \App\Http\Middleware\AccessLogger::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

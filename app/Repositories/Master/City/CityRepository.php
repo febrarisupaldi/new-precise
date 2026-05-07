@@ -17,7 +17,7 @@ class CityRepository extends BaseRepository
     public function all(): Collection
     {
         return $this->query()
-            ->select("city_id", "city_name", "state_id", "state_name", "created_by", "created_on")
+            ->select("city_id", "city_name", "state_name", "precise.city.created_by", "precise.city.created_on", "precise.city.updated_by", "precise.city.updated_on")
             ->join("precise.state", "precise.city.state_id", "=", "precise.state.state_id")
             ->get();
     }

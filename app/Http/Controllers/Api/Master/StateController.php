@@ -17,9 +17,9 @@ class StateController extends Controller
 {
     protected StateService $stateService;
 
-    public function __construct()
+    public function __construct(StateService $stateService)
     {
-        $this->stateService = new StateService(new StateRepository());
+        $this->stateService = $stateService;
     }
 
     /**

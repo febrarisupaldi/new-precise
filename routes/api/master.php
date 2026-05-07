@@ -2,6 +2,14 @@
 
 use Illuminate\Support\Facades\Route;
 
+Route::prefix('cities')->group(function () {
+    Route::get('/', [App\Http\Controllers\Api\Master\CityController::class, 'index']);
+    Route::get('check', [App\Http\Controllers\Api\Master\CityController::class, 'check']);
+    Route::get('{id}', [App\Http\Controllers\Api\Master\CityController::class, 'show']);
+    Route::post('/', [App\Http\Controllers\Api\Master\CityController::class, 'store']);
+    Route::put('{id}', [App\Http\Controllers\Api\Master\CityController::class, 'update']);
+});
+
 // Country
 Route::prefix('countries')->group(function () {
     Route::get('/', [App\Http\Controllers\Api\Master\CountryController::class, 'index']);

@@ -25,14 +25,14 @@ class AccessLogger
         // agar kita bisa menangkap User ID jika user sedang login via JWT
         try {
             DB::table('access_logs')->insert([
-                'user_id'    => Auth::guard('api')->check() ? Auth::guard('api')->user()->getAuthIdentifier() : null,
+                'user_id'    => auth('api')->id(),
                 'url'        => $request->fullUrl(),
                 'method'     => $request->method(),
                 'ip_address' => $request->ip(),
                 'user_agent' => $request->userAgent(),
                 'created_at' => now(),
             ]);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             // Kita bungkus try-catch agar jika ada masalah di tabel log, 
             // aplikasi utama tetap berjalan lancar.
             Log::error('Gagal mencatat access log: ' . $e->getMessage());
