@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Api\Master;
 
+use App\DTOs\ExistsDTO;
 use App\Http\Controllers\Controller;
 use App\Services\Master\State\StateService;
 use App\Repositories\Master\State\StateRepository;
 use App\DTOs\Master\State\CreateStateDTO;
 use App\DTOs\Master\State\UpdateStateDTO;
+use App\Http\Requests\ExistsRequest;
 use App\Http\Requests\Master\State\CreateStateRequest;
 use App\Http\Requests\Master\State\UpdateStateRequest;
 use Illuminate\Http\JsonResponse;
@@ -28,7 +30,7 @@ class StateController extends Controller
     public function index(): JsonResponse
     {
         try {
-            $data = $this->stateService->getAll();
+            $data = $this->stateService->all();
             return $this->jsonResponse('success', 'State list retrieved successfully.', $data);
         } catch (\Throwable $e) {
             $this->logError($e, 'StateController@index');
@@ -42,7 +44,7 @@ class StateController extends Controller
     public function show($id): JsonResponse
     {
         try {
-            $data = $this->stateService->getById($id);
+            $data = $this->stateService->find($id);
 
             if (!$data) {
                 return $this->jsonResponse('error', 'State not found.', code: 404);
@@ -98,24 +100,15 @@ class StateController extends Controller
     /**
      * GET /api/master/states/check
      */
-    public function check(Request $request): JsonResponse
+    public function check(ExistsRequest $request): JsonResponse
     {
         try {
-            $column = $request->query('column');
-            $value  = $request->query('value');
+            $dto    = ExistsDTO::fromRequest($request);
+            $exists = $this->stateService->checkExist($dto);
 
-            if (!$column || !$value) {
-                return $this->jsonResponse('error', 'Column and value are required.', code: 400);
-            }
-
-            $allowedColumns = ['state_code', 'state_name'];
-            if (!in_array($column, $allowedColumns)) {
-                return $this->jsonResponse('error', 'Invalid column.', code: 400);
-            }
-
-            $exists = $this->stateService->checkExist($column, $value);
-
-            return $this->jsonResponse('success', 'Check completed.', ['exists' => $exists]);
+            return $this->jsonResponse('success', 'Check completed.', [
+                'exists' => $exists
+            ]);
         } catch (\Throwable $e) {
             $this->logError($e, 'StateController@check', ['query' => $request->query()]);
             return $this->jsonResponse('error', 'Failed to perform check.', code: 500);

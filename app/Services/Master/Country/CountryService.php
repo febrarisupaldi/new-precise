@@ -2,6 +2,7 @@
 
 namespace App\Services\Master\Country;
 
+use App\DTOs\ExistsDTO;
 use App\Repositories\Master\Country\CountryRepository;
 use App\DTOs\Master\Country\CreateCountryDTO;
 use App\DTOs\Master\Country\UpdateCountryDTO;
@@ -17,17 +18,17 @@ class CountryService
 
     public function getAll()
     {
-        return $this->countryRepo->all();
+        return $this->countryRepo->all()->get();
     }
 
-    public function getById($id)
+    public function getById(mixed $id): ?object
     {
-        return $this->countryRepo->findById($id);
+        return $this->countryRepo->find($id);
     }
 
     public function create(CreateCountryDTO $dto): array
     {
-        $success = $this->countryRepo->create($dto);
+        $success = $this->countryRepo->create($dto->toArray());
 
         return [
             'success' => $success,
@@ -37,21 +38,16 @@ class CountryService
 
     public function update($id, UpdateCountryDTO $dto): array
     {
-        return \Illuminate\Support\Facades\DB::transaction(function () use ($id, $dto) {
-            $exists = $this->countryRepo->findById($id);
+        $success = $this->countryRepo->update($id, $dto->toArray());
 
-            if (!$exists) {
-                return ['success' => false, 'message' => 'Country not found.'];
-            }
-
-            $this->countryRepo->update($id, $dto);
-
-            return ['success' => true, 'message' => 'Country updated successfully.'];
-        });
+        return [
+            'success' => $success,
+            'message' => $success ? 'Country updated successfully.' : 'Failed to update country.',
+        ];
     }
 
-    public function checkExist(string $column, mixed $value): bool
+    public function checkExist(ExistsDTO $dto): bool
     {
-        return $this->countryRepo->checkExists($column, $value);
+        return $this->countryRepo->exists($dto->columns, $dto->values);
     }
 }

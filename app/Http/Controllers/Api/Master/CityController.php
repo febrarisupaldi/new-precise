@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Api\Master;
 
+use App\DTOs\ExistsDTO;
 use App\DTOs\Master\City\CreateCityDTO;
 use App\DTOs\Master\City\UpdateCityDTO;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ExistsRequest;
 use App\Http\Requests\Master\City\CreateCityRequest;
 use App\Http\Requests\Master\City\UpdateCityRequest;
 use App\Repositories\Master\City\CityRepository;
@@ -27,7 +29,7 @@ class CityController extends Controller
     public function index(): JsonResponse
     {
         try {
-            $data = $this->cityService->getAll();
+            $data = $this->cityService->all();
             return $this->jsonResponse('success', 'City list retrieved successfully.', $data);
         } catch (\Throwable $e) {
             $this->logError($e, 'CityController@index');
@@ -41,7 +43,7 @@ class CityController extends Controller
     public function show($id): JsonResponse
     {
         try {
-            $data = $this->cityService->getById($id);
+            $data = $this->cityService->find($id);
 
             if (!$data) {
                 return $this->jsonResponse('error', 'City not found.', code: 404);
@@ -79,6 +81,21 @@ class CityController extends Controller
         } catch (\Throwable $e) {
             $this->logError($e, 'CityController@store', $request->all());
             return $this->jsonResponse('error', 'Failed to create City.', code: 500);
+        }
+    }
+
+    public function check(ExistsRequest $request): JsonResponse
+    {
+        try {
+            $dto    = ExistsDTO::fromRequest($request);
+            $exists = $this->cityService->checkExist($dto);
+
+            return $this->jsonResponse('success', 'Check completed.', [
+                'exists' => $exists
+            ]);
+        } catch (\Throwable $e) {
+            $this->logError($e, 'CityController@check', ['query' => $request->query()]);
+            return $this->jsonResponse('error', 'Failed to perform check.', code: 500);
         }
     }
 }

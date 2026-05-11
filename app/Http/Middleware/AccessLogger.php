@@ -19,15 +19,14 @@ class AccessLogger
      */
     public function handle(Request $request, Closure $next)
     {
-        $response = $next($request);
 
-        // Pencatatan dilakukan SETELAH request selesai diproses 
-        // agar kita bisa menangkap User ID jika user sedang login via JWT
+
         try {
             DB::table('access_logs')->insert([
                 'user_id'    => auth('api')->id(),
                 'url'        => $request->fullUrl(),
                 'method'     => $request->method(),
+                'status'     => http_response_code(),
                 'ip_address' => $request->ip(),
                 'user_agent' => $request->userAgent(),
                 'created_at' => now(),
@@ -37,6 +36,11 @@ class AccessLogger
             // aplikasi utama tetap berjalan lancar.
             Log::error('Gagal mencatat access log: ' . $e->getMessage());
         }
+        $response = $next($request);
+
+        // Pencatatan dilakukan SETELAH request selesai diproses 
+        // agar kita bisa menangkap User ID jika user sedang login via JWT
+
 
         return $response;
     }

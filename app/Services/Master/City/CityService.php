@@ -2,6 +2,7 @@
 
 namespace App\Services\Master\City;
 
+use App\DTOs\ExistsDTO;
 use App\Repositories\Master\City\CityRepository;
 use App\DTOs\Master\City\CreateCityDTO;
 use App\DTOs\Master\City\UpdateCityDTO;
@@ -16,19 +17,19 @@ class CityService
         $this->cityRepo = $cityRepo;
     }
 
-    public function getAll()
+    public function all(): object
     {
-        return $this->cityRepo->all();
+        return $this->cityRepo->all()->get();
     }
 
-    public function getById(int $id)
+    public function find(int $id): ?object
     {
-        return $this->cityRepo->findById($id);
+        return $this->cityRepo->find($id)->first();
     }
 
     public function create(CreateCityDTO $dto): array
     {
-        $success = $this->cityRepo->create($dto);
+        $success = $this->cityRepo->create($dto->toArray());
 
         return [
             'success' => $success,
@@ -36,26 +37,23 @@ class CityService
         ];
     }
 
-    public function update($id, UpdateCityDTO $dto): array
+    public function update(int $id, UpdateCityDTO $dto): array
     {
-        return DB::transaction(function () use ($id, $dto) {
-            $exists = $this->cityRepo->findById($id);
+        $success = $this->cityRepo->update($id, $dto->toArray());
 
-            if (!$exists) {
-                return ['success' => false, 'message' => 'City not found.'];
-            }
-
-            $affected = $this->cityRepo->update($id, $dto);
-
-            return [
-                'success' => $affected >= 0,
-                'message' => 'City updated successfully.',
-            ];
-        });
+        return [
+            'success' => $success,
+            'message' => $success ? 'City updated successfully.' : 'Failed to update city.',
+        ];
     }
 
-    public function checkExist(string $column, mixed $value): bool
+    public function checkExist(ExistsDTO $dto): array
     {
-        return $this->cityRepo->checkExists($column, $value);
+        $exists = $this->cityRepo->exists($dto->columns, $dto->values);
+
+        return [
+            'success' => $exists,
+            'message' => $exists ? 'City already exists.' : 'City not found.',
+        ];
     }
 }

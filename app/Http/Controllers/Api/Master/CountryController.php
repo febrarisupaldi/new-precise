@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Api\Master;
 
+use App\DTOs\ExistsDTO;
 use App\Http\Controllers\Controller;
 use App\Services\Master\Country\CountryService;
-use App\Repositories\Master\Country\CountryRepository;
 use App\DTOs\Master\Country\CreateCountryDTO;
 use App\DTOs\Master\Country\UpdateCountryDTO;
+use App\Http\Requests\ExistsRequest;
 use App\Http\Requests\Master\Country\CreateCountryRequest;
 use App\Http\Requests\Master\Country\UpdateCountryRequest;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class CountryController extends Controller
 {
@@ -81,7 +81,7 @@ class CountryController extends Controller
     /**
      * PUT /api/master/countries/{id}
      */
-    public function update(UpdateCountryRequest $request, $id): JsonResponse
+    public function update($id, UpdateCountryRequest $request): JsonResponse
     {
         try {
             $dto    = UpdateCountryDTO::fromRequest($request);
@@ -103,23 +103,12 @@ class CountryController extends Controller
      * GET /api/master/countries/check
      * Check if a column value exists
      */
-    public function check(Request $request): JsonResponse
+    public function check(ExistsRequest $request): JsonResponse
     {
         try {
-            $column = $request->query('column');
-            $value  = $request->query('value');
+            $dto = ExistsDTO::fromRequest($request);
 
-            if (!$column || !$value) {
-                return $this->jsonResponse('error', 'Column and value are required.', code: 400);
-            }
-
-            // Optional: Limit allowed columns for security
-            $allowedColumns = ['country_code', 'country_name'];
-            if (!in_array($column, $allowedColumns)) {
-                return $this->jsonResponse('error', 'Invalid column.', code: 400);
-            }
-
-            $exists = $this->countryService->checkExist($column, $value);
+            $exists = $this->countryService->checkExist($dto);
 
             return $this->jsonResponse('success', 'Check completed.', [
                 'exists' => $exists

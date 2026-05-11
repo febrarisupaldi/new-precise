@@ -3,70 +3,32 @@
 namespace App\Repositories\Master\State;
 
 use App\Repositories\BaseRepository;
-use App\DTOs\Master\State\CreateStateDTO;
-use App\DTOs\Master\State\UpdateStateDTO;
-use Illuminate\Support\Collection;
+use Illuminate\Database\Query\Builder;
 
 class StateRepository extends BaseRepository
 {
-    protected $table = 'state';
+    protected string $table = "precise.state";
+    protected string $primaryKey = "state_id";
+    protected array $columns = [
+        "state_id",
+        "state_code",
+        "state_name",
+        "created_by",
+        "created_on",
+        "updated_by",
+        "updated_on"
+    ];
 
-    public function all(): Collection
+    public function all(): Builder
     {
-        return $this->query()
-            ->select(
-                'state.state_id',
-                'state.state_code',
-                'state.state_name',
-                'country.country_name',
-                'state.created_by',
-                'state.created_on',
-                'state.updated_by',
-                'state.updated_on'
-            )
-            ->join(
-                'precise.country',
-                'state.country_id',
-                '=',
-                'country.country_id'
-            )
-            ->orderBy('state.state_name')
-            ->get();
+        return parent::all()
+            ->addSelect("country.country_name")
+            ->join("precise.country", "precise.state.country_id", "=", "precise.country.country_id");
     }
 
-    public function findById($id): ?object
+    public function find(mixed $id): Builder
     {
-        return $this->query()
-            ->leftJoin('country', 'state.country_id', '=', 'country.country_id')
-            ->select('state.*', 'country.country_name')
-            ->where('state.state_id', $id)
-            ->first();
-    }
-
-    public function create(CreateStateDTO $dto): bool
-    {
-        return $this->query()->insert([
-            'state_code'   => $dto->state_code,
-            'state_name'   => $dto->state_name,
-            'country_id'   => $dto->country_id,
-            'created_by'   => $dto->created_by
-        ]);
-    }
-
-    public function update($id, UpdateStateDTO $dto): int
-    {
-        $this->setAuditSession($dto->updated_by, $dto->reason);
-
-        return $this->query()->where('state_id', $id)->update([
-            'state_code'   => $dto->state_code,
-            'state_name'   => $dto->state_name,
-            'country_id'   => $dto->country_id,
-            'updated_by'   => $dto->updated_by,
-        ]);
-    }
-
-    public function checkExists(string $column, mixed $value): bool
-    {
-        return $this->query()->where($column, $value)->exists();
+        return parent::find($id)->addSelect("country.country_name")
+            ->join("precise.country", "precise.state.country_id", "=", "precise.country.country_id");
     }
 }
