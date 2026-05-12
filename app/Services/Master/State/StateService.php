@@ -6,6 +6,7 @@ use App\DTOs\ExistsDTO;
 use App\Repositories\Master\State\StateRepository;
 use App\DTOs\Master\State\CreateStateDTO;
 use App\DTOs\Master\State\UpdateStateDTO;
+use Illuminate\Support\Facades\DB;
 
 class StateService
 {
@@ -23,7 +24,7 @@ class StateService
 
     public function find($id): ?object
     {
-        return $this->stateRepo->find($id);
+        return $this->stateRepo->find($id)->first();
     }
 
     public function create(CreateStateDTO $dto): array
@@ -38,14 +39,14 @@ class StateService
 
     public function update($id, UpdateStateDTO $dto): array
     {
-        return \Illuminate\Support\Facades\DB::transaction(function () use ($id, $dto) {
-            $exists = $this->stateRepo->find($id);
+        return DB::transaction(function () use ($id, $dto) {
+            $exists = $this->stateRepo->find($id)->first();
 
             if (!$exists) {
                 return ['success' => false, 'message' => 'State not found.'];
             }
-
-            $affected = $this->stateRepo->update($id, $dto->toArray());
+            $this->stateRepo->setAuditSession($dto->toAuditArray());
+            $affected = $this->stateRepo->update($id, $dto->withoutAuditArray());
 
             return [
                 'success' => $affected >= 0,

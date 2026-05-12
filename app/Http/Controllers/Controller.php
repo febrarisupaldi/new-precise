@@ -10,7 +10,7 @@ abstract class Controller
     /**
      * Unified JSON response method.
      *
-     * @param  string       $status   'success' | 'error' | 'fail'
+     * @param  string       $status   'ok' | 'error' | 'fail'
      * @param  string       $message  Human-readable message
      * @param  mixed        $data     Response payload (array, object, or null)
      * @param  mixed        $id       Resource ID (e.g. after create), optional
@@ -19,7 +19,7 @@ abstract class Controller
      * @return JsonResponse
      */
     protected function jsonResponse(
-        string $status = 'success',
+        string $status = 'ok',
         string $message = '',
         mixed  $data    = null,
         mixed  $id      = null,

@@ -3,10 +3,14 @@
 namespace App\DTOs\Master\Country;
 
 use App\DTOs\BaseDTO;
+use App\DTOs\Traits\AuditDTO;
 use Illuminate\Http\Request;
 
 class UpdateCountryDTO extends BaseDTO
 {
+
+    use AuditDTO;
+
     public string $country_code;
     public string $country_name;
     public string $updated_by;

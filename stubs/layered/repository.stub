@@ -6,7 +6,11 @@ use App\Repositories\BaseRepository;
 
 class {{name}}Repository extends BaseRepository
 {
-    protected $table = 'precise.{{table}}'; // Change to actual table name
+    protected string $table = 'precise.{{table}}'; 
+    protected string $primaryKey = '';
+    protected array $columns = [
+        
+    ];
 
     // Add custom repository methods here
 }

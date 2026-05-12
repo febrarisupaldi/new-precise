@@ -30,7 +30,7 @@ class CityController extends Controller
     {
         try {
             $data = $this->cityService->all();
-            return $this->jsonResponse('success', 'City list retrieved successfully.', $data);
+            return $this->jsonResponse('ok', 'City list retrieved successfully.', $data);
         } catch (\Throwable $e) {
             $this->logError($e, 'CityController@index');
             return $this->jsonResponse('error', 'Failed to retrieve city list.', code: 500);
@@ -49,7 +49,7 @@ class CityController extends Controller
                 return $this->jsonResponse('error', 'City not found.', code: 404);
             }
 
-            return $this->jsonResponse('success', 'City retrieved successfully.', $data);
+            return $this->jsonResponse('ok', 'City retrieved successfully.', $data);
         } catch (\Throwable $e) {
             $this->logError($e, 'CityController@show', ['id' => $id]);
 
@@ -65,7 +65,7 @@ class CityController extends Controller
         try {
             $dto  = CreateCityDTO::fromRequest($request);
             $data = $this->cityService->create($dto);
-            return $this->jsonResponse('success', $data['message'], id: $data['id']);
+            return $this->jsonResponse('ok', $data['message'], id: $data['id']);
         } catch (\Throwable $e) {
             $this->logError($e, 'CityController@store', $request->all());
             return $this->jsonResponse('error', 'Failed to create City.', code: 500);
@@ -77,7 +77,7 @@ class CityController extends Controller
         try {
             $dto  = UpdateCityDTO::fromRequest($request);
             $data = $this->cityService->update($id, $dto);
-            return $this->jsonResponse('success', $data['message'], id: $data['id']);
+            return $this->jsonResponse($data['success'] ? 'success' : 'error', $data['message'], $dto->toArray());
         } catch (\Throwable $e) {
             $this->logError($e, 'CityController@store', $request->all());
             return $this->jsonResponse('error', 'Failed to create City.', code: 500);

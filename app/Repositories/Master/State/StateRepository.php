@@ -10,13 +10,13 @@ class StateRepository extends BaseRepository
     protected string $table = "precise.state";
     protected string $primaryKey = "state_id";
     protected array $columns = [
-        "state_id",
-        "state_code",
-        "state_name",
-        "created_by",
-        "created_on",
-        "updated_by",
-        "updated_on"
+        "precise.state.state_id",
+        "precise.state.state_code",
+        "precise.state.state_name",
+        "precise.state.created_by",
+        "precise.state.created_on",
+        "precise.state.updated_by",
+        "precise.state.updated_on"
     ];
 
     public function all(): Builder

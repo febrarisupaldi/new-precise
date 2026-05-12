@@ -4,9 +4,12 @@ namespace App\DTOs\Master\State;
 
 use App\DTOs\BaseDTO;
 use Illuminate\Http\Request;
+use App\DTOs\Traits\AuditDTO;
 
 class UpdateStateDTO extends BaseDTO
 {
+    use AuditDTO;
+
     public string $state_code;
     public string $state_name;
     public int $country_id;

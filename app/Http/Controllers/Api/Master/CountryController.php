@@ -23,13 +23,18 @@ class CountryController extends Controller
 
     /**
      * GET /api/master/countries
+     * @return {JsonResponse}
      */
     public function index(): JsonResponse
     {
         try {
-            $data = $this->countryService->getAll();
+            $result = $this->countryService->all();
 
-            return $this->jsonResponse('success', 'Country list retrieved successfully.', $data);
+            if (!$result['data']) {
+                return $this->jsonResponse('error', 'Country not found.', code: 404);
+            }
+
+            return $this->jsonResponse('ok', 'Country list retrieved successfully.', $result['data'], code: 200);
         } catch (\Throwable $e) {
             $this->logError($e, 'CountryController@index');
 
@@ -39,17 +44,19 @@ class CountryController extends Controller
 
     /**
      * GET /api/master/countries/{id}
+     * @routeParam {id} required
+     * @return {JsonResponse}
      */
     public function show($id): JsonResponse
     {
         try {
-            $data = $this->countryService->getById($id);
+            $result = $this->countryService->find($id);
 
-            if (!$data) {
+            if (!$result['data']) {
                 return $this->jsonResponse('error', 'Country not found.', code: 404);
             }
 
-            return $this->jsonResponse('success', 'Country retrieved successfully.', $data);
+            return $this->jsonResponse('ok', 'Country retrieved successfully.', $result['data'], code: 200);
         } catch (\Throwable $e) {
             $this->logError($e, 'CountryController@show', ['id' => $id]);
 
@@ -59,6 +66,8 @@ class CountryController extends Controller
 
     /**
      * POST /api/master/countries
+     * @param CreateCountryRequest $request
+     * @return {JsonResponse}
      */
     public function store(CreateCountryRequest $request): JsonResponse
     {
@@ -80,6 +89,9 @@ class CountryController extends Controller
 
     /**
      * PUT /api/master/countries/{id}
+     * @routeParam {id} required
+     * @param UpdateCountryRequest $request
+     * @return {JsonResponse}
      */
     public function update($id, UpdateCountryRequest $request): JsonResponse
     {
@@ -91,7 +103,7 @@ class CountryController extends Controller
                 return $this->jsonResponse('error', $result['message'], code: 404);
             }
 
-            return $this->jsonResponse('success', $result['message']);
+            return $this->jsonResponse('success', $result['message'], $result['data'], code: 200);
         } catch (\Throwable $e) {
             $this->logError($e, 'CountryController@update', ['id' => $id, 'payload' => $request->all()]);
 
@@ -101,7 +113,8 @@ class CountryController extends Controller
 
     /**
      * GET /api/master/countries/check
-     * Check if a column value exists
+     * @param ExistsRequest $request
+     * @return {JsonResponse}
      */
     public function check(ExistsRequest $request): JsonResponse
     {

@@ -15,12 +15,12 @@ class CityRepository extends BaseRepository
     protected string $table = 'precise.city';
     protected string $primaryKey = 'city_id';
     protected array $columns = [
-        "city_id",
-        "city_name",
-        "city.created_by",
-        "city.created_on",
-        "city.updated_by",
-        "city.updated_on"
+        "precise.city.city_id",
+        "precise.city.city_name",
+        "precise.city.created_by",
+        "precise.city.created_on",
+        "precise.city.updated_by",
+        "precise.city.updated_on"
     ];
 
     public function all(): Builder

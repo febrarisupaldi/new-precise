@@ -17,14 +17,20 @@ class CityService
         $this->cityRepo = $cityRepo;
     }
 
-    public function all(): object
+    public function all(): array
     {
-        return $this->cityRepo->all()->get();
+        return [
+            "status" => "ok",
+            "data" => $this->cityRepo->all()->get()
+        ];
     }
 
-    public function find(int $id): ?object
+    public function find(int $id): array
     {
-        return $this->cityRepo->find($id)->first();
+        return [
+            "status" => "ok",
+            "data" => $this->cityRepo->find($id)->first()
+        ];
     }
 
     public function create(CreateCityDTO $dto): array
@@ -32,19 +38,27 @@ class CityService
         $success = $this->cityRepo->create($dto->toArray());
 
         return [
-            'success' => $success,
+            'status' => $success ? 'ok' : 'error',
             'message' => $success ? 'City created successfully.' : 'Failed to create City.',
         ];
     }
 
     public function update(int $id, UpdateCityDTO $dto): array
     {
-        $success = $this->cityRepo->update($id, $dto->toArray());
+        return DB::transaction(function () use ($id, $dto) {
+            $exists = $this->cityRepo->find($id)->first();
 
-        return [
-            'success' => $success,
-            'message' => $success ? 'City updated successfully.' : 'Failed to update city.',
-        ];
+            if (!$exists) {
+                return ['success' => false, 'message' => 'City not found.'];
+            }
+            $this->cityRepo->setAuditSession($dto->toAuditArray());
+            $affected = $this->cityRepo->update($id, $dto->withoutAuditArray());
+
+            return [
+                'success' => $affected >= 0,
+                'message' => 'City updated successfully.',
+            ];
+        });
     }
 
     public function checkExist(ExistsDTO $dto): array

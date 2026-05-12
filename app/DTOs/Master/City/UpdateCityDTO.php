@@ -3,10 +3,13 @@
 namespace App\DTOs\Master\City;
 
 use App\DTOs\BaseDTO;
+use App\DTOs\Traits\AuditDTO;
 use Illuminate\Http\Request;
 
 class UpdateCityDTO extends BaseDTO
 {
+
+    use AuditDTO;
     // Define properties here
     public string $city_code;
     public string $city_name;

@@ -9,12 +9,12 @@ class CountryRepository extends BaseRepository
     protected string $table = "precise.country";
     protected string $primaryKey = "country_id";
     protected array $columns = [
-        "country_id",
-        "country_code",
-        "country_name",
-        "created_by",
-        "created_on",
-        "updated_by",
-        "updated_on"
+        "precise.country.country_id",
+        "precise.country.country_code",
+        "precise.country.country_name",
+        "precise.country.created_by",
+        "precise.country.created_on",
+        "precise.country.updated_by",
+        "precise.country.updated_on"
     ];
 }
