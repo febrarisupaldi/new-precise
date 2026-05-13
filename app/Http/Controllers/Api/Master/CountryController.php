@@ -11,6 +11,7 @@ use App\Http\Requests\ExistsRequest;
 use App\Http\Requests\Master\Country\CreateCountryRequest;
 use App\Http\Requests\Master\Country\UpdateCountryRequest;
 use Illuminate\Http\JsonResponse;
+use App\Exceptions\BadRequestException;
 
 class CountryController extends Controller
 {
@@ -30,15 +31,21 @@ class CountryController extends Controller
         try {
             $result = $this->countryService->all();
 
-            if (!$result['data']) {
-                return $this->jsonResponse('error', 'Country not found.', code: 404);
-            }
 
-            return $this->jsonResponse('ok', 'Country list retrieved successfully.', $result['data'], code: 200);
+            return $this->jsonResponse(
+                status: 'ok',
+                message: 'Country list retrieved successfully.',
+                data: $result,
+                code: 200
+            );
         } catch (\Throwable $e) {
             $this->logError($e, 'CountryController@index');
 
-            return $this->jsonResponse('error', 'Failed to retrieve country list.', code: 500);
+            return $this->jsonResponse(
+                status: 'error',
+                message: 'Failed to retrieve country list.',
+                code: 500
+            );
         }
     }
 
@@ -52,15 +59,26 @@ class CountryController extends Controller
         try {
             $result = $this->countryService->find($id);
 
-            if (!$result['data']) {
-                return $this->jsonResponse('error', 'Country not found.', code: 404);
-            }
-
-            return $this->jsonResponse('ok', 'Country retrieved successfully.', $result['data'], code: 200);
+            return $this->jsonResponse(
+                status: 'ok',
+                message: 'Country retrieved successfully.',
+                data: $result,
+                code: 200
+            );
+        } catch (BadRequestException $e) {
+            return $this->jsonResponse(
+                status: 'fail',
+                message: $e->getMessage(),
+                code: 404
+            );
         } catch (\Throwable $e) {
             $this->logError($e, 'CountryController@show', ['id' => $id]);
 
-            return $this->jsonResponse('error', 'Failed to retrieve country.', code: 500);
+            return $this->jsonResponse(
+                status: 'error',
+                message: 'Failed to retrieve country.',
+                code: 500
+            );
         }
     }
 
@@ -75,15 +93,21 @@ class CountryController extends Controller
             $dto    = CreateCountryDTO::fromRequest($request);
             $result = $this->countryService->create($dto);
 
-            if (!$result['success']) {
-                return $this->jsonResponse('error', $result['message'], code: 500);
-            }
-
-            return $this->jsonResponse('success', $result['message'], code: 201);
+            return $this->jsonResponse(
+                status: 'ok',
+                message: 'Country created successfully.',
+                data: $dto->toArray(),
+                id: $result,
+                code: 201
+            );
         } catch (\Throwable $e) {
             $this->logError($e, 'CountryController@store', ['payload' => $request->all()]);
 
-            return $this->jsonResponse('error', 'Failed to create country.', code: 500);
+            return $this->jsonResponse(
+                status: 'error',
+                message: 'Failed to create country.',
+                code: 500
+            );
         }
     }
 
@@ -96,18 +120,30 @@ class CountryController extends Controller
     public function update($id, UpdateCountryRequest $request): JsonResponse
     {
         try {
-            $dto    = UpdateCountryDTO::fromRequest($request);
-            $result = $this->countryService->update($id, $dto);
+            $dto = UpdateCountryDTO::fromRequest($request);
+            $this->countryService->update($id, $dto);
 
-            if (!$result['success']) {
-                return $this->jsonResponse('error', $result['message'], code: 404);
-            }
-
-            return $this->jsonResponse('success', $result['message'], $result['data'], code: 200);
+            return $this->jsonResponse(
+                status: 'ok',
+                message: "country updated successfully",
+                id: $id,
+                data: $dto->toArray(),
+                code: 200
+            );
+        } catch (BadRequestException $e) {
+            return $this->jsonResponse(
+                status: 'fail',
+                message: $e->getMessage(),
+                code: 404
+            );
         } catch (\Throwable $e) {
             $this->logError($e, 'CountryController@update', ['id' => $id, 'payload' => $request->all()]);
 
-            return $this->jsonResponse('error', 'Failed to update country.', code: 500);
+            return $this->jsonResponse(
+                status: 'error',
+                message: 'Failed to update country.',
+                code: 500
+            );
         }
     }
 
@@ -123,12 +159,21 @@ class CountryController extends Controller
 
             $exists = $this->countryService->checkExist($dto);
 
-            return $this->jsonResponse('success', 'Check completed.', [
-                'exists' => $exists
-            ]);
+            return $this->jsonResponse(
+                status: 'ok',
+                message: "Check completed.",
+                data: [
+                    'exists' => $exists
+                ],
+                code: 200
+            );
         } catch (\Throwable $e) {
-            $this->logError($e, 'CountryController@check', ['query' => $request->query()]);
-            return $this->jsonResponse('error', 'Failed to perform check.', code: 500);
+            $this->logError($e, 'StateController@check', ['query' => $request->query()]);
+            return $this->jsonResponse(
+                status: 'error',
+                message: 'Failed to perform check.',
+                code: 500
+            );
         }
     }
 }

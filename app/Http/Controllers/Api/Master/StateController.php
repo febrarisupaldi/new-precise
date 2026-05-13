@@ -8,6 +8,7 @@ use App\Services\Master\State\StateService;
 use App\Repositories\Master\State\StateRepository;
 use App\DTOs\Master\State\CreateStateDTO;
 use App\DTOs\Master\State\UpdateStateDTO;
+use App\Exceptions\BadRequestException;
 use App\Http\Requests\ExistsRequest;
 use App\Http\Requests\Master\State\CreateStateRequest;
 use App\Http\Requests\Master\State\UpdateStateRequest;
@@ -30,11 +31,20 @@ class StateController extends Controller
     public function index(): JsonResponse
     {
         try {
-            $data = $this->stateService->all();
-            return $this->jsonResponse('success', 'State list retrieved successfully.', $data);
+            $result = $this->stateService->all();
+            return $this->jsonResponse(
+                status: 'ok',
+                message: 'State list retrieved successfully.',
+                data: $result,
+                code: 200
+            );
         } catch (\Throwable $e) {
             $this->logError($e, 'StateController@index');
-            return $this->jsonResponse('error', 'Failed to retrieve state list.', code: 500);
+            return $this->jsonResponse(
+                status: 'error',
+                message: 'Failed to retrieve state list.',
+                code: 500
+            );
         }
     }
 
@@ -44,16 +54,28 @@ class StateController extends Controller
     public function show($id): JsonResponse
     {
         try {
-            $data = $this->stateService->find($id);
+            $result = $this->stateService->find($id);
 
-            if (!$data) {
-                return $this->jsonResponse('error', 'State not found.', code: 404);
-            }
-
-            return $this->jsonResponse('success', 'State retrieved successfully.', $data);
+            return $this->jsonResponse(
+                status: 'ok',
+                message: 'State retrieved successfully.',
+                data: $result,
+                code: 200
+            );
+        } catch (BadRequestException $e) {
+            return $this->jsonResponse(
+                status: 'fail',
+                message: $e->getMessage(),
+                code: 404
+            );
         } catch (\Throwable $e) {
             $this->logError($e, 'StateController@show', ['id' => $id]);
-            return $this->jsonResponse('error', 'Failed to retrieve state.', code: 500);
+
+            return $this->jsonResponse(
+                status: 'error',
+                message: 'Failed to retrieve state.',
+                code: 500
+            );
         }
     }
 
@@ -66,14 +88,21 @@ class StateController extends Controller
             $dto    = CreateStateDTO::fromRequest($request);
             $result = $this->stateService->create($dto);
 
-            if (!$result['success']) {
-                return $this->jsonResponse('error', $result['message'], code: 500);
-            }
-
-            return $this->jsonResponse('success', $result['message'], code: 201);
+            return $this->jsonResponse(
+                status: 'ok',
+                message: 'State created successfully.',
+                data: $dto->toArray(),
+                id: $result,
+                code: 201
+            );
         } catch (\Throwable $e) {
             $this->logError($e, 'StateController@store', ['payload' => $request->all()]);
-            return $this->jsonResponse('error', 'Failed to create state.', code: 500);
+
+            return $this->jsonResponse(
+                status: 'error',
+                message: 'Failed to create state.',
+                code: 500
+            );
         }
     }
 
@@ -84,16 +113,36 @@ class StateController extends Controller
     {
         try {
             $dto    = UpdateStateDTO::fromRequest($request);
-            $result = $this->stateService->update($id, $dto);
+            $this->stateService->update($id, $dto);
 
-            if (!$result['success']) {
-                return $this->jsonResponse('error', $result['message'], code: 404);
-            }
-
-            return $this->jsonResponse('success', $result['message']);
+            return $this->jsonResponse(
+                status: 'ok',
+                message: "State updated successfully",
+                id: $id,
+                data: $dto->toArray(),
+                code: 200
+            );
+        } catch (BadRequestException $e) {
+            return $this->jsonResponse(
+                status: 'error',
+                message: $e->getMessage(),
+                code: 404
+            );
         } catch (\Throwable $e) {
-            $this->logError($e, 'StateController@update', ['id' => $id, 'payload' => $request->all()]);
-            return $this->jsonResponse('error', 'Failed to update state.', code: 500);
+            $this->logError(
+                $e,
+                'StateController@update',
+                [
+                    'id' => $id,
+                    'payload' => $request->all()
+                ]
+            );
+
+            return $this->jsonResponse(
+                status: 'error',
+                message: 'Failed to update state.',
+                code: 500
+            );
         }
     }
 
@@ -106,9 +155,14 @@ class StateController extends Controller
             $dto    = ExistsDTO::fromRequest($request);
             $exists = $this->stateService->checkExist($dto);
 
-            return $this->jsonResponse('success', 'Check completed.', [
-                'exists' => $exists
-            ]);
+            return $this->jsonResponse(
+                status: 'ok',
+                message: 'Check completed.',
+                data: [
+                    'exists' => $exists
+                ],
+                code: 200
+            );
         } catch (\Throwable $e) {
             $this->logError($e, 'StateController@check', ['query' => $request->query()]);
             return $this->jsonResponse('error', 'Failed to perform check.', code: 500);

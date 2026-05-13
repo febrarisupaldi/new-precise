@@ -17,8 +17,7 @@ class CreateStateRequest extends BaseApiRequest
             'state_code'   => ['required', 'string', 'max:10', 'unique:state,state_code'],
             'state_name'   => ['required', 'string', 'max:255'],
             'country_id'   => ['required', 'integer', 'exists:country,country_id'],
-            'created_by'   => ['required', 'string', 'max:255'],
-            'updated_by'   => ['required', 'string', 'max:255'],
+            'created_by'   => ['required', 'string', 'max:255']
         ];
     }
 }

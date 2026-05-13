@@ -6,6 +6,8 @@ use App\DTOs\ExistsDTO;
 use App\Repositories\Master\Country\CountryRepository;
 use App\DTOs\Master\Country\CreateCountryDTO;
 use App\DTOs\Master\Country\UpdateCountryDTO;
+use App\Exceptions\BadRequestException;
+use Exception;
 use Illuminate\Support\Facades\DB;
 
 class CountryService
@@ -17,49 +19,46 @@ class CountryService
         $this->countryRepo = $countryRepo;
     }
 
-    public function all(): array
+    public function all(): object
     {
-        return [
-            "success" => "ok",
-            "data" => $this->countryRepo->all()->get()
-        ];
+        return $this->countryRepo->all()->get();
     }
 
-    public function find(mixed $id): array
+    public function find(mixed $id): object
     {
-        return [
-            "success" => "ok",
-            "data" => $this->countryRepo->find($id)->first()
-        ];
+        $data = $this->countryRepo->find($id)->first();
+        if (!$data) {
+            throw new BadRequestException('Country not found.', code: 404);
+        }
+
+        return $data;
     }
 
-    public function create(CreateCountryDTO $dto): array
+    public function create(CreateCountryDTO $dto): int
     {
-        $success = $this->countryRepo->create($dto->toArray());
+        $id = $this->countryRepo->create($dto->toArray());
 
-        return [
-            'success' => $success,
-            'message' => $success ? 'Country created successfully.' : 'Failed to create country.',
-            'data' => $success ? $dto->toArray() : null
-        ];
+        if (!$id) {
+            throw new Exception('Failed to create country');
+        }
+
+        return $id;
     }
 
-    public function update($id, UpdateCountryDTO $dto): array
+    public function update(mixed $id, UpdateCountryDTO $dto): void
     {
-        return DB::transaction(function () use ($id, $dto) {
+        DB::transaction(function () use ($id, $dto) {
             $exists = $this->countryRepo->find($id)->first();
 
             if (!$exists) {
-                return ['success' => false, 'message' => 'Country not found.'];
+                throw new BadRequestException('Country not found', code: 404);
             }
             $this->countryRepo->setAuditSession($dto->toAuditArray());
-            $affected = $this->countryRepo->update($id, $dto->withoutAuditArray());
+            $success = $this->countryRepo->update($id, $dto->withoutAuditArray());
 
-            return [
-                'success' => $affected >= 0,
-                'message' => 'Country updated successfully.',
-                'data' => $affected >= 0 ? $dto->toArray() : null
-            ];
+            if ($success === false) {
+                throw new Exception('Failed to update country');
+            }
         });
     }
 

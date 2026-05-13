@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Master\State;
 
 use App\Http\Requests\BaseApiRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateStateRequest extends BaseApiRequest
 {
@@ -16,7 +17,7 @@ class UpdateStateRequest extends BaseApiRequest
         $id = $this->route('id');
 
         return [
-            'state_code'   => ['required', 'string', 'max:10', "unique:state,state_code,{$id},state_id"],
+            'state_code'   => ['required', 'string', 'max:10', Rule::unique('state')->ignore($this->state_code, 'state_code')],
             'state_name'   => ['required', 'string', 'max:255'],
             'country_id'   => ['required', 'integer', 'exists:country,country_id'],
             'updated_by'   => ['required', 'string', 'max:255'],

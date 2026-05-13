@@ -6,6 +6,8 @@ use App\DTOs\ExistsDTO;
 use App\Repositories\Master\State\StateRepository;
 use App\DTOs\Master\State\CreateStateDTO;
 use App\DTOs\Master\State\UpdateStateDTO;
+use App\Exceptions\BadRequestException;
+use Exception;
 use Illuminate\Support\Facades\DB;
 
 class StateService
@@ -22,36 +24,42 @@ class StateService
         return $this->stateRepo->all()->get();
     }
 
-    public function find($id): ?object
+    public function find($id): object
     {
-        return $this->stateRepo->find($id)->first();
+        $result = $this->stateRepo->find($id)->first();
+
+        if (!$result) {
+            throw new BadRequestException('Data not found', code: 404);
+        }
+
+        return $result;
     }
 
-    public function create(CreateStateDTO $dto): array
+    public function create(CreateStateDTO $dto): int
     {
-        $success = $this->stateRepo->create($dto->toArray());
+        $id = $this->stateRepo->create($dto->toArray());
 
-        return [
-            'success' => $success,
-            'message' => $success ? 'State created successfully.' : 'Failed to create state.',
-        ];
+        if (!$id) {
+            throw new BadRequestException('Failed to create state', code: 404);
+        }
+
+        return $id;
     }
 
-    public function update($id, UpdateStateDTO $dto): array
+    public function update(mixed $id, UpdateStateDTO $dto): void
     {
-        return DB::transaction(function () use ($id, $dto) {
+        DB::transaction(function () use ($id, $dto) {
             $exists = $this->stateRepo->find($id)->first();
 
             if (!$exists) {
-                return ['success' => false, 'message' => 'State not found.'];
+                throw new BadRequestException('State not found', code: 404);
             }
             $this->stateRepo->setAuditSession($dto->toAuditArray());
-            $affected = $this->stateRepo->update($id, $dto->withoutAuditArray());
+            $success = $this->stateRepo->update($id, $dto->withoutAuditArray());
 
-            return [
-                'success' => $affected >= 0,
-                'message' => 'State updated successfully.',
-            ];
+            if ($success === false) {
+                throw new Exception('Failed to update state');
+            }
         });
     }
 

@@ -37,9 +37,20 @@ abstract class BaseRepository
      * Create a new record
      *
      * @param array $dto
+     * @return int
+     */
+    public function create(array $data): int
+    {
+        return DB::table($this->table)->insertGetId($data);
+    }
+
+    /**
+     * Create multiple records
+     *
+     * @param array $data
      * @return bool
      */
-    public function create(array $data): bool
+    public function createBatch(array $data): bool
     {
         return DB::table($this->table)->insert($data);
     }
@@ -71,9 +82,15 @@ abstract class BaseRepository
 
     /**
      * Delete a record with auditing
+     * @param mixed $id
+     * @param string $primaryKey
+     * @param string $updatedBy
+     * @param string $reason
+     * @return int
      */
     public function delete(mixed $id, string $primaryKey, string $updatedBy, string $reason): int
     {
+        $this->setAuditSession(['updated_by' => $updatedBy, 'reason' => $reason]);
         return DB::table($this->table)->where($primaryKey, $id)->delete();
     }
 
@@ -87,7 +104,7 @@ abstract class BaseRepository
     public function exists(array $columns, array $value): bool
     {
         if (count($columns) !== count($value)) {
-            throw new \InvalidArgumentException('Columns and values must have the same number of elements.');
+            throw new \InvalidArgumentException('Columns and values must have the same number of elements.', 400);
         }
 
         $check = DB::table("INFORMATION_SCHEMA.COLUMNS")
@@ -98,7 +115,7 @@ abstract class BaseRepository
             ->exists();
 
         if (!$check) {
-            throw new \InvalidArgumentException('Not exists');
+            throw new \InvalidArgumentException('Not exists', 404);
         }
 
         $data = array_combine($columns, $value);
