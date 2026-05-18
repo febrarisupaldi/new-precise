@@ -1,0 +1,25 @@
+<?php
+
+namespace App\Repositories\{{module}};
+
+use App\Repositories\BaseRepository;
+
+class {{name}}Repository extends BaseRepository
+{
+    protected string $table = '{{table}}';
+
+    protected string $primaryKey = '';
+
+    protected array $columns = [];
+
+    /**
+     * Bulk insert
+     */
+    public function insertBatch(
+        array $rows
+    ): bool {
+
+        return $this->query()
+            ->insert($rows);
+    }
+}

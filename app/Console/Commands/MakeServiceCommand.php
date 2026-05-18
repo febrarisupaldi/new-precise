@@ -8,47 +8,32 @@ use Illuminate\Support\Str;
 
 class MakeServiceCommand extends Command
 {
-    protected $signature = 'make:service {name} {module}';
-    protected $description = 'Create a Service for a specific module/menu (e.g., make:service Product Master)';
-
-    public function handle()
+    protected $signature = ' make:service {name : Service name} {module : Module name} ';
+    protected $description = ' Create Service structure ';
+    public function handle(): void
     {
-        $name      = Str::studly($this->argument('name'));
-        $module    = Str::studly($this->argument('module'));
-        $menuName  = $name;  // Service name IS the menu name
+        $name = Str::studly($this->argument('name'));
+        $module = Str::studly($this->argument('module'));
         $nameLower = Str::camel($name);
-
-        $this->generateFile($name, $module, $menuName, $nameLower);
+        $this->generateFile($name, $module, $nameLower);
     }
-
-    protected function generateFile($name, $module, $menuName, $nameLower)
+    protected function generateFile(string $name, string $module, string $nameLower): void
     {
-        $stubPath = base_path("stubs/layered/service.stub");
+        /** * Stub */ $stubPath = base_path('stubs/layered/service.stub');
         if (!File::exists($stubPath)) {
-            $this->error("Stub not found at $stubPath");
+            $this->error("Stub not found at {$stubPath}");
             return;
         }
-
-        $stub    = File::get($stubPath);
-        $content = str_replace(
-            ['{{name}}', '{{module}}', '{{nameLower}}'],
-            [$name, "{$module}\\{$menuName}", $nameLower],
-            $stub
-        );
-
-        $targetDir = base_path("app/Services/{$module}/{$menuName}");
-        if (!File::isDirectory($targetDir)) {
-            File::makeDirectory($targetDir, 0755, true);
-        }
-
-        $targetPath = "{$targetDir}/{$name}Service.php";
-
-        if (File::exists($targetPath)) {
-            $this->warn("Service already exists at $targetPath. Skipping...");
+        /** * Stub content */ $stub = File::get($stubPath);
+        $content = str_replace(['{{name}}', '{{module}}', '{{nameLower}}',], [$name, $module, $nameLower,], $stub);
+        /** * Folder structure * * Services/Transaction/ */ $targetDir = app_path("Services/{$module}");
+        File::ensureDirectoryExists($targetDir);
+        /** * Service path */ $targetPath = "{$targetDir}/{$name}Service.php";
+        /** * Prevent overwrite */ if (File::exists($targetPath)) {
+            $this->warn("Service already exists: {$targetPath}");
             return;
         }
-
-        File::put($targetPath, $content);
-        $this->info("Created Service: $targetPath");
+        /** * Generate file */ File::put($targetPath, $content);
+        $this->info("Created Service: {$targetPath}");
     }
 }

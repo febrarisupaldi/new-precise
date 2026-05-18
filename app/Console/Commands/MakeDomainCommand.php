@@ -7,41 +7,58 @@ use Illuminate\Support\Str;
 
 class MakeDomainCommand extends Command
 {
-    protected $signature = 'make:domain {name} {module}';
-    protected $description = 'Create DTO (Create+Update), Repository, Service, and Request files for a domain menu (e.g., make:domain Country Master)';
+    protected $signature = ' make:domain {name : Domain name} {module : Module name} {--detail : Generate master-detail structure} ';
+    protected $description = ' Create DTO, Repository, Service, Request, and Controller structure ';
 
-    public function handle()
+    public function handle(): void
     {
-        $name   = $this->argument('name');
-        $module = $this->argument('module');
+        $name = Str::studly($this->argument('name'));
+        $module = Str::studly($this->argument('module'));
+        $isDetail = $this->option('detail');
+        /** * Detail naming convention */
+        $detail = "{$name}Detail";
+        /** 
+         * ===================================================== 
+         * DTO
+         * ===================================================== 
+         */
+        $this->call('make:dto', ['name' => $name, 'module' => $module, '--detail' => $isDetail,]);
 
-        // Create DTOs for Create and Update
-        $this->call('make:dto', ['name' => "Create{$name}", 'module' => $module]);
-        $this->call('make:dto', ['name' => "Update{$name}", 'module' => $module]);
+        /** * ===================================================== * REPOSITORY * ===================================================== */
+        $this->call('make:repository', ['name' => $name, 'module' => $module, '--detail' => $isDetail,]);
 
-        // Create Repository and Service
-        $this->call('make:repository', ['name' => $name, 'module' => $module]);
-        $this->call('make:service', ['name' => $name, 'module' => $module]);
+        /** * ===================================================== * SERVICE * ===================================================== */
+        $this->call('make:service', ['name' => $name, 'module' => $module,]);
 
-        // Create Request files
-        $this->call('make:api-request', ['name' => $name, 'module' => $module]);
+        /** * ===================================================== * REQUEST * ===================================================== */
+        $this->call('make:api-request', ['name' => $name, 'module' => $module,]);
 
-        // Create Controller
+        /** * ===================================================== * CONTROLLER * ===================================================== */
         $this->call('make:controller', ['name' => "Api/{$module}/{$name}Controller"]);
 
-        $studlyName   = \Illuminate\Support\Str::studly($name);
-        $studlyModule = \Illuminate\Support\Str::studly($module);
-
-        $this->info("");
-        $this->info("Domain files for {$studlyName} in {$studlyModule} created successfully!");
-        $this->line("");
-        $this->line("  <comment>Folder structure:</comment>");
-        $this->line("  app/Http/Controllers/Api/{$studlyModule}/{$studlyName}Controller.php");
-        $this->line("  app/DTOs/{$studlyModule}/{$studlyName}/Create{$studlyName}DTO.php");
-        $this->line("  app/DTOs/{$studlyModule}/{$studlyName}/Update{$studlyName}DTO.php");
-        $this->line("  app/Repositories/{$studlyModule}/{$studlyName}/{$studlyName}Repository.php");
-        $this->line("  app/Services/{$studlyModule}/{$studlyName}/{$studlyName}Service.php");
-        $this->line("  app/Http/Requests/{$studlyModule}/{$studlyName}/Create{$studlyName}Request.php");
-        $this->line("  app/Http/Requests/{$studlyModule}/{$studlyName}/Update{$studlyName}Request.php");
+        /** * Summary */
+        $this->showSummary($name, $module, $detail, $isDetail);
+    }
+    protected function showSummary(string $name, string $module, string $detail, bool $isDetail): void
+    {
+        $this->newLine();
+        $this->info("Domain {$name} generated successfully!");
+        $this->newLine();
+        $this->line("<comment>Generated structure:</comment>");
+        /** * Controller */ $this->line(" app/Http/Controllers/Api/{$module}/{$name}Controller.php");
+        /** * DTO */ $this->line(" app/DTOs/{$module}/{$name}/Create{$name}DTO.php");
+        $this->line(" app/DTOs/{$module}/{$name}/Update{$name}DTO.php");
+        if ($isDetail) {
+            $this->line(" app/DTOs/{$module}/{$name}/Create{$detail}DTO.php");
+            $this->line(" app/DTOs/{$module}/{$name}/Update{$detail}DTO.php");
+        }
+        /** * Repository */ $this->line(" app/Repositories/{$module}/{$name}/{$name}Repository.php");
+        if ($isDetail) {
+            $this->line(" app/Repositories/{$module}/{$name}/{$detail}Repository.php");
+        }
+        /** * Service */ $this->line(" app/Services/{$module}/{$name}/{$name}Service.php");
+        /** * Request */ $this->line(" app/Http/Requests/{$module}/{$name}/Create{$name}Request.php");
+        $this->line(" app/Http/Requests/{$module}/{$name}/Update{$name}Request.php");
+        $this->newLine();
     }
 }

@@ -56,6 +56,6 @@ class {{name}}Service
 
     public function checkExist(ExistsDTO $dto): bool
     {
-        return $this->{{nameLower}}Repo->checkExists($column, $value);
+        return $this->{{nameLower}}Repo->checkExists($dto->columns, $dto->values);
     }
 }

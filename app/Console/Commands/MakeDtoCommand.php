@@ -8,63 +8,68 @@ use Illuminate\Support\Str;
 
 class MakeDtoCommand extends Command
 {
-    protected $signature = 'make:dto {name} {module}';
-    protected $description = 'Create a DTO for a specific module/menu (e.g., make:dto CreateProduct Master)';
-
-    public function handle()
+    protected $signature = ' make:dto {name : DTO name} {module : Module name} {--detail : Generate aggregate master-detail DTO} ';
+    protected $description = ' Create DTO structure ';
+    public function handle(): void
     {
-        $name   = Str::studly($this->argument('name'));
+        $name = Str::studly($this->argument('name'));
         $module = Str::studly($this->argument('module'));
-
-        // Determine menu name from the DTO name
-        // e.g. "CreateProduct" → menu folder = "Product"
-        // We strip common prefixes: Create, Update, Delete, Store, Show
-        $menuName = preg_replace('/^(Create|Update|Delete|Store|Show)/i', '', $name);
-        if (empty($menuName)) {
-            $menuName = $name;
-        }
-
-        $this->generateFile($name, $module, $menuName);
-    }
-
-    protected function generateFile($name, $module, $menuName)
-    {
-        $stubPath = base_path("stubs/layered/dto.stub");
-        if (!File::exists($stubPath)) {
-            $this->error("Stub not found at $stubPath");
+        $isDetail = $this->option('detail');
+        /** * MASTER DETAIL DTO */ if ($isDetail) {
+            $this->generateMasterDetailDTO($name, $module);
             return;
         }
-
-        $stub    = File::get($stubPath);
-        
-        // Inject audit fields for Update DTOs
-        if (Str::startsWith($name, 'Update')) {
-            $auditFields = "    public string \$updated_by;\n    public string \$reason;\n";
-            $auditMapping = "        \$dto->updated_by = \$request->input('updated_by');\n        \$dto->reason     = \$request->input('reason');\n";
-            
+        /** * SINGLE DTO */ $menuName = $this->resolveMenuName($name);
+        $this->generateFile($name, $module, $menuName);
+    }
+    /** * Generate aggregate + master + detail DTO */ protected function generateMasterDetailDTO(string $name, string $module): void
+    {
+        /** * Create */
+        $this->generateFile("Create{$name}", $module, $name, true);
+        $this->generateFile("Create{$name}Master", $module, $name);
+        $this->generateFile("Create{$name}Detail", $module, $name);
+        /** * Update */
+        $this->generateFile("Update{$name}", $module, $name, true);
+        $this->generateFile("Update{$name}Master", $module, $name);
+        $this->generateFile("Update{$name}Detail", $module, $name);
+    }
+    /** * Resolve domain folder */ protected function resolveMenuName(string $name): string
+    {
+        /** * Remove action prefix */ $menuName = preg_replace('/^(Create|Update|Delete|Store|Show)/i', '', $name);
+        /** * Remove Master suffix */ $menuName = preg_replace('/Master$/', '', $menuName);
+        /** * Remove Detail suffix */ $menuName = preg_replace('/Detail$/', '', $menuName);
+        return $menuName;
+    }
+    protected function generateFile(string $name, string $module, string $menuName, bool $isAggregate = false): void
+    {
+        /** * Stub */ $stubPath = base_path('stubs/layered/dto.stub');
+        if (!File::exists($stubPath)) {
+            $this->error("Stub not found at {$stubPath}");
+            return;
+        }
+        $stub = File::get($stubPath);
+        /** * Aggregate DTO */ if ($isAggregate) {
+            $baseName = preg_replace('/^(Create|Update)/', '', $name);
+            $aggregateFields = " public {$name}MasterDTO \$master;\n\n" . " /**\n" . " * @var array<{$name}DetailDTO>\n" . " */\n" . " public array \$details = [];\n";
+            $stub = str_replace('// public $property;', $aggregateFields, $stub);
+        }
+        /** * Update DTO */
+        elseif (Str::startsWith($name, 'Update')) {
+            $auditFields = " public string \$updated_by;\n" . " public string \$reason;\n";
+            $auditMapping = " \$dto->updated_by = \$request->input('updated_by');\n" . " \$dto->reason = \$request->input('reason');\n";
             $stub = str_replace('// public $property;', $auditFields, $stub);
             $stub = str_replace('// $dto->property = $request->input(\'property\');', $auditMapping, $stub);
         }
-
-        $content = str_replace(
-            ['{{name}}', '{{module}}'],
-            [$name, "{$module}\\{$menuName}"],
-            $stub
-        );
-
-        $targetDir = base_path("app/DTOs/{$module}/{$menuName}");
-        if (!File::isDirectory($targetDir)) {
-            File::makeDirectory($targetDir, 0755, true);
-        }
-
-        $targetPath = "{$targetDir}/{$name}DTO.php";
-
-        if (File::exists($targetPath)) {
-            $this->warn("DTO already exists at $targetPath. Skipping...");
+        /** * Namespace */ $namespace = "{$module}\\{$menuName}";
+        /** * Stub content */ $content = str_replace(['{{name}}', '{{module}}',], [$name, $namespace,], $stub);
+        /** * DTO folder */ $targetDir = app_path("DTOs/{$module}/{$menuName}");
+        File::ensureDirectoryExists($targetDir);
+        /** * DTO path */ $targetPath = "{$targetDir}/{$name}DTO.php";
+        /** * Prevent overwrite */ if (File::exists($targetPath)) {
+            $this->warn("DTO already exists: {$targetPath}");
             return;
         }
-
-        File::put($targetPath, $content);
-        $this->info("Created DTO: $targetPath");
+        /** * Generate file */ File::put($targetPath, $content);
+        $this->info("Created DTO: {$targetPath}");
     }
 }
