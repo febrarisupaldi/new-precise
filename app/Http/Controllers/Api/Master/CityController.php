@@ -10,10 +10,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ExistsRequest;
 use App\Http\Requests\Master\City\CreateCityRequest;
 use App\Http\Requests\Master\City\UpdateCityRequest;
-use App\Repositories\Master\City\CityRepository;
-use App\Services\Master\City\CityService;
+use App\Services\Master\CityService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class CityController extends Controller
 {
@@ -53,7 +51,7 @@ class CityController extends Controller
     /**
      * GET /api/master/cities/{id}
      */
-    public function show($id): JsonResponse
+    public function show(int $id): JsonResponse
     {
         try {
             $result = $this->cityService->find($id);

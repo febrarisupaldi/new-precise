@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\Master;
 
 use App\DTOs\ExistsDTO;
 use App\Http\Controllers\Controller;
-use App\Services\Master\Country\CountryService;
+use App\Services\Master\CountryService;
 use App\DTOs\Master\Country\CreateCountryDTO;
 use App\DTOs\Master\Country\UpdateCountryDTO;
 use App\Http\Requests\ExistsRequest;
@@ -54,7 +54,7 @@ class CountryController extends Controller
      * @routeParam {id} required
      * @return {JsonResponse}
      */
-    public function show($id): JsonResponse
+    public function show(int $id): JsonResponse
     {
         try {
             $result = $this->countryService->find($id);
@@ -117,7 +117,7 @@ class CountryController extends Controller
      * @param UpdateCountryRequest $request
      * @return {JsonResponse}
      */
-    public function update($id, UpdateCountryRequest $request): JsonResponse
+    public function update(int $id, UpdateCountryRequest $request): JsonResponse
     {
         try {
             $dto = UpdateCountryDTO::fromRequest($request);

@@ -15,14 +15,23 @@ class MakeDtoCommand extends Command
         $name = Str::studly($this->argument('name'));
         $module = Str::studly($this->argument('module'));
         $isDetail = $this->option('detail');
-        /** * MASTER DETAIL DTO */ if ($isDetail) {
+        /** * MASTER DETAIL DTO */
+        if ($isDetail) {
             $this->generateMasterDetailDTO($name, $module);
             return;
         }
-        /** * SINGLE DTO */ $menuName = $this->resolveMenuName($name);
-        $this->generateFile($name, $module, $menuName);
+        /** * NORMAL DTO */
+        $this->generateNormalDTO($name, $module);
     }
-    /** * Generate aggregate + master + detail DTO */ protected function generateMasterDetailDTO(string $name, string $module): void
+
+    protected function generateNormalDTO(string $name, string $module): void
+    {
+        $this->generateFile("Create{$name}", $module, $name);
+        $this->generateFile("Update{$name}", $module, $name);
+    }
+
+    /** * Generate aggregate + master + detail DTO */
+    protected function generateMasterDetailDTO(string $name, string $module): void
     {
         /** * Create */
         $this->generateFile("Create{$name}", $module, $name, true);
@@ -33,13 +42,7 @@ class MakeDtoCommand extends Command
         $this->generateFile("Update{$name}Master", $module, $name);
         $this->generateFile("Update{$name}Detail", $module, $name);
     }
-    /** * Resolve domain folder */ protected function resolveMenuName(string $name): string
-    {
-        /** * Remove action prefix */ $menuName = preg_replace('/^(Create|Update|Delete|Store|Show)/i', '', $name);
-        /** * Remove Master suffix */ $menuName = preg_replace('/Master$/', '', $menuName);
-        /** * Remove Detail suffix */ $menuName = preg_replace('/Detail$/', '', $menuName);
-        return $menuName;
-    }
+
     protected function generateFile(string $name, string $module, string $menuName, bool $isAggregate = false): void
     {
         /** * Stub */ $stubPath = base_path('stubs/layered/dto.stub');
@@ -60,12 +63,17 @@ class MakeDtoCommand extends Command
             $stub = str_replace('// public $property;', $auditFields, $stub);
             $stub = str_replace('// $dto->property = $request->input(\'property\');', $auditMapping, $stub);
         }
-        /** * Namespace */ $namespace = "{$module}\\{$menuName}";
-        /** * Stub content */ $content = str_replace(['{{name}}', '{{module}}',], [$name, $namespace,], $stub);
-        /** * DTO folder */ $targetDir = app_path("DTOs/{$module}/{$menuName}");
+        /** * Namespace */
+        $namespace = "{$module}\\{$menuName}";
+        /** * Stub content */
+        $content = str_replace(['{{name}}', '{{module}}',], [$name, $namespace,], $stub);
+        /** * DTO folder */
+        $targetDir = app_path("DTOs/{$module}/{$menuName}");
         File::ensureDirectoryExists($targetDir);
-        /** * DTO path */ $targetPath = "{$targetDir}/{$name}DTO.php";
-        /** * Prevent overwrite */ if (File::exists($targetPath)) {
+        /** * DTO path */
+        $targetPath = "{$targetDir}/{$name}DTO.php";
+        /** * Prevent overwrite */
+        if (File::exists($targetPath)) {
             $this->warn("DTO already exists: {$targetPath}");
             return;
         }

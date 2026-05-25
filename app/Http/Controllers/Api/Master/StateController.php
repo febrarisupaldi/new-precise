@@ -4,8 +4,7 @@ namespace App\Http\Controllers\Api\Master;
 
 use App\DTOs\ExistsDTO;
 use App\Http\Controllers\Controller;
-use App\Services\Master\State\StateService;
-use App\Repositories\Master\State\StateRepository;
+use App\Services\Master\StateService;
 use App\DTOs\Master\State\CreateStateDTO;
 use App\DTOs\Master\State\UpdateStateDTO;
 use App\Exceptions\BadRequestException;

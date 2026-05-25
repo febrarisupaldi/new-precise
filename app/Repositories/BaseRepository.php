@@ -9,6 +9,7 @@ use Illuminate\Support\Collection;
 abstract class BaseRepository
 {
     protected string $table;
+    protected string $as;
     protected string $primaryKey;
     protected array $columns;
 
@@ -19,7 +20,7 @@ abstract class BaseRepository
      */
     public function all(): Builder
     {
-        return DB::table($this->table)->select($this->columns);
+        return DB::table($this->table, $this->as)->select($this->columns);
     }
 
     /**
@@ -30,18 +31,28 @@ abstract class BaseRepository
      */
     public function find(mixed $id): Builder
     {
-        return DB::table($this->table)->where($this->primaryKey, $id)->select($this->columns);
+        return DB::table($this->table, $this->as)->where($this->primaryKey, $id)->select($this->columns);
     }
 
     /**
      * Create a new record
      *
-     * @param array $dto
+     * @param array $data
      * @return int
      */
-    public function create(array $data): int
+    public function insert(array $data): int
     {
         return DB::table($this->table)->insertGetId($data);
+    }
+
+    /**
+     * Lock a record
+     * @param mixed $id
+     * @return Builder
+     */
+    public function lock(mixed $id): Builder
+    {
+        return DB::table($this->table, $this->as)->where($this->primaryKey, $id)->lockForUpdate();
     }
 
     /**
@@ -50,7 +61,7 @@ abstract class BaseRepository
      * @param array $data
      * @return bool
      */
-    public function createBatch(array $data): bool
+    public function insertBatch(array $data): bool
     {
         return DB::table($this->table)->insert($data);
     }
@@ -71,8 +82,7 @@ abstract class BaseRepository
     /**
      * Set MySQL session variables for auditing
      *
-     * @param string $updatedBy
-     * @param string $reason
+     * @param array $data
      * @return void
      */
     public function setAuditSession(array $data): void

@@ -1,20 +1,25 @@
 <?php
 
-namespace App\Services\Production\Melamine\MoldTransfer;
+namespace App\Services\Production\Melamine;
 
 use App\DTOs\ExistsDTO;
 use App\Repositories\Production\Melamine\MoldTransfer\MoldTransferHeaderRepository;
 use App\DTOs\Production\Melamine\MoldTransfer\CreateMoldTransferDTO;
 use App\DTOs\Production\Melamine\MoldTransfer\UpdateMoldTransferDTO;
+use App\Repositories\Production\Melamine\MoldTransfer\MoldTransferDetailRepository;
 use Illuminate\Support\Facades\DB;
 
 class MoldTransferService
 {
-    protected $moldTransferRepo;
+    protected MoldTransferHeaderRepository $moldTransferRepo ;
+    protected MoldTransferDetailRepository $moldTransferDetailRepo;
 
-    public function __construct(MoldTransferHeaderRepository $moldTransferRepo)
+    public function __construct(
+        MoldTransferHeaderRepository $moldTransferRepo, 
+        MoldTransferDetailRepository $moldTransferDetailRepo)
     {
         $this->moldTransferRepo = $moldTransferRepo;
+        $this->moldTransferDetailRepo = $moldTransferDetailRepo;
     }
 
     public function all()
@@ -22,14 +27,14 @@ class MoldTransferService
         return $this->moldTransferRepo->all();
     }
 
-    public function find($id)
+    public function find(int $id)
     {
         return $this->moldTransferRepo->find($id);
     }
 
     public function create(CreateMoldTransferDTO $dto): array
     {
-        $success = $this->moldTransferRepo->create($dto->toArray());
+        $success = $this->moldTransferRepo->insert($dto->toArray());
 
         return [
             'success' => $success,
@@ -37,7 +42,7 @@ class MoldTransferService
         ];
     }
 
-    public function update($id, UpdateMoldTransferDTO $dto): array
+    public function update(int $id, UpdateMoldTransferDTO $dto): array
     {
         return DB::transaction(function () use ($id, $dto) {
             $exists = $this->moldTransferRepo->find($id);

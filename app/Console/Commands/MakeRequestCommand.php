@@ -47,7 +47,8 @@ class MakeRequestCommand extends Command
             $detailRules = " /** * Details */ 'details' => ['required', 'array'], // 'details.*.item_id' => ['required'], // 'details.*.qty' => ['required'], ";
         }
         $content = str_replace(['{{name}}', '{{module}}', '{{detail_rules}}',], [$name, "{$module}\\{$menuName}", $detailRules,], $stub);
-        /** * Folder structure * * Requests/Transaction/SalesOrder/ */ $targetDir = app_path("Http/Requests/{$module}/{$menuName}");
+        /** * Folder structure * * Requests/Transaction/SalesOrder/ */
+        $targetDir = app_path("Http/Requests/{$module}/{$menuName}");
         File::ensureDirectoryExists($targetDir);
         /** * Request path */
         $prefix = ucfirst($type);

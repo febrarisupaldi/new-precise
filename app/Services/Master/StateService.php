@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Master\State;
+namespace App\Services\Master;
 
 use App\DTOs\ExistsDTO;
 use App\Repositories\Master\State\StateRepository;
@@ -24,7 +24,7 @@ class StateService
         return $this->stateRepo->all()->get();
     }
 
-    public function find($id): object
+    public function find(int $id): object
     {
         $result = $this->stateRepo->find($id)->first();
 
@@ -37,10 +37,10 @@ class StateService
 
     public function create(CreateStateDTO $dto): int
     {
-        $id = $this->stateRepo->create($dto->toArray());
+        $id = $this->stateRepo->insert($dto->toArray());
 
         if (!$id) {
-            throw new BadRequestException('Failed to create state', code: 404);
+            throw new Exception('Failed to create state');
         }
 
         return $id;

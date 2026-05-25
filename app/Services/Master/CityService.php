@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Master\City;
+namespace App\Services\Master;
 
 use App\DTOs\ExistsDTO;
 use App\Repositories\Master\City\CityRepository;
@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 
 class CityService
 {
-    protected $cityRepo;
+    protected CityRepository $cityRepo;
 
     public function __construct(CityRepository $cityRepo)
     {
@@ -36,7 +36,7 @@ class CityService
 
     public function create(CreateCityDTO $dto): int
     {
-        $id = $this->cityRepo->create($dto->toArray());
+        $id = $this->cityRepo->insert($dto->toArray());
 
         if (!$id) {
             throw new Exception('Failed to create city');

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Master\Country;
+namespace App\Services\Master;
 
 use App\DTOs\ExistsDTO;
 use App\Repositories\Master\Country\CountryRepository;
@@ -36,10 +36,10 @@ class CountryService
 
     public function create(CreateCountryDTO $dto): int
     {
-        $id = $this->countryRepo->create($dto->toArray());
+        $id = $this->countryRepo->insert($dto->toArray());
 
         if (!$id) {
-            throw new Exception('Failed to create country');
+            throw new Exception('Failed to create country', code: 400);
         }
 
         return $id;

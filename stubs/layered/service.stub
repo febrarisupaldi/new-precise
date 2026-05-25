@@ -6,6 +6,9 @@ use App\DTOs\ExistsDTO;
 use App\Repositories\{{module}}\{{name}}Repository;
 use App\DTOs\{{module}}\Create{{name}}DTO;
 use App\DTOs\{{module}}\Update{{name}}DTO;
+use App\Exceptions\BadRequestException;
+use Exception;
+use Illuminate\Support\Facades\DB;
 
 class {{name}}Service
 {
@@ -16,46 +19,46 @@ class {{name}}Service
         $this->{{nameLower}}Repo = ${{nameLower}}Repo;
     }
 
-    public function all()
+    public function all(): object
     {
-        return $this->{{nameLower}}Repo->all();
+        return $this->{{nameLower}}Repo->all()->get();
     }
 
-    public function find($id)
+    public function find(mixed $id): ?object
     {
-        return $this->{{nameLower}}Repo->find($id);
+        return $this->{{nameLower}}Repo->find($id)->first();
     }
 
-    public function create(Create{{name}}DTO $dto): array
+    public function create(Create{{name}}DTO $dto): mixed
     {
-        $success = $this->{{nameLower}}Repo->create($dto->toArray());
+        $id = $this->{{nameLower}}Repo->create($dto->toArray());
 
-        return [
-            'success' => $success,
-            'message' => $success ? '{{name}} created successfully.' : 'Failed to create {{name}}.',
-        ];
+        if (!$id) {
+            throw new Exception('Failed to create {{name}}');
+        }
+
+        return $id;
     }
 
-    public function update($id, Update{{name}}DTO $dto): array
+    public function update(int $id, Update{{name}}DTO $dto): void
     {
-        return DB::transaction(function () use ($id, $dto) {
-            $exists = $this->{{nameLower}}Repo->find($id);
+        DB::transaction(function () use ($id, $dto) {
+            $exists = $this->{{nameLower}}Repo->find($id)->first();
 
             if (!$exists) {
-                return ['success' => false, 'message' => '{{name}} not found.'];
+                throw new BadRequestException('{{name}} not found', code: 404);
             }
+            $this->{{nameLower}}Repo->setAuditSession($dto->toAuditArray());
+            $success = $this->{{nameLower}}Repo->update($id, $dto->withoutAuditArray());
 
-            $affected = $this->{{nameLower}}Repo->update($id, $dto->toArray());
-
-            return [
-                'success' => $affected >= 0,
-                'message' => '{{name}} updated successfully.',
-            ];
+            if ($success === false) {
+                throw new Exception('Failed to update {{name}}');
+            }
         });
     }
 
     public function checkExist(ExistsDTO $dto): bool
     {
-        return $this->{{nameLower}}Repo->checkExists($dto->columns, $dto->values);
+        return $this->{{nameLower}}Repo->exists($dto->columns, $dto->values);
     }
 }
