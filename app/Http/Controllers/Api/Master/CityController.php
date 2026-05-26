@@ -24,6 +24,7 @@ class CityController extends Controller
 
     /**
      * GET /api/master/cities
+     * @return JsonResponse
      */
     public function index(): JsonResponse
     {
@@ -50,6 +51,8 @@ class CityController extends Controller
 
     /**
      * GET /api/master/cities/{id}
+     * @routeParam {id} required
+     * @return JsonResponse
      */
     public function show(int $id): JsonResponse
     {
@@ -81,6 +84,8 @@ class CityController extends Controller
 
     /**
      * POST /api/master/cities
+     * @param CreateCityRequest $request
+     * @return JsonResponse
      */
     public function store(CreateCityRequest $request): JsonResponse
     {
@@ -105,6 +110,12 @@ class CityController extends Controller
         }
     }
 
+    /**
+     * PUT /api/master/cities/{id}
+     * @routeParam {id} required
+     * @param UpdateCityRequest $request
+     * @return JsonResponse
+     */
     public function update(int $id, UpdateCityRequest $request): JsonResponse
     {
         try {
@@ -141,6 +152,11 @@ class CityController extends Controller
         }
     }
 
+    /**
+     * GET /api/master/cities/check
+     * @param ExistsRequest $request
+     * @return JsonResponse
+     */
     public function check(ExistsRequest $request): JsonResponse
     {
         try {

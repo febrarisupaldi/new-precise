@@ -24,7 +24,7 @@ class CountryController extends Controller
 
     /**
      * GET /api/master/countries
-     * @return {JsonResponse}
+     * @return JsonResponse
      */
     public function index(): JsonResponse
     {
@@ -52,7 +52,7 @@ class CountryController extends Controller
     /**
      * GET /api/master/countries/{id}
      * @routeParam {id} required
-     * @return {JsonResponse}
+     * @return JsonResponse
      */
     public function show(int $id): JsonResponse
     {
@@ -85,7 +85,7 @@ class CountryController extends Controller
     /**
      * POST /api/master/countries
      * @param CreateCountryRequest $request
-     * @return {JsonResponse}
+     * @return JsonResponse
      */
     public function store(CreateCountryRequest $request): JsonResponse
     {
@@ -115,7 +115,7 @@ class CountryController extends Controller
      * PUT /api/master/countries/{id}
      * @routeParam {id} required
      * @param UpdateCountryRequest $request
-     * @return {JsonResponse}
+     * @return JsonResponse
      */
     public function update(int $id, UpdateCountryRequest $request): JsonResponse
     {
@@ -150,7 +150,7 @@ class CountryController extends Controller
     /**
      * GET /api/master/countries/check
      * @param ExistsRequest $request
-     * @return {JsonResponse}
+     * @return JsonResponse
      */
     public function check(ExistsRequest $request): JsonResponse
     {

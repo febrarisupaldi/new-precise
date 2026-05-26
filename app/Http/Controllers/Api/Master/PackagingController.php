@@ -23,6 +23,12 @@ class PackagingController extends Controller
     {
         $this->packagingService = $packagingService;
     }
+
+    /**
+     * GET /api/master/packagings
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function index(Request $request): JsonResponse
     {
         try {
@@ -46,6 +52,11 @@ class PackagingController extends Controller
         }
     }
 
+    /**
+     * GET /api/master/packagings/{id}
+     * @routeParam {id} required
+     * @return JsonResponse
+     */
     public function show(int $id): JsonResponse
     {
         try {
@@ -76,6 +87,11 @@ class PackagingController extends Controller
         }
     }
 
+    /**
+     * POST /api/master/packagings
+     * @param CreatePackagingRequest $request
+     * @return JsonResponse
+     */
     public function store(CreatePackagingRequest $request): JsonResponse
     {
         try {
@@ -99,6 +115,12 @@ class PackagingController extends Controller
         }
     }
 
+    /**
+     * PUT /api/master/packagings/{id}
+     * @routeParam {id} required
+     * @param UpdatePackagingRequest $request
+     * @return JsonResponse
+     */
     public function update(int $id, UpdatePackagingRequest $request): JsonResponse{
         try {
             $dto = UpdatePackagingDTO::fromRequest($request);
@@ -128,6 +150,11 @@ class PackagingController extends Controller
         }
     }
 
+    /**
+     * GET /api/master/packagings/check
+     * @param ExistsRequest $request
+     * @return JsonResponse
+     */
     public function check(ExistsRequest $request): JsonResponse{
         try {
             $dto = ExistsDTO::fromRequest($request);

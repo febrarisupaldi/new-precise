@@ -12,8 +12,6 @@ use App\Http\Requests\ExistsRequest;
 use App\Http\Requests\Master\State\CreateStateRequest;
 use App\Http\Requests\Master\State\UpdateStateRequest;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class StateController extends Controller
 {
@@ -26,6 +24,7 @@ class StateController extends Controller
 
     /**
      * GET /api/master/states
+     * @return JsonResponse
      */
     public function index(): JsonResponse
     {
@@ -49,8 +48,10 @@ class StateController extends Controller
 
     /**
      * GET /api/master/states/{id}
+     * @routeParam {id} required
+     * @return JsonResponse
      */
-    public function show($id): JsonResponse
+    public function show(int $id): JsonResponse
     {
         try {
             $result = $this->stateService->find($id);
@@ -80,6 +81,8 @@ class StateController extends Controller
 
     /**
      * POST /api/master/states
+     * @param CreateStateRequest $request
+     * @return JsonResponse
      */
     public function store(CreateStateRequest $request): JsonResponse
     {
@@ -107,8 +110,11 @@ class StateController extends Controller
 
     /**
      * PUT /api/master/states/{id}
+     * @routeParam {id} required
+     * @param UpdateStateRequest $request
+     * @return JsonResponse
      */
-    public function update(UpdateStateRequest $request, $id): JsonResponse
+    public function update(int $id, UpdateStateRequest $request): JsonResponse
     {
         try {
             $dto    = UpdateStateDTO::fromRequest($request);
@@ -147,6 +153,8 @@ class StateController extends Controller
 
     /**
      * GET /api/master/states/check
+     * @param ExistsRequest $request
+     * @return JsonResponse
      */
     public function check(ExistsRequest $request): JsonResponse
     {

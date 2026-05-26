@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Api\Master;
 
+use App\DTOs\ExistsDTO;
 use App\DTOs\Master\Vehicle\CreateVehicleDTO;
 use App\DTOs\Master\Vehicle\UpdateVehicleDTO;
 use App\Exceptions\BadRequestException;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ExistsRequest;
 use App\Http\Requests\Master\Vehicle\CreateVehicleRequest;
 use App\Http\Requests\Master\Vehicle\UpdateVehicleRequest;
 use App\Services\Master\VehicleService;
@@ -75,6 +77,12 @@ class VehicleController extends Controller
         }
     }
 
+    /**
+     * Get vehicle by license number
+     *
+     * @param string $licenseNumber
+     * @return JsonResponse
+     */
     public function findByLicenseNumber(string $licenseNumber): JsonResponse
     {
         try {
@@ -100,7 +108,11 @@ class VehicleController extends Controller
         }
     }
 
-
+    /**
+     * POST /api/master/vehicles
+     * @param CreateVehicleRequest $request
+     * @return JsonResponse
+     */
     public function store(CreateVehicleRequest $request): JsonResponse
     {
         try {
@@ -124,7 +136,13 @@ class VehicleController extends Controller
         }
     }
 
-    public function update(int $id, UpdateVehicleRequest $request)
+    /**
+     * PUT /api/master/vehicles/{id}
+     * @routeParam {id} required
+     * @param UpdateVehicleRequest $request
+     * @return JsonResponse
+     */
+    public function update(int $id, UpdateVehicleRequest $request): JsonResponse
     {
         try {
             $dto = UpdateVehicleDTO::fromRequest($request);
@@ -147,6 +165,39 @@ class VehicleController extends Controller
             return $this->jsonResponse(
                 status: 'error',
                 message: 'Failed to update vehicle.',
+                code: 500
+            );
+        }
+    }
+
+    /**
+     * GET /api/master/vehicles/check
+     * @param ExistsRequest $request
+     * @return JsonResponse
+     */
+    public function check(ExistsRequest $request): JsonResponse{
+        try {
+            $dto = ExistsDTO::fromRequest($request);
+            $exists = $this->vehicleService->checkExist($dto);
+
+            return $this->jsonResponse(
+                status: 'ok',
+                message: 'Data is available',
+                data: [
+                    'exists' => $exists
+                ],
+                code: 200
+            );
+        } catch (BadRequestException $e){
+            return $this->jsonResponse(
+                status: 'fail',
+                message: $e->getMessage(),
+                code: 400
+            );
+        } catch (\Throwable $th){
+            return $this->jsonResponse(
+                status: 'error',
+                message: 'Failed to check data',
                 code: 500
             );
         }
