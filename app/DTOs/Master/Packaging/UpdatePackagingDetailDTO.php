@@ -12,7 +12,7 @@ class UpdatePackagingDetailDTO extends BaseDTO
     // Define properties here
     public int $packaging_dt_id;
     public int $product_id;
-    public int $item_id;
+    public ?int $item_id = null;
     public string $item_code;
     public int $product_qty;
     public int $priority;
@@ -24,7 +24,7 @@ class UpdatePackagingDetailDTO extends BaseDTO
         $dto = new self();
         $dto->packaging_dt_id = (int) $request->input('packaging_dt_id') ?? null;
         $dto->product_id = (int) $request->input('product_id');
-        $dto->item_id = (int) $request->input('item_id');
+        $dto->item_id = (int) $request->input('item_id') ?? null;
         $dto->item_code = $request->input('item_code');
         $dto->product_qty = (int) $request->input('product_qty');
         $dto->priority = (int) $request->input('priority');

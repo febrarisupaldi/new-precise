@@ -10,7 +10,7 @@ class CreatePackagingDetailDTO extends BaseDTO
     // Define properties here
     // public $property;
     public int $product_id;
-    public int $item_id;
+    public ?int $item_id = null;
     public string $item_code;
     public int $product_qty;
     public int $priority;
@@ -21,7 +21,7 @@ class CreatePackagingDetailDTO extends BaseDTO
     {
         $dto = new self();
         $dto->product_id = (int) $request->input("product_id");
-        $dto->item_id = (int) $request->input("item_id");
+        $dto->item_id = (int) $request->input("item_id") ?? null;
         $dto->item_code = $request->input("item_code");
         $dto->product_qty = (int) $request->input("product_qty");
         $dto->priority = (int) $request->input("priority");

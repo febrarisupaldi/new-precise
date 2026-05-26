@@ -76,7 +76,7 @@ abstract class BaseRepository
     public function update(int $id, array $data, mixed $primaryKey = null): bool
     {
         $primaryKey = $primaryKey ?? $this->primaryKey;
-        return DB::table($this->table)->where($primaryKey, $id)->update($data);
+        return DB::table($this->table, $this->as)->where($primaryKey, $id)->update($data);
     }
 
     /**

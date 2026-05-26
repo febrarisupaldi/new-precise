@@ -76,21 +76,25 @@ class PackagingService
             }
             $this->packagingRepo->setAuditSession($dto->toAuditArray());
 
-            $this->packagingRepo->update($id, $dto->withoutAuditArray());
+            $this->packagingRepo->update($id, $dto->except(['details','reason']));
 
-            $existing = $this->packagingDetailRepo->findByHeaderID($id);
+            $existing = $this->packagingDetailRepo->findByHeaderID($id)->get();
 
             $incomingWithId = collect($dto->details)
                 ->filter(fn($detail) => !empty($detail->packaging_dt_id))
                 ->keyBy(fn($detail) => $detail->packaging_dt_id);
 
+            
             $incomingNew = collect($dto->details)
                 ->filter(fn($detail) => empty($detail->packaging_dt_id));
-            
+
             $deleteIds = collect($existing)
+                ->pluck('packaging_dt_id')
                 ->diff($incomingWithId->keys())
                 ->values()
                 ->toArray();
+
+            
 
             if(!empty($deleteIds)) {
                 $this->packagingDetailRepo->bulkDeleteDetails($deleteIds);
@@ -109,6 +113,8 @@ class PackagingService
                 ])
                 ->values()
                 ->toArray();
+
+            
             
             if(!empty($updateRows)){
                 $this->packagingDetailRepo->bulkUpdateDetails($updateRows);

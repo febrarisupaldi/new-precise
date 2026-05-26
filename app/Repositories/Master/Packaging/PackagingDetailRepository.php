@@ -29,7 +29,7 @@ class PackagingDetailRepository extends BaseRepository
 
     public function findByHeaderID(int $id): Builder{
         return DB::table($this->table)
-            ->where("pd.packaging_id", $id);
+            ->where("packaging_id", $id);
     }
 
     public function bulkUpdateDetails(array $rows): void{
@@ -46,13 +46,14 @@ class PackagingDetailRepository extends BaseRepository
         $updatedByCases = '';
 
         foreach($rows as $row){
+            $itemId = $row['item_id'] != 0 ? $row['item_id'] : 'NULL';
             $productIdCases .= "WHEN packaging_dt_id = {$row['packaging_dt_id']} THEN {$row['product_id']} ";
-            $itemIdCases .= "WHEN packaging_dt_id = {$row['packaging_dt_id']} THEN {$row['item_id']} ";
-            $itemCodeCases .= "WHEN packaging_dt_id = {$row['packaging_dt_id']} THEN {$row['item_code']} ";
+            $itemIdCases .= "WHEN packaging_dt_id = {$row['packaging_dt_id']} THEN {$itemId} ";
+            $itemCodeCases .= "WHEN packaging_dt_id = {$row['packaging_dt_id']} THEN '{$row['item_code']}' ";
             $productQtyCases .= "WHEN packaging_dt_id = {$row['packaging_dt_id']} THEN {$row['product_qty']} ";
             $priorityCases .= "WHEN packaging_dt_id = {$row['packaging_dt_id']} THEN {$row['priority']} ";
             $usagePerUnitCases .= "WHEN packaging_dt_id = {$row['packaging_dt_id']} THEN {$row['usage_per_unit']} ";
-            $updatedByCases .= "WHEN packaging_dt_id = {$row['packaging_dt_id']} THEN {$row['updated_by']} ";
+            $updatedByCases .= "WHEN packaging_dt_id = {$row['packaging_dt_id']} THEN '{$row['updated_by']}' ";
         }
 
         $sql = "

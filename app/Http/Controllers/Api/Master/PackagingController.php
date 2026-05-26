@@ -9,7 +9,7 @@ use App\Exceptions\BadRequestException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ExistsRequest;
 use App\Http\Requests\Master\Packaging\CreatePackagingRequest;
-use App\Http\Requests\Master\Packaging\Packaging\UpdatePackagingRequest;
+use App\Http\Requests\Master\Packaging\UpdatePackagingRequest;
 use App\Services\Master\PackagingService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

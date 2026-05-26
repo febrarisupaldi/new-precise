@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Master\Packaging\Packaging;
+namespace App\Http\Requests\Master\Packaging;
 
 use App\Http\Requests\BaseApiRequest;
 
@@ -31,7 +31,7 @@ class UpdatePackagingRequest extends BaseApiRequest
             'updated_by'            => ['required', 'string', 'max:255'],
             'reason'                => ['required', 'string', 'max:255'],
             'details'               => ['nullable','array'],
-            'details.*.packaging_dt_id' => ['nullable', 'exists:product_item,product_item_id'],
+            'details.*.packaging_dt_id' => ['nullable', 'exists:packaging_dt,packaging_dt_id'],
             'details.*.packaging_id' => ['nullable', 'exists:product,product_id'],
             'details.*.product_id'  => ['nullable', 'exists:product,product_id'],
             'details.*.item_id'     => ['nullable', 'exists:product_item,item_id'],
@@ -39,7 +39,7 @@ class UpdatePackagingRequest extends BaseApiRequest
             'details.*.product_qty' => ['required', 'numeric'],
             'details.*.priority'    => ['required', 'numeric'],
             'details.*.usage_per_unit' => ['required', 'numeric'],
-            'details.*.created_by'  => ['required']
+            'details.*.updated_by'  => ['required']
         ];
     }
 }
