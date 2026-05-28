@@ -32,7 +32,11 @@ class PackagingController extends Controller
     public function index(Request $request): JsonResponse
     {
         try {
-            $result = $this->packagingService->all($request->query('status'));
+            if($request->query("include") === "details"){
+                $result = $this->packagingService->allWithDetails();
+            }else{
+                $result = $this->packagingService->all($request->query('status'));
+            }
 
 
             return $this->jsonResponse(

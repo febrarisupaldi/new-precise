@@ -24,10 +24,15 @@ class PackagingService
 
     public function all(?string $status = null): object
     {
+        
         if ($status) {
             return $this->packagingRepo->all()->where('ph.status', $status)->get();
         }
         return $this->packagingRepo->all()->get();
+    }
+
+    public function allWithDetails(): object{
+        return $this->packagingRepo->allWithDetails()->get();
     }
 
     public function find(int $id): ?object

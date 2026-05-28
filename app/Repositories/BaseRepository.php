@@ -131,4 +131,8 @@ abstract class BaseRepository
         $data = array_combine($columns, $value);
         return DB::table($this->table)->where($data)->exists();
     }
+
+    public function removeColumn(array $column):array{
+        return array_diff($this->columns, $column);
+    }
 }
