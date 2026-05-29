@@ -24,9 +24,8 @@ class PackagingService
 
     public function all(?string $status = null): object
     {
-        
         if ($status) {
-            return $this->packagingRepo->all()->where('ph.status', $status)->get();
+            return $this->packagingRepo->all()->where('hd.is_active', $status)->get();
         }
         return $this->packagingRepo->all()->get();
     }

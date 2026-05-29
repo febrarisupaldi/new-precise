@@ -27,6 +27,14 @@ Route::prefix('packagings')->group(function () {
     Route::put('{id}', [App\Http\Controllers\Api\Master\PackagingController::class, 'update']);
 });
 
+Route::prefix('product-equivalents')->group(function(){
+    Route::get('/', [App\Http\Controllers\Api\Master\ProductEquivalentController::class, 'index']);
+    Route::get('check', [App\Http\Controllers\Api\Master\ProductEquivalentController::class, 'check']);
+    Route::get('{id}', [App\Http\Controllers\Api\Master\ProductEquivalentController::class, 'show']);
+    Route::post('/', [App\Http\Controllers\Api\Master\ProductEquivalentController::class, 'store']);
+    Route::put('{id}', [App\Http\Controllers\Api\Master\ProductEquivalentController::class, 'update']);
+});
+
 // State
 Route::prefix('states')->group(function () {
     Route::get('/', [App\Http\Controllers\Api\Master\StateController::class, 'index']);

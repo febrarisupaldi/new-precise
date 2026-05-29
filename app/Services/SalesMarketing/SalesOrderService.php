@@ -3,32 +3,36 @@
 namespace App\Services\SalesMarketing;
 
 use App\DTOs\ExistsDTO;
-use App\Repositories\SalesMarketing\SalesOrderRepository;
-use App\DTOs\SalesMarketing\CreateSalesOrderDTO;
-use App\DTOs\SalesMarketing\UpdateSalesOrderDTO;
+use App\DTOs\SalesMarketing\SalesOrder\CreateSalesOrderDTO;
+use App\DTOs\SalesMarketing\SalesOrder\UpdateSalesOrderDTO;
+use App\Repositories\SalesMarketing\SalesOrder\SalesOrderRepository;
+use Illuminate\Support\Facades\DB;
 
 class SalesOrderService
 {
-    protected $salesOrderRepo;
+    protected SalesOrderRepository $salesOrderRepo;
 
     public function __construct(SalesOrderRepository $salesOrderRepo)
     {
         $this->salesOrderRepo = $salesOrderRepo;
     }
 
-    public function all()
+    public function all(string $start, string $end): object
     {
-        return $this->salesOrderRepo->all();
+        return $this->salesOrderRepo->allWithFilter([
+            'start' => $start,
+            'end' => $end
+        ])->get();
     }
 
-    public function find($id)
+    public function find(int $id)
     {
         return $this->salesOrderRepo->find($id);
     }
 
     public function create(CreateSalesOrderDTO $dto): array
     {
-        $success = $this->salesOrderRepo->create($dto->toArray());
+        $success = $this->salesOrderRepo->insert($dto->toArray());
 
         return [
             'success' => $success,
@@ -36,7 +40,7 @@ class SalesOrderService
         ];
     }
 
-    public function update($id, UpdateSalesOrderDTO $dto): array
+    public function update(int $id, UpdateSalesOrderDTO $dto): array
     {
         return DB::transaction(function () use ($id, $dto) {
             $exists = $this->salesOrderRepo->find($id);
@@ -56,6 +60,6 @@ class SalesOrderService
 
     public function checkExist(ExistsDTO $dto): bool
     {
-        return $this->salesOrderRepo->checkExists($dto->columns, $dto->values);
+        return $this->salesOrderRepo->exists($dto->columns, $dto->values);
     }
 }

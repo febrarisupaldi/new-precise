@@ -135,4 +135,20 @@ abstract class BaseRepository
     public function removeColumn(array $column):array{
         return array_diff($this->columns, $column);
     }
+
+    public function getTable(): string{
+        return $this->table;
+    }
+
+    public function getColumns(): array{
+        return $this->columns;
+    }
+
+    public function getAlias(): string{
+        return $this->as;
+    }
+
+    public function getPrimaryKey(): string{
+        return $this->primaryKey;
+    }
 }

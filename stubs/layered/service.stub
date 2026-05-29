@@ -4,8 +4,8 @@ namespace App\Services\{{module}};
 
 use App\DTOs\ExistsDTO;
 use App\Repositories\{{module}}\{{name}}Repository;
-use App\DTOs\{{module}}\Create{{name}}DTO;
-use App\DTOs\{{module}}\Update{{name}}DTO;
+use App\DTOs\{{module}}\{name}\Create{{name}}DTO;
+use App\DTOs\{{module}}\{name}\Update{{name}}DTO;
 use App\Exceptions\BadRequestException;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -31,7 +31,7 @@ class {{name}}Service
 
     public function create(Create{{name}}DTO $dto): mixed
     {
-        $id = $this->{{nameLower}}Repo->create($dto->toArray());
+        $id = $this->{{nameLower}}Repo->insert($dto->toArray());
 
         if (!$id) {
             throw new Exception('Failed to create {{name}}');
