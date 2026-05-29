@@ -52,3 +52,11 @@ Route::prefix('vehicles')->group(function () {
     Route::post('/', [App\Http\Controllers\Api\Master\VehicleController::class, 'store']);
     Route::put('{id}', [App\Http\Controllers\Api\Master\VehicleController::class, 'update']);
 });
+
+Route::prefix('warehouses')->group(function () {
+    Route::get('/', [App\Http\Controllers\Api\Master\WarehouseController::class, 'index']);
+    Route::get('check', [App\Http\Controllers\Api\Master\WarehouseController::class, 'check']);
+    Route::get('{id}', [App\Http\Controllers\Api\Master\WarehouseController::class, 'show']);
+    Route::post('/', [App\Http\Controllers\Api\Master\WarehouseController::class, 'store']);
+    Route::put('{id}', [App\Http\Controllers\Api\Master\WarehouseController::class, 'update']);
+});

@@ -14,7 +14,15 @@ class CreateWarehouseRequest extends BaseApiRequest
     public function rules(): array
     {
         return [
-            // Define validation rules here
+            'warehouse_code' => ['required', 'string', 'unique:warehouse,warehouse_code'],
+            'warehouse_name' => ['required', 'string'],
+            'warehouse_alias' => ['nullable', 'string'],
+            'warehouse_group_code' => ['required', 'string', 'exists:warehouse_group,warehouse_group_code'],
+            'is_active' => ['nullable', 'boolean'],
+            'warehouse_pic_1' => ['nullable', 'integer', 'exists:users,user_id'],
+            'warehouse_pic_2' => ['nullable', 'integer', 'exists:users,user_id'],
+            'warehouse_approver' => ['nullable', 'integer', 'exists:users,user_id'],
+            'created_by' => ['required', 'string'],
         ];
     }
 }

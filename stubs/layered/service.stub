@@ -3,16 +3,16 @@
 namespace App\Services\{{module}};
 
 use App\DTOs\ExistsDTO;
-use App\Repositories\{{module}}\{{name}}Repository;
-use App\DTOs\{{module}}\{name}\Create{{name}}DTO;
-use App\DTOs\{{module}}\{name}\Update{{name}}DTO;
+use App\Repositories\{{module}}\{{name}}\{{name}}Repository;
+use App\DTOs\{{module}}\{{name}}\Create{{name}}DTO;
+use App\DTOs\{{module}}\{{name}}\Update{{name}}DTO;
 use App\Exceptions\BadRequestException;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
 class {{name}}Service
 {
-    protected ${{nameLower}}Repo;
+    protected {{name}}Repository ${{nameLower}}Repo;
 
     public function __construct({{name}}Repository ${{nameLower}}Repo)
     {

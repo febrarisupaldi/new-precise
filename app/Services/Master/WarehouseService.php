@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 
 class WarehouseService
 {
-    protected $warehouseRepo;
+    protected WarehouseRepository $warehouseRepo;
 
     public function __construct(WarehouseRepository $warehouseRepo)
     {
