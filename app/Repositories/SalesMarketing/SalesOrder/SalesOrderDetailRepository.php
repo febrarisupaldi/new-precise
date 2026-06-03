@@ -4,7 +4,7 @@ namespace App\Repositories\SalesMarketing\SalesOrder;
 
 use App\Repositories\BaseRepository;
 use App\Repositories\Master\Product\ProductRepository;
-use App\Repositories\Master\ProductEquivalen\ProductEquivalentRepository;
+use App\Repositories\Master\ProductEquivalent\ProductEquivalentRepository;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
 

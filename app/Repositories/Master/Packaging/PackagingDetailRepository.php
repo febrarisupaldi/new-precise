@@ -9,27 +9,27 @@ use Illuminate\Support\Facades\DB;
 class PackagingDetailRepository extends BaseRepository
 {
     protected string $table = 'precise.packaging_dt';
-    protected string $as = 'pd';
-    protected string $primaryKey = 'pd.packaging_dt_id';
+    protected string $as = 'dt';
+    protected string $primaryKey = 'dt.packaging_dt_id';
 
     protected array $columns = [
-        'pd.packaging_dt_id',
-        'pd.packaging_id',
-        'pd.product_id',
-        'pd.item_id',
-        'pd.item_code',
-        'pd.product_qty',
-        'pd.priority',
-        'pd.usage_per_unit',
-        'pd.created_on',
-        'pd.created_by',
-        'pd.updated_on',
-        'pd.updated_by'
+        'dt.packaging_dt_id',
+        'dt.packaging_id',
+        'dt.product_id',
+        'dt.item_id',
+        'dt.item_code',
+        'dt.product_qty',
+        'dt.priority',
+        'dt.usage_per_unit',
+        'dt.created_on',
+        'dt.created_by',
+        'dt.updated_on',
+        'dt.updated_by'
     ];
 
     public function findByHeaderID(int $id): Builder{
         return DB::table($this->table)
-            ->where("packaging_id", $id);
+            ->where("dt.packaging_id", $id);
     }
 
     public function bulkUpdateDetails(array $rows): void{
@@ -57,7 +57,7 @@ class PackagingDetailRepository extends BaseRepository
         }
 
         $sql = "
-            UPDATE {$this->table} AS pd
+            UPDATE {$this->table} AS dt
             SET
                 product_id = CASE {$productIdCases} END,
                 item_id = CASE {$itemIdCases} END,
@@ -73,6 +73,6 @@ class PackagingDetailRepository extends BaseRepository
 
     public function bulkDeleteDetails(array $ids): void {
         if (empty($ids)) return;
-        DB::table($this->table)->whereIn('packaging_dt_id', $ids)->delete();
+        DB::table($this->table, $this->as)->whereIn('dt.packaging_dt_id', $ids)->delete();
     }
 }

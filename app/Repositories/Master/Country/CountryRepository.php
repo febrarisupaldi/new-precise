@@ -7,14 +7,15 @@ use App\Repositories\BaseRepository;
 class CountryRepository extends BaseRepository
 {
     protected string $table = "precise.country";
-    protected string $primaryKey = "country_id";
+    protected string $as = "c";
+    protected string $primaryKey = "c.country_id";
     protected array $columns = [
-        "precise.country.country_id",
-        "precise.country.country_code",
-        "precise.country.country_name",
-        "precise.country.created_by",
-        "precise.country.created_on",
-        "precise.country.updated_by",
-        "precise.country.updated_on"
+        "c.country_id",
+        "c.country_code",
+        "c.country_name",
+        "c.created_by",
+        "c.created_on",
+        "c.updated_by",
+        "c.updated_on"
     ];
 }

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class PackagingRepository extends BaseRepository
 {
+    private PackagingDetailRepository $packagingDetailRepo;
     protected string $table = 'precise.packaging_hd';
     protected string $as = 'hd';
     protected string $primaryKey = 'hd.packaging_id';
@@ -32,6 +33,9 @@ class PackagingRepository extends BaseRepository
     ];
 
 
+    public function __construct(PackagingDetailRepository $packagingDetailRepo){
+        $this->packagingDetailRepo = $packagingDetailRepo;
+    }
 
     public function all(): Builder
     {
