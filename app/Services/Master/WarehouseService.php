@@ -8,10 +8,13 @@ use App\DTOs\Master\Warehouse\CreateWarehouseDTO;
 use App\DTOs\Master\Warehouse\UpdateWarehouseDTO;
 use App\Exceptions\BadRequestException;
 use Exception;
+use App\DTOs\Traits\AuditDTO;
 use Illuminate\Support\Facades\DB;
 
 class WarehouseService
 {
+
+    use AuditDTO;
     protected WarehouseRepository $warehouseRepo;
 
     public function __construct(WarehouseRepository $warehouseRepo)
@@ -19,9 +22,13 @@ class WarehouseService
         $this->warehouseRepo = $warehouseRepo;
     }
 
-    public function all(): object
+    public function all(string $group_code = null): object
     {
-        return $this->warehouseRepo->all()->get();
+        $filter = $group_code ? [
+            'group_code' => $group_code
+        ] : null;
+
+        return $this->warehouseRepo->all($filter)->get();
     }
 
     public function find(mixed $id): ?object
@@ -49,13 +56,31 @@ class WarehouseService
                 throw new BadRequestException('Warehouse not found', code: 404);
             }
             $this->warehouseRepo->setAuditSession($dto->toAuditArray());
-            $success = $this->warehouseRepo->update($id, $dto->withoutAuditArray());
+            $success = $this->warehouseRepo->delete($id, $dto->withoutAuditArray());
 
             if ($success === false) {
                 throw new Exception('Failed to update Warehouse');
             }
         });
     }
+
+    public function delete(int $id, array $data): void
+    {
+        DB::transaction(function () use ($id, $data) {
+            $exists = $this->warehouseRepo->find($id)->first();
+
+            if (!$exists) {
+                throw new BadRequestException('Warehouse not found', code: 404);
+            }
+            $this->warehouseRepo->setAuditSession($data);
+            $success = $this->warehouseRepo->delete($id, $data);
+
+            if ($success === false) {
+                throw new Exception('Failed to delete Warehouse');
+            }
+        });
+    }
+    
 
     public function checkExist(ExistsDTO $dto): bool
     {

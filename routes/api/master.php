@@ -10,6 +10,15 @@ Route::prefix('cities')->group(function () {
     Route::put('{id}', [App\Http\Controllers\Api\Master\CityController::class, 'update']);
 });
 
+// Address Type
+Route::prefix('address-types')->group(function () {
+    Route::get('/', [App\Http\Controllers\Api\Master\AddressTypeController::class, 'index']);
+    Route::get('check', [App\Http\Controllers\Api\Master\AddressTypeController::class, 'check']);
+    Route::get('{id}', [App\Http\Controllers\Api\Master\AddressTypeController::class, 'show']);
+    Route::post('/', [App\Http\Controllers\Api\Master\AddressTypeController::class, 'store']);
+    Route::put('{id}', [App\Http\Controllers\Api\Master\AddressTypeController::class, 'update']);
+});
+
 // Country
 Route::prefix('countries')->group(function () {
     Route::get('/', [App\Http\Controllers\Api\Master\CountryController::class, 'index']);
@@ -59,4 +68,5 @@ Route::prefix('warehouses')->group(function () {
     Route::get('{id}', [App\Http\Controllers\Api\Master\WarehouseController::class, 'show']);
     Route::post('/', [App\Http\Controllers\Api\Master\WarehouseController::class, 'store']);
     Route::put('{id}', [App\Http\Controllers\Api\Master\WarehouseController::class, 'update']);
+    Route::delete('{id}', [App\Http\Controllers\Api\Master\WarehouseController::class, 'delete']);
 });

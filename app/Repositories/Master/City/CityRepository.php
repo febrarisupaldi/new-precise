@@ -2,14 +2,9 @@
 
 namespace App\Repositories\Master\City;
 
-use App\DTOs\Master\City\CreateCityDTO;
-use App\DTOs\Master\City\UpdateCityDTO;
 use App\Repositories\BaseRepository;
 use App\Repositories\Master\State\StateRepository;
 use Illuminate\Database\Query\Builder;
-use Illuminate\Http\Resources\Attributes\Collects;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 
 class CityRepository extends BaseRepository
 {

@@ -11,7 +11,7 @@ class WarehouseRepository extends BaseRepository
     private WarehouseGroupRepository $warehouseGroupRepo;
     protected string $table = 'precise.warehouse';
     protected string $as = 'w';
-    protected string $primaryKey = 'warehouse_id';
+    protected string $primaryKey = 'w.warehouse_id';
     protected array $columns = [
         'w.warehouse_id',
         'w.warehouse_code',
@@ -33,14 +33,17 @@ class WarehouseRepository extends BaseRepository
         $this->warehouseGroupRepo = $warehouseGroupRepo;
     }
 
-    public function all(): Builder
+    public function all(array $filters = null): Builder
     {
         return parent::all()
             ->addSelect("wg.warehouse_group_name")
             ->join($this->warehouseGroupRepo->getTable() . " as wg",
                 $this->warehouseGroupRepo->getPrimaryKey(),
                 "=",
-                "w.warehouse_group_code");
+                "w.warehouse_group_code")
+                ->when( isset($filters['group_code']) , function($query) use ($filters){
+                    return $query->where("wg.warehouse_group_code", $filters['group_code']);
+                });
     }
 
     public function find(mixed $id): Builder

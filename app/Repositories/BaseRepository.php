@@ -92,16 +92,14 @@ abstract class BaseRepository
 
     /**
      * Delete a record with auditing
-     * @param mixed $id
-     * @param string $primaryKey
-     * @param string $updatedBy
-     * @param string $reason
+     * @param int|string $id
+     * @param array $data
      * @return int
      */
-    public function delete(mixed $id, string $primaryKey, string $updatedBy, string $reason): int
+    public function delete(int|string $id, array $data): int
     {
-        $this->setAuditSession(['updated_by' => $updatedBy, 'reason' => $reason]);
-        return DB::table($this->table)->where($primaryKey, $id)->delete();
+        $this->setAuditSession($data);
+        return DB::table($this->table, $this->as)->where($this->primaryKey, $id)->delete();
     }
 
     /**
@@ -148,7 +146,15 @@ abstract class BaseRepository
         return $this->as;
     }
 
+    public function setAlias(string $alias): void{
+        $this->as = $alias;
+    }
+
     public function getPrimaryKey(): string{
         return $this->primaryKey;
+    }
+
+    public function setPrimaryKey(string $column): void{
+        $this->primaryKey = $column;
     }
 }

@@ -12,9 +12,9 @@ class CreateWarehouseDTO extends BaseDTO
     public ?string $warehouse_alias;
     public string $warehouse_group_code;
     public ?bool $is_active;
-    public ?string $warehouse_pic_1;
-    public ?string $warehouse_pic_2;
-    public ?string $warehouse_approver;
+    public ?int $warehouse_pic_1;
+    public ?int $warehouse_pic_2;
+    public ?int $warehouse_approver;
     public string $created_by;
 
     public static function fromRequest(Request $request): static
@@ -24,10 +24,10 @@ class CreateWarehouseDTO extends BaseDTO
         $dto->warehouse_name = $request->input('warehouse_name');
         $dto->warehouse_alias = $request->input('warehouse_alias');
         $dto->warehouse_group_code = $request->input('warehouse_group_code');
-        $dto->is_active = $request->input('is_active');
-        $dto->warehouse_pic_1 = $request->input('warehouse_pic_1');
-        $dto->warehouse_pic_2 = $request->input('warehouse_pic_2');
-        $dto->warehouse_approver = $request->input('warehouse_approver');
+        $dto->is_active = $request->input('is_active') ?? 1;
+        $dto->warehouse_pic_1 = (int) $request->input('warehouse_pic_1');
+        $dto->warehouse_pic_2 = (int) $request->input('warehouse_pic_2');
+        $dto->warehouse_approver = (int) $request->input('warehouse_approver');
         $dto->created_by = $request->input('created_by');
         return $dto;
     }

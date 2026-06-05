@@ -10,8 +10,9 @@ use Illuminate\Support\Facades\DB;
 
 class SalesOrderDetailRepository extends BaseRepository
 {
-    protected ProductRepository $productRepository;
-    protected ProductEquivalentRepository $productEquivalentRepository;
+    private ProductRepository $productRepository;
+    private ProductEquivalentRepository $productEquivalentRepository;
+    
     protected string $table = 'precise.sales_order_dt';
     protected string $as = 'dt';
     protected string $primaryKey = 'dt.sales_order_dt_id';
@@ -46,14 +47,14 @@ class SalesOrderDetailRepository extends BaseRepository
         'dt.updated_by'
     ];
 
-    protected function __construct(ProductRepository $productRepository, ProductEquivalentRepository $productEquivalentRepository)
+    public function __construct(ProductRepository $productRepository, ProductEquivalentRepository $productEquivalentRepository)
     {
         $this->productRepository = $productRepository;
         $this->productEquivalentRepository = $productEquivalentRepository;
     }
 
-    public function findByHeaderID(int $id): Builder{
-        return DB::table($this->table, $this->as)
+    public function findByMasterID(string|int $id): Builder{
+        $query = DB::table($this->table, $this->as)
             ->addSelect(
                 'p.product_code',
                 'p.product_name',
@@ -72,14 +73,21 @@ class SalesOrderDetailRepository extends BaseRepository
                     END) AS concatedConversionQty"),
 
             )
-            ->leftJoin($this->productRepository->getTable(). ' as ' .$this->productRepository->getAlias(), $this->productRepository->getPrimaryKey(), '=', 'dt.product_id')
-            ->leftJoin($this->productEquivalentRepository->getTable(). ' as ' .$this->productEquivalentRepository->getAlias(), function($join) {
-                $join->on('p.product_code', '=', 'e.product_code');
-                $join->on("eq.uom_code","=", DB::raw("CASE
-                                WHEN dt.uom_code = 'PCS' THEN 'PCS'
-                                ELSE 'LS'
-                            END"));
-            })
-            ->where('sales_order_hd_id', $id);
+        ->leftJoin($this->productRepository->getTable(). ' as ' .$this->productRepository->getAlias(), $this->productRepository->getPrimaryKey(), '=', 'dt.product_id')
+        ->leftJoin($this->productEquivalentRepository->getTable(). ' as ' .$this->productEquivalentRepository->getAlias(), function($join) {
+            $join->on('p.product_code', '=', 'eq.product_code');
+            $join->on("eq.uom_code","=", DB::raw("CASE
+                            WHEN dt.uom_code = 'PCS' THEN 'PCS'
+                            ELSE 'LS'
+                        END"));
+        });
+
+        if(is_string($id)){
+            $query->where('dt.sales_order_number', $id);
+        }else{
+            $query->where('dt.sales_order_hd_id', $id);
+        }
+
+        return $query;
     }
 }
