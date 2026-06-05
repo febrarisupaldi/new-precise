@@ -7,7 +7,7 @@ use App\Repositories\BaseRepository;
 class {{name}}Repository extends BaseRepository
 {
     protected string $table = '{{table}}';
-
+    protected string $as = '';
     protected string $primaryKey = '';
 
     protected array $columns = [];

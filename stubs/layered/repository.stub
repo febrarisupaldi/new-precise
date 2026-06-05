@@ -7,6 +7,7 @@ use App\Repositories\BaseRepository;
 class {{name}}Repository extends BaseRepository
 {
     protected string $table = 'precise.{{table}}'; 
+    protected string $as = '';
     protected string $primaryKey = '';
     protected array $columns = [
         

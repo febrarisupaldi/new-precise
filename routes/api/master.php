@@ -2,14 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('cities')->group(function () {
-    Route::get('/', [App\Http\Controllers\Api\Master\CityController::class, 'index']);
-    Route::get('check', [App\Http\Controllers\Api\Master\CityController::class, 'check']);
-    Route::get('{id}', [App\Http\Controllers\Api\Master\CityController::class, 'show']);
-    Route::post('/', [App\Http\Controllers\Api\Master\CityController::class, 'store']);
-    Route::put('{id}', [App\Http\Controllers\Api\Master\CityController::class, 'update']);
-});
-
 // Address Type
 Route::prefix('address-types')->group(function () {
     Route::get('/', [App\Http\Controllers\Api\Master\AddressTypeController::class, 'index']);
@@ -19,13 +11,30 @@ Route::prefix('address-types')->group(function () {
     Route::put('{id}', [App\Http\Controllers\Api\Master\AddressTypeController::class, 'update']);
 });
 
-// Steel Type
-Route::prefix('steel-types')->group(function () {
-    Route::get('/', [App\Http\Controllers\Api\Master\SteelTypeController::class, 'index']);
-    Route::get('check', [App\Http\Controllers\Api\Master\SteelTypeController::class, 'check']);
-    Route::get('{id}', [App\Http\Controllers\Api\Master\SteelTypeController::class, 'show']);
-    Route::post('/', [App\Http\Controllers\Api\Master\SteelTypeController::class, 'store']);
-    Route::put('{id}', [App\Http\Controllers\Api\Master\SteelTypeController::class, 'update']);
+Route::prefix('cities')->group(function () {
+    Route::get('/', [App\Http\Controllers\Api\Master\CityController::class, 'index']);
+    Route::get('check', [App\Http\Controllers\Api\Master\CityController::class, 'check']);
+    Route::get('{id}', [App\Http\Controllers\Api\Master\CityController::class, 'show']);
+    Route::post('/', [App\Http\Controllers\Api\Master\CityController::class, 'store']);
+    Route::put('{id}', [App\Http\Controllers\Api\Master\CityController::class, 'update']);
+});
+
+Route::prefix('color-types')->group(function(){
+    Route::get('/',[App\Http\Controllers\Api\Master\ColorTypeController::class, 'index']);
+    Route::get('check', [App\Http\Controllers\Api\Master\ColorTypeController::class, 'check']);
+    Route::get('{id}', [App\Http\Controllers\Api\Master\ColorTypeController::class, 'show']);
+    Route::post('/', [App\Http\Controllers\Api\Master\ColorTypeController::class, 'store']);
+    Route::put('{id}', [App\Http\Controllers\Api\Master\ColorTypeController::class, 'update']);
+    Route::delete('{id}', [App\Http\Controllers\Api\Master\ColorTypeController::class, 'delete']);
+});
+
+// Company Type
+Route::prefix('company-types')->group(function () {
+    Route::get('/', [App\Http\Controllers\Api\Master\CompanyTypeController::class, 'index']);
+    Route::get('check', [App\Http\Controllers\Api\Master\CompanyTypeController::class, 'check']);
+    Route::get('{id}', [App\Http\Controllers\Api\Master\CompanyTypeController::class, 'show']);
+    Route::post('/', [App\Http\Controllers\Api\Master\CompanyTypeController::class, 'store']);
+    Route::put('{id}', [App\Http\Controllers\Api\Master\CompanyTypeController::class, 'update']);
 });
 
 // Country
@@ -60,6 +69,15 @@ Route::prefix('states')->group(function () {
     Route::get('{id}', [App\Http\Controllers\Api\Master\StateController::class, 'show']);
     Route::post('/', [App\Http\Controllers\Api\Master\StateController::class, 'store']);
     Route::put('{id}', [App\Http\Controllers\Api\Master\StateController::class, 'update']);
+});
+
+// Steel Type
+Route::prefix('steel-types')->group(function () {
+    Route::get('/', [App\Http\Controllers\Api\Master\SteelTypeController::class, 'index']);
+    Route::get('check', [App\Http\Controllers\Api\Master\SteelTypeController::class, 'check']);
+    Route::get('{id}', [App\Http\Controllers\Api\Master\SteelTypeController::class, 'show']);
+    Route::post('/', [App\Http\Controllers\Api\Master\SteelTypeController::class, 'store']);
+    Route::put('{id}', [App\Http\Controllers\Api\Master\SteelTypeController::class, 'update']);
 });
 
 Route::prefix('vehicles')->group(function () {
