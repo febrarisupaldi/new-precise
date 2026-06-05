@@ -19,6 +19,15 @@ Route::prefix('address-types')->group(function () {
     Route::put('{id}', [App\Http\Controllers\Api\Master\AddressTypeController::class, 'update']);
 });
 
+// Steel Type
+Route::prefix('steel-types')->group(function () {
+    Route::get('/', [App\Http\Controllers\Api\Master\SteelTypeController::class, 'index']);
+    Route::get('check', [App\Http\Controllers\Api\Master\SteelTypeController::class, 'check']);
+    Route::get('{id}', [App\Http\Controllers\Api\Master\SteelTypeController::class, 'show']);
+    Route::post('/', [App\Http\Controllers\Api\Master\SteelTypeController::class, 'store']);
+    Route::put('{id}', [App\Http\Controllers\Api\Master\SteelTypeController::class, 'update']);
+});
+
 // Country
 Route::prefix('countries')->group(function () {
     Route::get('/', [App\Http\Controllers\Api\Master\CountryController::class, 'index']);

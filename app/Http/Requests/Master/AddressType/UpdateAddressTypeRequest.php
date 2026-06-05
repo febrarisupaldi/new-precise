@@ -14,14 +14,13 @@ class UpdateAddressTypeRequest extends BaseApiRequest
 
     public function rules(): array
     {
-        $id = $this->route('id');
 
         return [
             'address_type_name'        => [
                 'required',
                 'string',
                 'max:255',
-                Rule::unique('address_type')->ignore($id, 'address_type_id')
+                Rule::unique('address_type')->ignore($this->address_type_name, 'address_type_name')
             ],
             'address_type_description' => ['nullable', 'string'],
             'updated_by'               => ['required', 'string', 'max:255'],
