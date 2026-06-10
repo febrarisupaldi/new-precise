@@ -94,9 +94,9 @@ abstract class BaseRepository
      * Delete a record with auditing
      * @param int|string $id
      * @param array $data
-     * @return int
+     * @return bool
      */
-    public function delete(int|string $id, array $data): int
+    public function delete(int|string $id, array $data): bool
     {
         $this->setAuditSession($data);
         return DB::table($this->table, $this->as)->where($this->primaryKey, $id)->delete();
@@ -148,6 +148,8 @@ abstract class BaseRepository
 
     public function setAlias(string $alias): void{
         $this->as = $alias;
+        $getPrimaryKey = explode(".", $this->primaryKey);
+        $this->primaryKey = $alias . "." . $getPrimaryKey[1];
     }
 
     public function getPrimaryKey(): string{

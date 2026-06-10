@@ -60,4 +60,31 @@ abstract class Controller
             'line' => $e->getLine(),
         ]));
     }
+
+    /**
+     * Stream JSON response.
+     *
+     * @param  callable  $callback
+     * @param  string    $message
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse
+     */
+    protected function streamJsonResponse(
+        callable $callback,
+        string $message = 'Success'
+    )
+    {
+        return response()->stream(function () use ($callback, $message) {
+
+            echo '{"status":"success","message":"'.$message.'","data":[';
+
+            $first = true;
+
+            $callback($first);
+
+            echo ']}';
+
+        }, 200, [
+            'Content-Type' => 'application/json',
+        ]);
+}
 }

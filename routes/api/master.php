@@ -46,6 +46,23 @@ Route::prefix('countries')->group(function () {
     Route::put('{id}', [App\Http\Controllers\Api\Master\CountryController::class, 'update']);
 });
 
+Route::prefix('customers')->group(function () {
+    Route::get('/', [App\Http\Controllers\Api\Master\CustomerController::class, 'index']);
+    Route::get('check', [App\Http\Controllers\Api\Master\CustomerController::class, 'check']);
+    Route::get('{id}', [App\Http\Controllers\Api\Master\CustomerController::class, 'show']);
+    Route::get('{customerIDs}/addresses', [App\Http\Controllers\Api\Master\CustomerController::class, 'findWithAddresses']);
+    Route::post('/', [App\Http\Controllers\Api\Master\CustomerController::class, 'store']);
+    Route::put('{id}', [App\Http\Controllers\Api\Master\CustomerController::class, 'update']);
+});
+
+Route::prefix('customer-addresses')->group(function () {
+    Route::get('/', [App\Http\Controllers\Api\Master\CustomerAddressController::class, 'index']);
+    Route::get('{id}', [App\Http\Controllers\Api\Master\CustomerAddressController::class, 'show']);
+    Route::post('/', [App\Http\Controllers\Api\Master\CustomerAddressController::class, 'store']);
+    Route::put('{id}', [App\Http\Controllers\Api\Master\CustomerAddressController::class, 'update']);
+    Route::delete('{id}', [App\Http\Controllers\Api\Master\CustomerAddressController::class, 'delete']);
+});
+
 Route::prefix('packagings')->group(function () {
     Route::get('/', [App\Http\Controllers\Api\Master\PackagingController::class, 'index']);
     Route::get('check', [App\Http\Controllers\Api\Master\PackagingController::class, 'check']);
