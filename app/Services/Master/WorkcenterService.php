@@ -19,9 +19,9 @@ class WorkcenterService
         $this->workcenterRepo = $workcenterRepo;
     }
 
-    public function all(): object
+    public function all(?array $filters = null): object
     {
-        return $this->workcenterRepo->all()->get();
+        return $this->workcenterRepo->all($filters)->get();
     }
 
     public function find(mixed $id): ?object
@@ -53,6 +53,23 @@ class WorkcenterService
 
             if ($success === false) {
                 throw new Exception('Failed to update Workcenter');
+            }
+        });
+    }
+
+    public function delete(int $id, array $data): void
+    {
+        DB::transaction(function () use ($id, $data) {
+            $exists = $this->workcenterRepo->find($id)->first();
+
+            if (!$exists) {
+                throw new BadRequestException('Workcenter not found', code: 404);
+            }
+            $this->workcenterRepo->setAuditSession($data);
+            $success = $this->workcenterRepo->delete($id, $data);
+
+            if ($success === false) {
+                throw new Exception('Failed to delete Workcenter');
             }
         });
     }

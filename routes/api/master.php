@@ -114,3 +114,12 @@ Route::prefix('warehouses')->group(function () {
     Route::put('{id}', [App\Http\Controllers\Api\Master\WarehouseController::class, 'update']);
     Route::delete('{id}', [App\Http\Controllers\Api\Master\WarehouseController::class, 'delete']);
 });
+
+Route::prefix('workcenters')->group(function () {
+    Route::get('/', [App\Http\Controllers\Api\Master\WorkcenterController::class, 'index']);
+    Route::get('check', [App\Http\Controllers\Api\Master\WorkcenterController::class, 'check']);
+    Route::get('{id}', [App\Http\Controllers\Api\Master\WorkcenterController::class, 'show']);
+    Route::post('/', [App\Http\Controllers\Api\Master\WorkcenterController::class, 'store']);
+    Route::put('{id}', [App\Http\Controllers\Api\Master\WorkcenterController::class, 'update']);
+    Route::delete('{id}', [App\Http\Controllers\Api\Master\WorkcenterController::class, 'delete']);
+});

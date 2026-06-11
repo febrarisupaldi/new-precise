@@ -22,12 +22,8 @@ class WarehouseService
         $this->warehouseRepo = $warehouseRepo;
     }
 
-    public function all(string $group_code = null): object
+    public function all(?array $filter = null): object
     {
-        $filter = $group_code ? [
-            'group_code' => $group_code
-        ] : null;
-
         return $this->warehouseRepo->all($filter)->get();
     }
 

@@ -10,22 +10,22 @@ class WarehouseRepository extends BaseRepository
 {
     private WarehouseGroupRepository $warehouseGroupRepo;
     protected string $table = 'precise.warehouse';
-    protected string $as = 'w';
-    protected string $primaryKey = 'w.warehouse_id';
+    protected string $as = 'wh';
+    protected string $primaryKey = 'wh.warehouse_id';
     protected array $columns = [
-        'w.warehouse_id',
-        'w.warehouse_code',
-        'w.warehouse_name',
-        'w.warehouse_alias',
-        'w.warehouse_group_code',
-        'w.is_active',
-        'w.warehouse_pic_1',
-        'w.warehouse_pic_2',
-        'w.warehouse_approver',
-        'w.created_on',
-        'w.created_by',
-        'w.updated_on',
-        'w.updated_by'
+        'wh.warehouse_id',
+        'wh.warehouse_code',
+        'wh.warehouse_name',
+        'wh.warehouse_alias',
+        'wh.warehouse_group_code',
+        'wh.is_active',
+        'wh.warehouse_pic_1',
+        'wh.warehouse_pic_2',
+        'wh.warehouse_approver',
+        'wh.created_on',
+        'wh.created_by',
+        'wh.updated_on',
+        'wh.updated_by'
     ];
 
     public function __construct(WarehouseGroupRepository $warehouseGroupRepo)
@@ -33,14 +33,14 @@ class WarehouseRepository extends BaseRepository
         $this->warehouseGroupRepo = $warehouseGroupRepo;
     }
 
-    public function all(array $filters = null): Builder
+    public function all(?array $filters = null): Builder
     {
         return parent::all()
             ->addSelect("wg.warehouse_group_name")
             ->join($this->warehouseGroupRepo->getTable() . " as wg",
                 $this->warehouseGroupRepo->getPrimaryKey(),
                 "=",
-                "w.warehouse_group_code")
+                "wh.warehouse_group_code")
                 ->when( isset($filters['group_code']) , function($query) use ($filters){
                     return $query->where("wg.warehouse_group_code", $filters['group_code']);
                 });
@@ -52,6 +52,6 @@ class WarehouseRepository extends BaseRepository
             ->join($this->warehouseGroupRepo->getTable() . " as wg",
                 $this->warehouseGroupRepo->getPrimaryKey(),
                 "=",
-                "w.warehouse_group_code");
+                "wh.warehouse_group_code");
     }
 }

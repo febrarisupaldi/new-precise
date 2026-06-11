@@ -14,7 +14,11 @@ class CreateWorkcenterRequest extends BaseApiRequest
     public function rules(): array
     {
         return [
-            // Define validation rules here
+            'workcenter_code'   => ['required', 'unique:workcenter,workcenter_code'],
+            'workcenter_name'   => ['required'],
+            'workcenter_desc'   => ['nullable'],
+            'default_warehouse' => ['required', 'exists:warehouse,warehouse_id'],
+            'created_by'        => ['required']
         ];
     }
 }

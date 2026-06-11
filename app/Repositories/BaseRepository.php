@@ -29,7 +29,7 @@ abstract class BaseRepository
      * @param mixed $id
      * @return Builder
      */
-    public function find(mixed $id): Builder
+    public function find(int|string $id): Builder
     {
         return DB::table($this->table, $this->as)->where($this->primaryKey, $id)->select($this->columns);
     }
