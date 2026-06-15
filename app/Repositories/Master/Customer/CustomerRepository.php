@@ -5,7 +5,6 @@ namespace App\Repositories\Master\Customer;
 use App\Repositories\BaseRepository;
 use App\Repositories\Master\AddressType\AddressTypeRepository;
 use App\Repositories\Master\City\CityRepository;
-use App\Repositories\Master\CustomerAddress\CustomerAddressRepository;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
 

@@ -63,6 +63,13 @@ Route::prefix('customer-addresses')->group(function () {
     Route::delete('{id}', [App\Http\Controllers\Api\Master\CustomerAddressController::class, 'delete']);
 });
 
+Route::prefix('mold-statuses')->group(function () {
+    Route::get('/', [App\Http\Controllers\Api\Master\MoldStatusController::class, 'index']);
+    Route::get('{id}', [App\Http\Controllers\Api\Master\MoldStatusController::class, 'show']);
+    Route::post('/', [App\Http\Controllers\Api\Master\MoldStatusController::class, 'store']);
+    Route::put('{id}', [App\Http\Controllers\Api\Master\MoldStatusController::class, 'update']);
+});
+
 Route::prefix('packagings')->group(function () {
     Route::get('/', [App\Http\Controllers\Api\Master\PackagingController::class, 'index']);
     Route::get('check', [App\Http\Controllers\Api\Master\PackagingController::class, 'check']);
@@ -97,6 +104,16 @@ Route::prefix('steel-types')->group(function () {
     Route::put('{id}', [App\Http\Controllers\Api\Master\SteelTypeController::class, 'update']);
 });
 
+// UOM
+Route::prefix('uoms')->group(function () {
+    Route::get('/', [App\Http\Controllers\Api\Master\UOMController::class, 'index']);
+    Route::get('check', [App\Http\Controllers\Api\Master\UOMController::class, 'check']);
+    Route::get('{id}', [App\Http\Controllers\Api\Master\UOMController::class, 'show']);
+    Route::post('/', [App\Http\Controllers\Api\Master\UOMController::class, 'store']);
+    Route::put('{id}', [App\Http\Controllers\Api\Master\UOMController::class, 'update']);
+});
+
+// Vehicle
 Route::prefix('vehicles')->group(function () {
     Route::get('/', [App\Http\Controllers\Api\Master\VehicleController::class, 'index']);
     Route::get('check', [App\Http\Controllers\Api\Master\VehicleController::class, 'check']);
