@@ -14,7 +14,9 @@ class UpdateMachineStatusRequest extends BaseApiRequest
     public function rules(): array
     {
         return [
-            // Define validation rules here
+            'status_code'=> ['required', 'string'],
+            'status_description' => ['nullable', 'string'],
+            'is_active' => ['nullable', 'boolean'],
             'updated_by' => ['required', 'string'],
             'reason'     => ['required', 'string', 'max:255'],
         ];

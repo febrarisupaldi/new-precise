@@ -71,6 +71,14 @@ Route::prefix('machine-injections')->group(function () {
     Route::put('{id}', [App\Http\Controllers\Api\Master\MachineInjectionController::class, 'update']);
 });
 
+Route::prefix('machine-statuses')->group(function (){
+    Route::get('/', [App\Http\Controllers\Api\Master\MachineStatusController::class, 'index']);
+    Route::get('check', [App\Http\Controllers\Api\Master\MachineStatusController::class, 'check']);
+    Route::get('{id}', [App\Http\Controllers\Api\Master\MachineStatusController::class, 'show']);
+    Route::post('/', [App\Http\Controllers\Api\Master\MachineStatusController::class, 'store']);
+    Route::put('{id}', [App\Http\Controllers\Api\Master\MachineStatusController::class, 'update']);
+});
+
 Route::prefix('mold-statuses')->group(function () {
     Route::get('/', [App\Http\Controllers\Api\Master\MoldStatusController::class, 'index']);
     Route::get('{id}', [App\Http\Controllers\Api\Master\MoldStatusController::class, 'show']);

@@ -14,7 +14,10 @@ class CreateMachineStatusRequest extends BaseApiRequest
     public function rules(): array
     {
         return [
-            // Define validation rules here
+            'status_code'=> ['required', 'string', 'unique:machine_status,status_code'],
+            'status_description' => ['nullable', 'string'],
+            'is_active' => ['nullable', 'boolean'],
+            'created_by' => ['required', 'string']
         ];
     }
 }

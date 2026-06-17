@@ -9,7 +9,9 @@ use App\DTOs\Traits\AuditDTO;
 class UpdateMachineStatusDTO extends BaseDTO
 {
     use AuditDTO;
-    // Define properties here
+    public string $status_code;
+    public string $status_description;
+    public ?bool $is_active;
     public string $updated_by;
     public string $reason;
 
@@ -17,8 +19,11 @@ class UpdateMachineStatusDTO extends BaseDTO
     public static function fromRequest(Request $request): static
     {
         $dto = new self();
-         $dto->updated_by = $request->input('updated_by');
- $dto->reason = $request->input('reason');
+        $dto->status_code = $request->get('status_code');
+        $dto->status_description = $request->get('status_description');
+        $dto->is_active = $request->get('is_active');
+        $dto->updated_by = $request->input('updated_by');
+        $dto->reason = $request->input('reason');
 
         return $dto;
     }
