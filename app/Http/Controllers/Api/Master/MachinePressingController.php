@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers\Api\Master;
 
+use App\DTOs\Master\MachinePressing\CreateMachinePressingDTO;
+use App\DTOs\Master\MachinePressing\UpdateMachinePressingDTO;
 use App\Exceptions\BadRequestException;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Master\MachinePressing\CreateMachinePressingRequest;
+use App\Http\Requests\Master\MachinePressing\UpdateMachinePressingRequest;
 use App\Services\Master\MachinePressingService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -75,14 +79,73 @@ class MachinePressingController extends Controller
         }
     }
 
-    public function store(Request $request)
+
+    /**
+     * POST /api/master/machine-pressings
+     * @param CreateMachinePressingRequest $request
+     * @return JsonResponse
+     */
+    public function store(CreateMachinePressingRequest $request)
     {
-        return $this->machinePressingService->create($request);
+        try {
+            $dto = CreateMachinePressingDTO::fromRequest($request);
+            $result = $this->machinePressingService->create($dto);
+
+            return $this->jsonResponse(
+                status: 'ok',
+                message: 'Machine Pressing created successfully.',
+                id: $result,
+                data: $dto->toArray(),
+                code: 201
+            );
+        } catch (BadRequestException $e) {
+            return $this->jsonResponse(
+                status: 'fail',
+                message: $e->getMessage(),
+                code: 400
+            );
+        } catch (\Throwable $e) {
+            $this->logError($e, 'MachinePressingController@store');
+
+            return $this->jsonResponse(
+                status: 'error',
+                message: 'Failed to create Machine Pressing.',
+                code: 500
+            );
+        }
     }
 
-    public function update(Request $request, $id)
+    /**
+     * UPDATE /api/master/machine-pressings/{id}
+     * @param int $id
+     * @param UpdateMachinePressingRequest $request
+     * @return JsonResponse
+     */
+    public function update(int $id, UpdateMachinePressingRequest $request)
     {
-        return $this->machinePressingService->update($request, $id);
+        try {
+            $dto = UpdateMachinePressingDTO::fromRequest($request);
+            $this->machinePressingService->update($id, $dto);
+            return $this->jsonResponse(
+                status: 'ok',
+                message: 'Machine Pressing updated successfully.',
+                data: $dto->toArray(),
+                code: 200
+            );
+        } catch (BadRequestException $e) {
+            return $this->jsonResponse(
+                status: 'fail',
+                message: $e->getMessage(),
+                code: 404
+            );
+        } catch (\Throwable $e) {
+            $this->logError($e, 'MachinePressingController@update', ['id' => $id, 'payload' => $request->all()]);
+            return $this->jsonResponse(
+                status: 'error',
+                message: 'Failed to update Machine Pressing.',
+                code: 500
+            );
+        }
     }
 
     public function destroy(Request $request, $id)

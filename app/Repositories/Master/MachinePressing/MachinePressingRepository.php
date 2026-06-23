@@ -62,8 +62,14 @@ class MachinePressingRepository extends BaseRepository
             '=',
             $this->machineStatusRepo->primaryKey
         )->when($filters['code'] ?? null, function($query) use ($filters) {
-            return $query->where('mi.machine_code', $filters['code']);
-        });
+            return $query->where('mp.machine_code', $filters['code']);
+        })
+        ->when($filters['old_machine_code'] ?? null && $filters['machine_location'] ?? null, 
+            function($query) use($filters){
+                return $query->where('mp.old_machine_code', $filters['old_machine_code'])
+                            ->where('mp.machine_location', $filters['machine_location']);                           
+            }
+        );
     }
     // Add custom repository methods here
 }

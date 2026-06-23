@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
@@ -55,7 +56,19 @@ class AuthController extends Controller
      */
     public function refresh()
     {
-        return $this->respondWithToken(Auth::guard('api')->refresh());
+        try {
+        $newToken = JWTAuth::refresh(JWTAuth::getToken());
+
+            return response()->json([
+                'success' => true,
+                'token' => $newToken,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Token tidak dapat direfresh',
+            ], 401);
+        }
     }
 
     /**

@@ -93,7 +93,8 @@ class MachineInjectionController extends Controller
             return $this->jsonResponse(
                 status: 'ok',
                 message: 'Machine Injection created successfully.',
-                data: $result,
+                id: $result,
+                data: $dto->toArray(),
                 code: 201
             );
         } catch (BadRequestException $e) {
