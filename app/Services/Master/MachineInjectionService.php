@@ -19,9 +19,9 @@ class MachineInjectionService
         $this->machineInjectionRepo = $machineInjectionRepo;
     }
 
-    public function all(): object
+    public function all(?array $filters = null): object
     {
-        return $this->machineInjectionRepo->all()->get();
+        return $this->machineInjectionRepo->all($filters)->get();
     }
 
     public function find(mixed $id): ?object

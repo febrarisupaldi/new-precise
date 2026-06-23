@@ -37,7 +37,7 @@ class MachineInjectionRepository extends BaseRepository
         $this->machineStatusRepo = $machineStatusRepo;
     }
 
-    public function all(): Builder{
+    public function all(?array $filters = []): Builder{
         return parent::all()->addSelect(
             "ms.status_description"
         )->join(
@@ -45,7 +45,9 @@ class MachineInjectionRepository extends BaseRepository
             'mi.machine_status_code',
             '=',
             $this->machineStatusRepo->primaryKey
-        );
+        )->when($filters['code'] ?? null, function($query) use ($filters) {
+            return $query->where('mi.machine_code', $filters['code']);
+        });
     }
     // Add custom repository methods here
 }

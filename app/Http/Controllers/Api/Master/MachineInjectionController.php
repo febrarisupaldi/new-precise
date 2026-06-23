@@ -25,12 +25,13 @@ class MachineInjectionController extends Controller
 
     /**
      * GET /api/master/machine-injections
+     * @queryParam machine_code string optional
      * @return JsonResponse
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
         try {
-            $result = $this->machineInjectionService->all();
+            $result = $this->machineInjectionService->all($request->toArray());
             return $this->jsonResponse(
                 status: 'ok',
                 message: 'Machine Injection list retrieved successfully.',

@@ -157,27 +157,4 @@ class MachineStatusController extends Controller
             );
         }
     }
-
-    /**
-     * DELETE /api/master/machine-statuses/{code}
-     * @routeParam {code} string required
-     * @return JsonResponse
-     */
-    public function delete(string $id): JsonResponse{
-        try {
-            $this->machineStatusService->delete($id);
-            return $this->jsonResponse(
-                status: 'ok',
-                message: 'Machine Status deleted successfully.',
-                code: 200
-            );
-        } catch (\Throwable $e) {
-            $this->logError($e, 'MachineStatusController@delete', ['id' => $id]);
-            return $this->jsonResponse(
-                status: 'error',
-                message: 'Failed to delete machine status.',
-                code: 500
-            );
-        }
-    }
 }
