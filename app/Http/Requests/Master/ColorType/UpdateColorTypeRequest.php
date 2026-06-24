@@ -15,10 +15,10 @@ class UpdateColorTypeRequest extends BaseApiRequest
     public function rules(): array
     {
         return [
-            'color_type_code' => ['required', 'string', Rule::unique('color_type', 'color_type_code')->ignore($this->color_type_code, 'color_type_code')],
-            'color_type_name' => ['required', 'string'],
-            'updated_by' => ['required', 'string'],
-            'reason'     => ['required', 'string', 'max:255'],
+            'color_type_code' => ['required', 'string', 'max:50', Rule::unique('color_type', 'color_type_code')->ignore($this->color_type_code, 'color_type_code')],
+            'color_type_name' => ['required', 'string', 'max:50'],
+            'updated_by' => ['required', 'string', 'max:100'],
+            'reason'     => ['required', 'string'],
         ];
     }
 }

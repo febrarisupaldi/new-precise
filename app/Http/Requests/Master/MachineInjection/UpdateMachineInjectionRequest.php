@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Master\MachineInjection;
 
 use App\Http\Requests\BaseApiRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateMachineInjectionRequest extends BaseApiRequest
 {
@@ -14,19 +15,19 @@ class UpdateMachineInjectionRequest extends BaseApiRequest
     public function rules(): array
     {
         return [
-            'machine_code' => ['required','string'],
-            'old_machine_code' => ['nullable','string'],
-            'line_code' => ['required','string'],
-            'line_number' => ['nullable','string'],
-            'tonnage' => ['required','integer'],
-            'serial_number' => ['nullable','string'],
-            'production_year' => ['nullable','integer'],
-            'brand' => ['required','string'],
-            'motor_power' => ['nullable','numeric'],
-            'heater_power' => ['nullable','numeric'],
-            'machine_status_code' => ['required','string'],
-            'updated_by' => ['required', 'string'],
-            'reason'     => ['required', 'string', 'max:255'],
+            'machine_code'          => ['required','string', 'max:10', Rule::unique('machine_injection')->ignore($this->machine_code, 'machine_code')],
+            'old_machine_code'      => ['nullable','string', 'max:10'],
+            'line_code'             => ['required','string','max:1'],
+            'line_number'           => ['nullable','integer'],
+            'tonnage'               => ['required','integer'],
+            'serial_number'         => ['nullable','string'],
+            'production_year'       => ['nullable','integer','date_format:Y'],
+            'brand'                 => ['required','string'],
+            'motor_power'           => ['nullable','decimal:5,2'],
+            'heater_power'          => ['nullable','decimal:5,2'],
+            'machine_status_code'   => ['required','exists:machine_status,status_code', 'max:1'],
+            'updated_by'            => ['required','string', 'max:100'],
+            'reason'                => ['required', 'string'],
         ];
     }
 }

@@ -106,7 +106,8 @@ class CustomerAddressController extends Controller
                 status: 'ok',
                 message: 'Customer Address created successfully.',
                 data: $dto->toArray(),
-                id: $result
+                id: $result,
+                code: 201
             );
         } catch (BadRequestException $e) {
             return $this->jsonResponse(

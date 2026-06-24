@@ -6,6 +6,7 @@ use App\DTOs\Master\MachinePressing\CreateMachinePressingDTO;
 use App\DTOs\Master\MachinePressing\UpdateMachinePressingDTO;
 use App\Exceptions\BadRequestException;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ExistsRequest;
 use App\Http\Requests\Master\MachinePressing\CreateMachinePressingRequest;
 use App\Http\Requests\Master\MachinePressing\UpdateMachinePressingRequest;
 use App\Services\Master\MachinePressingService;
@@ -148,8 +149,31 @@ class MachinePressingController extends Controller
         }
     }
 
-    public function destroy(Request $request, $id)
+    /**
+     * GET /api/master/machine-pressings/check
+     * @param ExistsRequest $request
+     * @return JsonResponse
+     */
+    public function check(ExistsRequest $request): JsonResponse
     {
-        return $this->machinePressingService->destroy($id);
+        try {
+            $dto = ExistsRequest::fromRequest($request);
+            $exists = $this->machinePressingService->checkExist($dto);
+            return $this->jsonResponse(
+                status: 'ok',
+                message: 'Machine Pressing exists successfully.',
+                data: [
+                    'exists' => $exists
+                ],
+                code: 200
+            );
+        } catch (\Throwable $e) {
+            $this->logError($e, 'MachinePressingController@check');
+            return $this->jsonResponse(
+                status: 'error',
+                message: 'Failed to check Machine Pressing.',
+                code: 500
+            );
+        }
     }
 }

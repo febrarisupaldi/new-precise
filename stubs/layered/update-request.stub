@@ -15,8 +15,8 @@ class Update{{name}}Request extends BaseApiRequest
     {
         return [
             // Define validation rules here
-            'updated_by' => ['required', 'string'],
-            'reason'     => ['required', 'string', 'max:255'],
+            'updated_by' => ['required', 'string', 'max:100],
+            'reason'     => ['required', 'string'],
         ];
     }
 }

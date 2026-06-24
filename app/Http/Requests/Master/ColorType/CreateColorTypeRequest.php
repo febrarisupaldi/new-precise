@@ -14,9 +14,9 @@ class CreateColorTypeRequest extends BaseApiRequest
     public function rules(): array
     {
         return [
-            'color_type_code' => ['required', 'unique:color_type,color_type_code'],
-            'color_type_name' => ['required','string'],
-            'created_by'      => ['required','string'] 
+            'color_type_code' => ['required','max:50', 'unique:color_type,color_type_code'],
+            'color_type_name' => ['required','max:50', 'string'],
+            'created_by'      => ['required','max:100', 'string'] 
         ];
     }
 }

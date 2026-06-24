@@ -14,9 +14,9 @@ class CreateCountryRequest extends BaseApiRequest
     public function rules(): array
     {
         return [
-            'country_code' => ['required', 'string', 'max:10'],
-            'country_name' => ['required', 'string', 'max:255'],
-            'created_by'   => ['required', 'string', 'max:255'],
+            'country_code' => ['required', 'string', 'max:15', 'unique:country,country_code'],
+            'country_name' => ['required', 'string', 'max:50', 'unique:country,country_name'],
+            'created_by'   => ['required', 'string', 'max:100'],
         ];
     }
 }

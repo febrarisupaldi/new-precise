@@ -4,9 +4,12 @@ namespace App\DTOs\Master\MachinePressing;
 
 use App\DTOs\BaseDTO;
 use Illuminate\Http\Request;
+use App\DTOs\Traits\AuditDTO;
 
 class UpdateMachinePressingDTO extends BaseDTO
 {
+    use AuditDTO;
+
     public string $machine_code;
     public ?string $old_machine_code;
     public string $machine_location;

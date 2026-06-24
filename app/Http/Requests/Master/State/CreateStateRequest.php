@@ -14,10 +14,10 @@ class CreateStateRequest extends BaseApiRequest
     public function rules(): array
     {
         return [
-            'state_code'   => ['required', 'string', 'max:10', 'unique:state,state_code'],
-            'state_name'   => ['required', 'string', 'max:255'],
+            'state_code'   => ['required', 'string', 'max:15', 'unique:state,state_code'],
+            'state_name'   => ['required', 'string', 'max:50'],
             'country_id'   => ['required', 'integer', 'exists:country,country_id'],
-            'created_by'   => ['required', 'string', 'max:255']
+            'created_by'   => ['required', 'string', 'max:100']
         ];
     }
 }

@@ -19,11 +19,11 @@ class UpdateAddressTypeRequest extends BaseApiRequest
             'address_type_name'        => [
                 'required',
                 'string',
-                'max:255',
+                'max:25',
                 Rule::unique('address_type')->ignore($this->address_type_name, 'address_type_name')
             ],
-            'address_type_description' => ['nullable', 'string'],
-            'updated_by'               => ['required', 'string', 'max:255'],
+            'address_type_description' => ['nullable', 'string', 'max:255'],
+            'updated_by'               => ['required', 'string', 'max:100'],
             'reason'                   => ['required', 'string'],
         ];
     }

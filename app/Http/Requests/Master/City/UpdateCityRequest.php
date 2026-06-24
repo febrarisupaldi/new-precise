@@ -15,10 +15,10 @@ class UpdateCityRequest extends BaseApiRequest
     public function rules(): array
     {
         return [
-            "city_code"   => ["required", "string", Rule::unique('city')->ignore($this->city_code, 'city_code')],
-            "city_name"   => ["required", "string", "max:255"],
+            "city_code"   => ["required", "string", "max:15", Rule::unique('city')->ignore($this->city_code, 'city_code')],
+            "city_name"   => ["required", "string", "max:50"],
             "state_id"    => ["required", "integer", "exists:state,state_id"],
-            "updated_by"  => ["required", "string", "max:255"],
+            "updated_by"  => ["required", "string", "max:100"],
             "reason"      => ["required", "string"],
         ];
     }

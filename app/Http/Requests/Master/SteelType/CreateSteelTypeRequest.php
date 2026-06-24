@@ -14,9 +14,9 @@ class CreateSteelTypeRequest extends BaseApiRequest
     public function rules(): array
     {
         return [
-            'steel_type_name' => ['required', 'string', 'max:255', 'unique:steel_type,steel_type_name'],
+            'steel_type_name' => ['required', 'string', 'max:100', 'unique:steel_type,steel_type_name'],
             'is_active'       => ['nullable', 'boolean'],
-            'created_by'      => ['required', 'string', 'max:255'],
+            'created_by'      => ['required', 'string', 'max:100'],
         ];
     }
 }

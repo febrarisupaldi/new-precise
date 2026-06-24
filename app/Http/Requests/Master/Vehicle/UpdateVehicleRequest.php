@@ -16,13 +16,13 @@ class UpdateVehicleRequest extends BaseApiRequest
     {
         return [
             // Define validation rules here
-            "vehicle_model" => ['required', 'string'],
-            "license_number" => ['required', 'string', Rule::unique('vehicles')->ignore($this->license_number, 'license_number')],
-            "vehicle_description" => ['nullable', 'string'],
-            "is_owned" => ['required', 'in:0,1'],
-            "is_active" => ['nullable', 'in:0,1'],
-            'updated_by' => ['required', 'string'],
-            'reason'     => ['required', 'string'],
+            'vehicle_model'       => ['required', 'string', 'max:100'],
+            'license_number'      => ['required', 'string', 'max:25', Rule::unique('vehicles')->ignore($this->license_number, 'license_number')],
+            'vehicle_description' => ['nullable', 'string', 'max:255'],
+            'is_owned'            => ['nullable', 'boolean'],
+            'is_active'           => ['nullable', 'boolean'],
+            'updated_by'          => ['required', 'string', 'max:100'],
+            'reason'              => ['required', 'string'],
         ];
     }
 }

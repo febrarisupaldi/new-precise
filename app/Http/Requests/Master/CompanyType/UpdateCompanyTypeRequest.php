@@ -15,14 +15,14 @@ class UpdateCompanyTypeRequest extends BaseApiRequest
     public function rules(): array
     {
         return [
-            'company_type_name'        => [
+            'company_type_code'        => [
                 'required',
                 'string',
-                'max:255',
-                Rule::unique('company_type')->ignore($this->company_type_name, 'company_type_name')
+                'max:15',
+                Rule::unique('company_type')->ignore($this->company_type_code, 'company_type_code')
             ],
-            'company_type_description' => ['nullable', 'string'],
-            'updated_by'               => ['required', 'string', 'max:255'],
+            'company_type_description' => ['nullable', 'string', 'max:100'],
+            'updated_by'               => ['required', 'string', 'max:100'],
             'reason'                   => ['required', 'string'],
         ];
     }

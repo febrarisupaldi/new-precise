@@ -15,13 +15,10 @@ class UpdateMoldStatusRequest extends BaseApiRequest
     public function rules(): array
     {
         return [
-            'status_code' =>[
-                'required','string',
-                 Rule::unique('mold_status', 'status_code')->ignore($this->status_code, 'status_code')],
-            'status_description' => ['required','string'],
-            'is_active' => ['nullable','boolean'],
-            'updated_by' => ['required', 'string'],
-            'reason'     => ['required', 'string'],
+            'status_description'    => ['nullable', 'string', 'max:100'],
+            'is_active'             => ['nullable', 'boolean'],
+            'updated_by'            => ['required', 'string', 'max:100'],
+            'reason'                => ['required', 'string'],
         ];
     }
 }

@@ -14,14 +14,12 @@ class UpdateStateRequest extends BaseApiRequest
 
     public function rules(): array
     {
-        $id = $this->route('id');
-
         return [
-            'state_code'   => ['required', 'string', 'max:10', Rule::unique('state')->ignore($this->state_code, 'state_code')],
-            'state_name'   => ['required', 'string', 'max:255'],
+            'state_code'   => ['required', 'string', 'max:15', Rule::unique('state')->ignore($this->state_code, 'state_code')],
+            'state_name'   => ['required', 'string', 'max:50'],
             'country_id'   => ['required', 'integer', 'exists:country,country_id'],
-            'updated_by'   => ['required', 'string', 'max:255'],
-            'reason'       => ['required', 'string', 'max:255'],
+            'updated_by'   => ['required', 'string', 'max:100'],
+            'reason'       => ['required', 'string'],
         ];
     }
 }

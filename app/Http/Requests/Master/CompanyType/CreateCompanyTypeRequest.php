@@ -14,9 +14,9 @@ class CreateCompanyTypeRequest extends BaseApiRequest
     public function rules(): array
     {
         return [
-            'company_type_name'        => ['required', 'string', 'max:255', 'unique:company_type,company_type_name'],
-            'company_type_description' => ['nullable', 'string'],
-            'created_by'               => ['required', 'string', 'max:255'],
+            'company_type_code'        => ['required', 'max:15', 'unique:company_type,company_type_code'],
+            'company_type_description' => ['nullable', 'string', 'max:100'],
+            'created_by'               => ['required', 'string', 'max:100'],
         ];
     }
 }

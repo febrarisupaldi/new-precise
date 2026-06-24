@@ -18,11 +18,11 @@ class UpdateSteelTypeRequest extends BaseApiRequest
             'steel_type_name' => [
                 'required',
                 'string',
-                'max:255',
+                'max:100',
                 Rule::unique('steel_type')->ignore($this->steel_type_name, 'steel_type_name')
             ],
-            'is_active'       => ['required', 'boolean'],
-            'updated_by'      => ['required', 'string', 'max:255'],
+            'is_active'       => ['nullable', 'boolean'],
+            'updated_by'      => ['required', 'string', 'max:100'],
             'reason'          => ['required', 'string'],
         ];
     }

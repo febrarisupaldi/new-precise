@@ -14,11 +14,10 @@ class UpdateMachineStatusRequest extends BaseApiRequest
     public function rules(): array
     {
         return [
-            'status_code'=> ['required', 'string'],
-            'status_description' => ['nullable', 'string'],
-            'is_active' => ['nullable', 'boolean'],
-            'updated_by' => ['required', 'string'],
-            'reason'     => ['required', 'string', 'max:255'],
+            'status_description'    => ['nullable', 'string', 'max:100'],
+            'is_active'             => ['nullable', 'boolean'],
+            'updated_by'            => ['required', 'string', 'max:100'],
+            'reason'                => ['required', 'string', 'max:255'],
         ];
     }
 }

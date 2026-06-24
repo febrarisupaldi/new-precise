@@ -14,11 +14,10 @@ class CreateCityRequest extends BaseApiRequest
     public function rules(): array
     {
         return [
-            "city_code"   => ["required", "string", "max:10", "unique:city,city_code"],
-            "city_name"   => ["required", "string", "max:255"],
+            "city_code"   => ["required", "string", "max:15", "unique:city,city_code"],
+            "city_name"   => ["required", "string", "max:50"],
             "state_id"    => ["required", "integer", "exists:state,state_id"],
-            "created_by"  => ["required", "string", "max:255"],
-            "updated_by"  => ["required", "string", "max:255"],
+            "created_by"  => ["required", "string", "max:100"]
         ];
     }
 }

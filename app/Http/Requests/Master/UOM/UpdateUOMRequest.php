@@ -15,11 +15,11 @@ class UpdateUOMRequest extends BaseApiRequest
     public function rules(): array
     {
         return [
-            'uom_code' => ['required', 'string', Rule::unique('uom', 'uom_code')->ignore($this->uom_code, 'uom_code')],
-            'uom_name' => ['required', 'string', Rule::unique('uom', 'uom_name')->ignore($this->uom_name, 'uom_name')],
-            'is_active' => ['nullable', 'boolean'],
-            'updated_by' => ['required', 'string'],
-            'reason' => ['required', 'string', 'max:255'],
+            'uom_name'      => ['required', 'string', 'max:25', Rule::unique('uom', 'uom_name')->ignore($this->uom_name, 'uom_name')],
+            'uom_coretax'   => ['required', 'string', 'max:50'],
+            'is_active'     => ['nullable', 'boolean'],
+            'updated_by'    => ['required', 'string', 'max:100'],
+            'reason'        => ['required', 'string', 'max:255'],
         ];
     }
 }

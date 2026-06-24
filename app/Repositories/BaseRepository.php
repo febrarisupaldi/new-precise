@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Query\Builder;
-use Illuminate\Support\Collection;
 
 abstract class BaseRepository
 {
