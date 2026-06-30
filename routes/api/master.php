@@ -1,166 +1,194 @@
 <?php
 
+use App\Http\Controllers\Api\Master\AddressTypeController;
+use App\Http\Controllers\Api\Master\CityController;
+use App\Http\Controllers\Api\Master\ColorTypeController;
+use App\Http\Controllers\Api\Master\CompanyTypeController;
+use App\Http\Controllers\Api\Master\CountryController;
+use App\Http\Controllers\Api\Master\CustomerAddressController;
+use App\Http\Controllers\Api\Master\CustomerController;
+use App\Http\Controllers\Api\Master\MachineInjectionController;
+use App\Http\Controllers\Api\Master\MachinePressingController;
+use App\Http\Controllers\Api\Master\MachineStatusController;
+use App\Http\Controllers\Api\Master\MoldPressingController;
+use App\Http\Controllers\Api\Master\MoldStatusController;
+use App\Http\Controllers\Api\Master\PackagingController;
+use App\Http\Controllers\Api\Master\ProductEquivalentController;
+use App\Http\Controllers\Api\Master\StateController;
+use App\Http\Controllers\Api\Master\SteelTypeController;
+use App\Http\Controllers\Api\Master\UOMController;
+use App\Http\Controllers\Api\Master\VehicleController;
+use App\Http\Controllers\Api\Master\WarehouseController;
+use App\Http\Controllers\Api\Master\WorkcenterController;
 use Illuminate\Support\Facades\Route;
 
 // Address Type
 Route::prefix('address-types')->group(function () {
-    Route::get('/', [App\Http\Controllers\Api\Master\AddressTypeController::class, 'index']);
-    Route::get('check', [App\Http\Controllers\Api\Master\AddressTypeController::class, 'check']);
-    Route::get('{id}', [App\Http\Controllers\Api\Master\AddressTypeController::class, 'show']);
-    Route::post('/', [App\Http\Controllers\Api\Master\AddressTypeController::class, 'store']);
-    Route::put('{id}', [App\Http\Controllers\Api\Master\AddressTypeController::class, 'update']);
+    Route::get('/', [AddressTypeController::class, 'index']);
+    Route::get('check', [AddressTypeController::class, 'check']);
+    Route::get('{id}', [AddressTypeController::class, 'show']);
+    Route::post('/', [AddressTypeController::class, 'store']);
+    Route::put('{id}', [AddressTypeController::class, 'update']);
 });
 
 Route::prefix('cities')->group(function () {
-    Route::get('/', [App\Http\Controllers\Api\Master\CityController::class, 'index']);
-    Route::get('check', [App\Http\Controllers\Api\Master\CityController::class, 'check']);
-    Route::get('{id}', [App\Http\Controllers\Api\Master\CityController::class, 'show']);
-    Route::post('/', [App\Http\Controllers\Api\Master\CityController::class, 'store']);
-    Route::put('{id}', [App\Http\Controllers\Api\Master\CityController::class, 'update']);
+    Route::get('/', [CityController::class, 'index']);
+    Route::get('check', [CityController::class, 'check']);
+    Route::get('{id}', [CityController::class, 'show']);
+    Route::post('/', [CityController::class, 'store']);
+    Route::put('{id}', [CityController::class, 'update']);
 });
 
-Route::prefix('color-types')->group(function(){
-    Route::get('/',[App\Http\Controllers\Api\Master\ColorTypeController::class, 'index']);
-    Route::get('check', [App\Http\Controllers\Api\Master\ColorTypeController::class, 'check']);
-    Route::get('{id}', [App\Http\Controllers\Api\Master\ColorTypeController::class, 'show']);
-    Route::post('/', [App\Http\Controllers\Api\Master\ColorTypeController::class, 'store']);
-    Route::put('{id}', [App\Http\Controllers\Api\Master\ColorTypeController::class, 'update']);
-    Route::delete('{id}', [App\Http\Controllers\Api\Master\ColorTypeController::class, 'delete']);
+Route::prefix('color-types')->group(function () {
+    Route::get('/', [ColorTypeController::class, 'index']);
+    Route::get('check', [ColorTypeController::class, 'check']);
+    Route::get('{id}', [ColorTypeController::class, 'show']);
+    Route::post('/', [ColorTypeController::class, 'store']);
+    Route::put('{id}', [ColorTypeController::class, 'update']);
+    Route::delete('{id}', [ColorTypeController::class, 'delete']);
 });
 
 // Company Type
 Route::prefix('company-types')->group(function () {
-    Route::get('/', [App\Http\Controllers\Api\Master\CompanyTypeController::class, 'index']);
-    Route::get('check', [App\Http\Controllers\Api\Master\CompanyTypeController::class, 'check']);
-    Route::get('{id}', [App\Http\Controllers\Api\Master\CompanyTypeController::class, 'show']);
-    Route::post('/', [App\Http\Controllers\Api\Master\CompanyTypeController::class, 'store']);
-    Route::put('{id}', [App\Http\Controllers\Api\Master\CompanyTypeController::class, 'update']);
+    Route::get('/', [CompanyTypeController::class, 'index']);
+    Route::get('check', [CompanyTypeController::class, 'check']);
+    Route::get('{id}', [CompanyTypeController::class, 'show']);
+    Route::post('/', [CompanyTypeController::class, 'store']);
+    Route::put('{id}', [CompanyTypeController::class, 'update']);
 });
 
 // Country
 Route::prefix('countries')->group(function () {
-    Route::get('/', [App\Http\Controllers\Api\Master\CountryController::class, 'index']);
-    Route::get('check', [App\Http\Controllers\Api\Master\CountryController::class, 'check']);
-    Route::get('{id}', [App\Http\Controllers\Api\Master\CountryController::class, 'show']);
-    Route::post('/', [App\Http\Controllers\Api\Master\CountryController::class, 'store']);
-    Route::put('{id}', [App\Http\Controllers\Api\Master\CountryController::class, 'update']);
+    Route::get('/', [CountryController::class, 'index']);
+    Route::get('check', [CountryController::class, 'check']);
+    Route::get('{id}', [CountryController::class, 'show']);
+    Route::post('/', [CountryController::class, 'store']);
+    Route::put('{id}', [CountryController::class, 'update']);
 });
 
 Route::prefix('customers')->group(function () {
-    Route::get('/', [App\Http\Controllers\Api\Master\CustomerController::class, 'index']);
-    Route::get('check', [App\Http\Controllers\Api\Master\CustomerController::class, 'check']);
-    Route::get('{id}', [App\Http\Controllers\Api\Master\CustomerController::class, 'show']);
-    Route::get('{customerIDs}/addresses', [App\Http\Controllers\Api\Master\CustomerController::class, 'findWithAddresses']);
-    Route::post('/', [App\Http\Controllers\Api\Master\CustomerController::class, 'store']);
-    Route::put('{id}', [App\Http\Controllers\Api\Master\CustomerController::class, 'update']);
+    Route::get('/', [CustomerController::class, 'index']);
+    Route::get('check', [CustomerController::class, 'check']);
+    Route::get('{id}', [CustomerController::class, 'show']);
+    Route::get('{customerIDs}/addresses', [CustomerController::class, 'findWithAddresses']);
+    Route::post('/', [CustomerController::class, 'store']);
+    Route::put('{id}', [CustomerController::class, 'update']);
 });
 
 Route::prefix('customer-addresses')->group(function () {
-    Route::get('/', [App\Http\Controllers\Api\Master\CustomerAddressController::class, 'index']);
-    Route::get('{id}', [App\Http\Controllers\Api\Master\CustomerAddressController::class, 'show']);
-    Route::post('/', [App\Http\Controllers\Api\Master\CustomerAddressController::class, 'store']);
-    Route::put('{id}', [App\Http\Controllers\Api\Master\CustomerAddressController::class, 'update']);
-    Route::delete('{id}', [App\Http\Controllers\Api\Master\CustomerAddressController::class, 'delete']);
+    Route::get('/', [CustomerAddressController::class, 'index']);
+    Route::get('{id}', [CustomerAddressController::class, 'show']);
+    Route::post('/', [CustomerAddressController::class, 'store']);
+    Route::put('{id}', [CustomerAddressController::class, 'update']);
+    Route::delete('{id}', [CustomerAddressController::class, 'delete']);
 });
 
 Route::prefix('machine-injections')->group(function () {
-    Route::get('/', [App\Http\Controllers\Api\Master\MachineInjectionController::class, 'index']);
-    Route::get('check', [App\Http\Controllers\Api\Master\MachineInjectionController::class, 'check']);
-    Route::get('{id}', [App\Http\Controllers\Api\Master\MachineInjectionController::class, 'show']);
-    Route::post('/', [App\Http\Controllers\Api\Master\MachineInjectionController::class, 'store']);
-    Route::put('{id}', [App\Http\Controllers\Api\Master\MachineInjectionController::class, 'update']);
+    Route::get('/', [MachineInjectionController::class, 'index']);
+    Route::get('check', [MachineInjectionController::class, 'check']);
+    Route::get('{id}', [MachineInjectionController::class, 'show']);
+    Route::post('/', [MachineInjectionController::class, 'store']);
+    Route::put('{id}', [MachineInjectionController::class, 'update']);
 });
 
 Route::prefix('machine-pressings')->group(function () {
-    Route::get('/', [App\Http\Controllers\Api\Master\MachinePressingController::class, 'index']);
-    Route::get('check', [App\Http\Controllers\Api\Master\MachinePressingController::class, 'check']);
-    Route::get('{id}', [App\Http\Controllers\Api\Master\MachinePressingController::class, 'show']);
-    Route::post('/', [App\Http\Controllers\Api\Master\MachinePressingController::class, 'store']);
-    Route::put('{id}', [App\Http\Controllers\Api\Master\MachinePressingController::class, 'update']);
+    Route::get('/', [MachinePressingController::class, 'index']);
+    Route::get('check', [MachinePressingController::class, 'check']);
+    Route::get('{id}', [MachinePressingController::class, 'show']);
+    Route::post('/', [MachinePressingController::class, 'store']);
+    Route::put('{id}', [MachinePressingController::class, 'update']);
 });
 
-Route::prefix('machine-statuses')->group(function (){
-    Route::get('/', [App\Http\Controllers\Api\Master\MachineStatusController::class, 'index']);
-    Route::get('check', [App\Http\Controllers\Api\Master\MachineStatusController::class, 'check']);
-    Route::get('{id}', [App\Http\Controllers\Api\Master\MachineStatusController::class, 'show']);
-    Route::post('/', [App\Http\Controllers\Api\Master\MachineStatusController::class, 'store']);
-    Route::put('{id}', [App\Http\Controllers\Api\Master\MachineStatusController::class, 'update']);
+Route::prefix('machine-statuses')->group(function () {
+    Route::get('/', [MachineStatusController::class, 'index']);
+    Route::get('check', [MachineStatusController::class, 'check']);
+    Route::get('{id}', [MachineStatusController::class, 'show']);
+    Route::post('/', [MachineStatusController::class, 'store']);
+    Route::put('{id}', [MachineStatusController::class, 'update']);
+});
+
+Route::prefix('mold-pressings')->group(function () {
+    Route::get('/', [MoldPressingController::class, 'index']);
+    Route::get('check', [MoldPressingController::class, 'check']);
+    Route::get('{id}', [MoldPressingController::class, 'show']);
+    Route::post('/', [MoldPressingController::class, 'store']);
+    Route::put('{id}', [MoldPressingController::class, 'update']);
 });
 
 Route::prefix('mold-statuses')->group(function () {
-    Route::get('/', [App\Http\Controllers\Api\Master\MoldStatusController::class, 'index']);
-    Route::get('{id}', [App\Http\Controllers\Api\Master\MoldStatusController::class, 'show']);
-    Route::post('/', [App\Http\Controllers\Api\Master\MoldStatusController::class, 'store']);
-    Route::put('{id}', [App\Http\Controllers\Api\Master\MoldStatusController::class, 'update']);
+    Route::get('/', [MoldStatusController::class, 'index']);
+    Route::get('{id}', [MoldStatusController::class, 'show']);
+    Route::post('/', [MoldStatusController::class, 'store']);
+    Route::put('{id}', [MoldStatusController::class, 'update']);
 });
 
 Route::prefix('packagings')->group(function () {
-    Route::get('/', [App\Http\Controllers\Api\Master\PackagingController::class, 'index']);
-    Route::get('check', [App\Http\Controllers\Api\Master\PackagingController::class, 'check']);
-    Route::get('{id}', [App\Http\Controllers\Api\Master\PackagingController::class, 'show']);
-    Route::post('/', [App\Http\Controllers\Api\Master\PackagingController::class, 'store']);
-    Route::put('{id}', [App\Http\Controllers\Api\Master\PackagingController::class, 'update']);
+    Route::get('/', [PackagingController::class, 'index']);
+    Route::get('check', [PackagingController::class, 'check']);
+    Route::get('{id}', [PackagingController::class, 'show']);
+    Route::post('/', [PackagingController::class, 'store']);
+    Route::put('{id}', [PackagingController::class, 'update']);
 });
 
-Route::prefix('product-equivalents')->group(function(){
-    Route::get('/', [App\Http\Controllers\Api\Master\ProductEquivalentController::class, 'index']);
-    Route::get('check', [App\Http\Controllers\Api\Master\ProductEquivalentController::class, 'check']);
-    Route::get('{id}', [App\Http\Controllers\Api\Master\ProductEquivalentController::class, 'show']);
-    Route::post('/', [App\Http\Controllers\Api\Master\ProductEquivalentController::class, 'store']);
-    Route::put('{id}', [App\Http\Controllers\Api\Master\ProductEquivalentController::class, 'update']);
+Route::prefix('product-equivalents')->group(function () {
+    Route::get('/', [ProductEquivalentController::class, 'index']);
+    Route::get('check', [ProductEquivalentController::class, 'check']);
+    Route::get('{id}', [ProductEquivalentController::class, 'show']);
+    Route::post('/', [ProductEquivalentController::class, 'store']);
+    Route::put('{id}', [ProductEquivalentController::class, 'update']);
 });
 
 // State
 Route::prefix('states')->group(function () {
-    Route::get('/', [App\Http\Controllers\Api\Master\StateController::class, 'index']);
-    Route::get('check', [App\Http\Controllers\Api\Master\StateController::class, 'check']);
-    Route::get('{id}', [App\Http\Controllers\Api\Master\StateController::class, 'show']);
-    Route::post('/', [App\Http\Controllers\Api\Master\StateController::class, 'store']);
-    Route::put('{id}', [App\Http\Controllers\Api\Master\StateController::class, 'update']);
+    Route::get('/', [StateController::class, 'index']);
+    Route::get('check', [StateController::class, 'check']);
+    Route::get('{id}', [StateController::class, 'show']);
+    Route::post('/', [StateController::class, 'store']);
+    Route::put('{id}', [StateController::class, 'update']);
 });
 
 // Steel Type
 Route::prefix('steel-types')->group(function () {
-    Route::get('/', [App\Http\Controllers\Api\Master\SteelTypeController::class, 'index']);
-    Route::get('check', [App\Http\Controllers\Api\Master\SteelTypeController::class, 'check']);
-    Route::get('{id}', [App\Http\Controllers\Api\Master\SteelTypeController::class, 'show']);
-    Route::post('/', [App\Http\Controllers\Api\Master\SteelTypeController::class, 'store']);
-    Route::put('{id}', [App\Http\Controllers\Api\Master\SteelTypeController::class, 'update']);
+    Route::get('/', [SteelTypeController::class, 'index']);
+    Route::get('check', [SteelTypeController::class, 'check']);
+    Route::get('{id}', [SteelTypeController::class, 'show']);
+    Route::post('/', [SteelTypeController::class, 'store']);
+    Route::put('{id}', [SteelTypeController::class, 'update']);
 });
 
 // UOM
 Route::prefix('uoms')->group(function () {
-    Route::get('/', [App\Http\Controllers\Api\Master\UOMController::class, 'index']);
-    Route::get('check', [App\Http\Controllers\Api\Master\UOMController::class, 'check']);
-    Route::get('{id}', [App\Http\Controllers\Api\Master\UOMController::class, 'show']);
-    Route::post('/', [App\Http\Controllers\Api\Master\UOMController::class, 'store']);
-    Route::put('{id}', [App\Http\Controllers\Api\Master\UOMController::class, 'update']);
+    Route::get('/', [UOMController::class, 'index']);
+    Route::get('check', [UOMController::class, 'check']);
+    Route::get('{id}', [UOMController::class, 'show']);
+    Route::post('/', [UOMController::class, 'store']);
+    Route::put('{id}', [UOMController::class, 'update']);
 });
 
 // Vehicle
 Route::prefix('vehicles')->group(function () {
-    Route::get('/', [App\Http\Controllers\Api\Master\VehicleController::class, 'index']);
-    Route::get('check', [App\Http\Controllers\Api\Master\VehicleController::class, 'check']);
-    Route::get('license-number/{licenseNumber}', [App\Http\Controllers\Api\Master\VehicleController::class, 'findByLicenseNumber']);
-    Route::get('{id}', [App\Http\Controllers\Api\Master\VehicleController::class, 'show']);
-    Route::post('/', [App\Http\Controllers\Api\Master\VehicleController::class, 'store']);
-    Route::put('{id}', [App\Http\Controllers\Api\Master\VehicleController::class, 'update']);
+    Route::get('/', [VehicleController::class, 'index']);
+    Route::get('check', [VehicleController::class, 'check']);
+    Route::get('license-number/{licenseNumber}', [VehicleController::class, 'findByLicenseNumber']);
+    Route::get('{id}', [VehicleController::class, 'show']);
+    Route::post('/', [VehicleController::class, 'store']);
+    Route::put('{id}', [VehicleController::class, 'update']);
 });
 
 Route::prefix('warehouses')->group(function () {
-    Route::get('/', [App\Http\Controllers\Api\Master\WarehouseController::class, 'index']);
-    Route::get('check', [App\Http\Controllers\Api\Master\WarehouseController::class, 'check']);
-    Route::get('{id}', [App\Http\Controllers\Api\Master\WarehouseController::class, 'show']);
-    Route::post('/', [App\Http\Controllers\Api\Master\WarehouseController::class, 'store']);
-    Route::put('{id}', [App\Http\Controllers\Api\Master\WarehouseController::class, 'update']);
-    Route::delete('{id}', [App\Http\Controllers\Api\Master\WarehouseController::class, 'delete']);
+    Route::get('/', [WarehouseController::class, 'index']);
+    Route::get('check', [WarehouseController::class, 'check']);
+    Route::get('{id}', [WarehouseController::class, 'show']);
+    Route::post('/', [WarehouseController::class, 'store']);
+    Route::put('{id}', [WarehouseController::class, 'update']);
+    Route::delete('{id}', [WarehouseController::class, 'delete']);
 });
 
 Route::prefix('workcenters')->group(function () {
-    Route::get('/', [App\Http\Controllers\Api\Master\WorkcenterController::class, 'index']);
-    Route::get('check', [App\Http\Controllers\Api\Master\WorkcenterController::class, 'check']);
-    Route::get('{id}', [App\Http\Controllers\Api\Master\WorkcenterController::class, 'show']);
-    Route::post('/', [App\Http\Controllers\Api\Master\WorkcenterController::class, 'store']);
-    Route::put('{id}', [App\Http\Controllers\Api\Master\WorkcenterController::class, 'update']);
-    Route::delete('{id}', [App\Http\Controllers\Api\Master\WorkcenterController::class, 'delete']);
+    Route::get('/', [WorkcenterController::class, 'index']);
+    Route::get('check', [WorkcenterController::class, 'check']);
+    Route::get('{id}', [WorkcenterController::class, 'show']);
+    Route::post('/', [WorkcenterController::class, 'store']);
+    Route::put('{id}', [WorkcenterController::class, 'update']);
+    Route::delete('{id}', [WorkcenterController::class, 'delete']);
 });

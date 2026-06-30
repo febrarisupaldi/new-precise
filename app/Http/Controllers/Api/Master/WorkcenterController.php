@@ -26,13 +26,12 @@ class WorkcenterController extends Controller
 
     /**
      * GET /api/master/workcenters
-     * @param Request $request
-     * @return JsonResponse
      */
     public function index(Request $request): JsonResponse
     {
         try {
             $result = $this->workcenterService->all($request->toArray());
+
             return $this->jsonResponse(
                 status: 'ok',
                 message: 'Workcenter list retrieved successfully.',
@@ -41,6 +40,7 @@ class WorkcenterController extends Controller
             );
         } catch (\Throwable $e) {
             $this->logError($e, 'WorkcenterController@index');
+
             return $this->jsonResponse(
                 status: 'error',
                 message: 'Failed to retrieve workcenter list.',
@@ -51,13 +51,14 @@ class WorkcenterController extends Controller
 
     /**
      * GET /api/master/workcenters/{id}
+     *
      * @routeParam {id} required
-     * @return JsonResponse
      */
     public function show(int $id): JsonResponse
     {
         try {
             $result = $this->workcenterService->find($id);
+
             return $this->jsonResponse(
                 status: 'ok',
                 message: 'Workcenter retrieved successfully.',
@@ -73,6 +74,7 @@ class WorkcenterController extends Controller
             );
         } catch (\Throwable $e) {
             $this->logError($e, 'WorkcenterController@show');
+
             return $this->jsonResponse(
                 status: 'error',
                 message: 'Failed to retrieve workcenter.',
@@ -84,14 +86,13 @@ class WorkcenterController extends Controller
 
     /**
      * POST /api/master/workcenters
-     * @param CreateWorkcenterRequest $request
-     * @return JsonResponse
      */
     public function store(CreateWorkcenterRequest $request): JsonResponse
     {
         try {
             $dto = CreateWorkcenterDTO::fromRequest($request);
             $id = $this->workcenterService->create($dto);
+
             return $this->jsonResponse(
                 status: 'ok',
                 message: 'Workcenter created successfully.',
@@ -106,6 +107,7 @@ class WorkcenterController extends Controller
             );
         } catch (\Throwable $e) {
             $this->logError($e, 'WorkcenterController@store');
+
             return $this->jsonResponse(
                 status: 'error',
                 message: 'Failed to create workcenter.',
@@ -116,14 +118,15 @@ class WorkcenterController extends Controller
 
     /**
      * PUT /api/master/workcenters/{id}
+     *
      * @routeParam {id} required
-     * @return JsonResponse
      */
     public function update(int $id, UpdateWorkcenterRequest $request): JsonResponse
     {
         try {
             $dto = UpdateWorkcenterDTO::fromRequest($request);
             $this->workcenterService->update($id, $dto);
+
             return $this->jsonResponse(
                 status: 'ok',
                 message: 'Workcenter updated successfully.',
@@ -138,6 +141,7 @@ class WorkcenterController extends Controller
             );
         } catch (\Throwable $e) {
             $this->logError($e, 'WorkcenterController@update');
+
             return $this->jsonResponse(
                 status: 'error',
                 message: 'Failed to update workcenter.',
@@ -148,12 +152,14 @@ class WorkcenterController extends Controller
 
     /**
      * DELETE /api/master/workcenters/{id}
+     *
      * @routeParam {id} required
-     * @return JsonResponse
      */
-    public function delete(int $id, DeleteRequest $request): JsonResponse{
-        try{
+    public function delete(int $id, DeleteRequest $request): JsonResponse
+    {
+        try {
             $this->workcenterService->delete($id, $request->toArray());
+
             return $this->jsonResponse(
                 status: 'ok',
                 message: 'Workcenter deleted successfully.',
@@ -168,6 +174,7 @@ class WorkcenterController extends Controller
             );
         } catch (\Throwable $e) {
             $this->logError($e, 'WorkcenterController@delete');
+
             return $this->jsonResponse(
                 status: 'error',
                 message: 'Failed to delete workcenter.',
@@ -177,19 +184,18 @@ class WorkcenterController extends Controller
     }
 
     /**
-     * POST /api/master/workcenters/check?columns[]=column1,column2&values[]=value1,value2
-     * @param ExistsRequest $request
-     * @return JsonResponse
+     * GET /api/master/workcenters/check?columns[]=column1,column2&values[]=value1,value2
      */
     public function check(ExistsRequest $request): JsonResponse
     {
-        try{
+        try {
             $dto = ExistsDTO::fromRequest($request);
             $exists = $this->workcenterService->checkExist($dto);
+
             return $this->jsonResponse(
                 status: 'ok',
                 message: 'Workcenter checked successfully.',
-                data: ['exists'=>$exists],
+                data: ['exists' => $exists],
                 code: 200
             );
         } catch (BadRequestException $e) {
@@ -200,6 +206,7 @@ class WorkcenterController extends Controller
             );
         } catch (\Throwable $e) {
             $this->logError($e, 'WorkcenterController@check');
+
             return $this->jsonResponse(
                 status: 'error',
                 message: 'Failed to check workcenter.',

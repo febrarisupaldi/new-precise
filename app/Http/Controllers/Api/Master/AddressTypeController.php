@@ -24,6 +24,13 @@ class AddressTypeController extends Controller
 
     /**
      * GET /api/master/address-types
+     * 
+     * - Behavior:
+     *   - Return all address type data
+     * 
+     * - Authentication:
+     *   - Requires valid bearer Token
+     * 
      * @return JsonResponse
      */
     public function index(): JsonResponse
@@ -50,6 +57,13 @@ class AddressTypeController extends Controller
 
     /**
      * GET /api/master/address-types/{id}
+     * 
+     * - Behavior:
+     *   - Return single address type data based on id
+     * 
+     * - Authentication:
+     *   - Requires valid bearer Token
+     * 
      * @routeParam {id} required
      * @return JsonResponse
      */
@@ -83,6 +97,18 @@ class AddressTypeController extends Controller
 
     /**
      * POST /api/master/address-types
+     * 
+     * - Behavior:
+     *   - Create single address type data
+     * 
+     * - Body:
+     *   - address type name required, example: "Billing Address", "Shipping Address", "Billing and Shipping Address", "Other"
+     *   - address type description nullable
+     *   - created by will using logged in user
+     * 
+     * - Authentication:
+     *   - Requires valid bearer Token
+     * 
      * @param CreateAddressTypeRequest $request
      * @return JsonResponse
      */
@@ -112,6 +138,19 @@ class AddressTypeController extends Controller
 
     /**
      * PUT /api/master/address-types/{id}
+     * 
+     * - Behavior:
+     *   - Update single address type data
+     * 
+     * - Body:
+     *   - address type name required, example: "Billing Address", "Shipping Address", "Billing and Shipping Address", "Other"
+     *   - address type description nullable, example: "Description"
+     *   - updated by required, example: "Supaldi"
+     *   - reason required, example: "Testing"
+     * 
+     * - Authentication:
+     *   - Requires valid bearer Token
+     * 
      * @routeParam {id} required
      * @param UpdateAddressTypeRequest $request
      * @return JsonResponse
@@ -148,6 +187,23 @@ class AddressTypeController extends Controller
 
     /**
      * GET /api/master/address-types/check
+     * 
+     * - Behavior:
+     *   - Check if data already exists
+     * 
+     * - Business Rules:
+     *   - columns and values required and must be same length
+     * 
+     * - Query Parameters:
+     *   - columns[] required, example: ["address_type_name"]
+     *   - values[] required, example: ["test"]
+     * 
+     * - Available Request:
+     *   - /api/master/address-types/check?columns[]=address_type_name&values[]=test
+     * 
+     * - Authentication:
+     *   - Requires valid bearer Token
+     * 
      * @param ExistsRequest $request
      * @return JsonResponse
      */

@@ -129,6 +129,10 @@ abstract class BaseRepository
         return DB::table($this->table)->where($data)->exists();
     }
 
+    public function removeAllColumns(): void{
+        $this->columns = [];
+    }
+
     public function removeColumn(array $column):array{
         return array_diff($this->columns, $column);
     }

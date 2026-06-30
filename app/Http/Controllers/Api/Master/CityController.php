@@ -24,6 +24,13 @@ class CityController extends Controller
 
     /**
      * GET /api/master/cities
+     * 
+     * - Behavior:
+     *   - Return all city data
+     * 
+     * - Authentication:
+     *   - Requires valid bearer Token
+     * 
      * @return JsonResponse
      */
     public function index(): JsonResponse
@@ -51,6 +58,13 @@ class CityController extends Controller
 
     /**
      * GET /api/master/cities/{id}
+     * 
+     * - Behavior:
+     *   - Return single city data based on id
+     * 
+     * - Authentication:
+     *   - Requires valid bearer Token
+     * 
      * @routeParam {id} required
      * @return JsonResponse
      */
@@ -84,6 +98,19 @@ class CityController extends Controller
 
     /**
      * POST /api/master/cities
+     * 
+     * - Behavior:
+     *   - Create single city data
+     * 
+     * - Body:
+     *   - city code required and unique, example: JKT
+     *   - city name required, example: "Jakarta", "Bandung"
+     *   - state id required, example: 1
+     *   - created by required, example: Supaldi
+     * 
+     * - Authentication:
+     *   - Requires valid bearer Token
+     * 
      * @param CreateCityRequest $request
      * @return JsonResponse
      */
@@ -112,6 +139,20 @@ class CityController extends Controller
 
     /**
      * PUT /api/master/cities/{id}
+     * 
+     * - Behavior:
+     *   - Update single city data based on id
+     * 
+     * - Body:
+     *   - city code required and unique, example: JKT
+     *   - city name required, example: "Jakarta", "Bandung"
+     *   - state id required and id must be exists in state table, example: 1
+     *   - updated by will using logged in user
+     *   - reason required, example: "Change city name from JKT to JKT1"
+     * 
+     * - Authentication:
+     *   - Requires valid bearer Token
+     * 
      * @routeParam {id} required
      * @param UpdateCityRequest $request
      * @return JsonResponse
@@ -154,6 +195,26 @@ class CityController extends Controller
 
     /**
      * GET /api/master/cities/check
+     * 
+     * - Behavior:
+     *   - Check if data already exists
+     * 
+     * - Business Rules:
+     *   - columns and values required and must be same length
+     * 
+     * - Query Parameters:
+     *   - columns[] required, example: ["city_name"]
+     *   - values[] required, example: ["test"]
+     * 
+     * - Available Request:
+     *   - /api/master/cities/check?columns[]=city_name&values[]=test
+     *   - /api/master/cities/check?columns[]=city_code&values[]=test
+     
+     * - Available 
+     * 
+     * - Authentication:
+     *   - Requires valid bearer Token
+     * 
      * @param ExistsRequest $request
      * @return JsonResponse
      */

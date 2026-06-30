@@ -24,6 +24,13 @@ class CountryController extends Controller
 
     /**
      * GET /api/master/countries
+     * 
+     * - Behavior:
+     *   - Return all country data
+     * 
+     * - Authentication:
+     *   - Requires valid bearer Token
+     * 
      * @return JsonResponse
      */
     public function index(): JsonResponse
@@ -51,6 +58,13 @@ class CountryController extends Controller
 
     /**
      * GET /api/master/countries/{id}
+     * 
+     * - Behavior:
+     *   - Return single country data based on id
+     * 
+     * - Authentication:
+     *   - Requires valid bearer Token
+     * 
      * @routeParam {id} required
      * @return JsonResponse
      */
@@ -84,6 +98,13 @@ class CountryController extends Controller
 
     /**
      * POST /api/master/countries
+     * 
+     * - Behavior:
+     *   - Create single country data
+     * 
+     * - Authentication:
+     *   - Requires valid bearer Token
+     * 
      * @param CreateCountryRequest $request
      * @return JsonResponse
      */
@@ -113,6 +134,13 @@ class CountryController extends Controller
 
     /**
      * PUT /api/master/countries/{id}
+     * 
+     * - Behavior:
+     *   - Update single country data based on id
+     * 
+     * - Authentication:
+     *   - Requires valid bearer Token
+     * 
      * @routeParam {id} required
      * @param UpdateCountryRequest $request
      * @return JsonResponse
@@ -149,6 +177,13 @@ class CountryController extends Controller
 
     /**
      * GET /api/master/countries/check
+     * 
+     * - Behavior:
+     *   - Check if data already exists
+     * 
+     * - Authentication:
+     *   - Requires valid bearer Token
+     * 
      * @param ExistsRequest $request
      * @return JsonResponse
      */

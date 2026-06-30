@@ -59,7 +59,7 @@ class MoldInjectionRepository extends BaseRepository
         $this->moldStatusRepo = $moldStatusRepo;
     }
 
-    public function index(): Builder
+    public function all(): Builder
     {
         return parent::all()->addSelect(
             'midt.mold_group',

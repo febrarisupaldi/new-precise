@@ -65,9 +65,9 @@ return [
          */
         'elements' => [
             'view' => 'scramble::docs',
-            'theme' => 'light',
+            'theme' => 'dark',
             'hideTryIt' => false,
-            'hideSchemas' => false,
+            'hideSchemas' => true,
             'logo' => '',
             'tryItCredentialsPolicy' => 'include',
             'layout' => 'responsive',
@@ -98,12 +98,13 @@ return [
      * ```php
      * 'servers' => [
      *     'Live' => 'api',
-     *     'Prod' => 'https://scramble.dedoc.co/api',
+          'Live' => 'api',
+
+s://scramble.dedoc.co/api',
      * ],
      * ```
      */
-    'servers' => [
-        'Live' => 'api'
+    'servers' => ['Live' => 'api',
     ],
 
     /**

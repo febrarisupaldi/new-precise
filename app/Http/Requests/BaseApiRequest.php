@@ -34,4 +34,12 @@ abstract class BaseApiRequest extends FormRequest
             ], 403)
         );
     }
+
+    public function descriptions(): array{
+        return [];
+    }
+
+    public function examples(): array{
+        return [];
+    }
 }

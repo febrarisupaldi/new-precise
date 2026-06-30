@@ -24,6 +24,13 @@ class CompanyTypeController extends Controller
 
     /**
      * GET /api/master/company-types
+     * 
+     * - Behavior:
+     *   - Return all company type data
+     * 
+     * - Authentication:
+     *   - Requires valid bearer Token
+     * 
      * @return JsonResponse
      */
     public function index(): JsonResponse
@@ -50,6 +57,13 @@ class CompanyTypeController extends Controller
 
     /**
      * GET /api/master/company-types/{id}
+     * 
+     * - Behavior:
+     *   - Return single company type data based on id
+     * 
+     * - Authentication:
+     *   - Requires valid bearer Token
+     * 
      * @routeParam {id} required
      * @return JsonResponse
      */
@@ -83,6 +97,13 @@ class CompanyTypeController extends Controller
 
     /**
      * POST /api/master/company-types
+     * 
+     * - Behavior:
+     *   - Create single company type data
+     * 
+     * - Authentication:
+     *   - Requires valid bearer Token
+     * 
      * @param CreateCompanyTypeRequest $request
      * @return JsonResponse
      */
@@ -112,6 +133,13 @@ class CompanyTypeController extends Controller
 
     /**
      * PUT /api/master/company-types/{id}
+     * 
+     * - Behavior:
+     *   - Update single company type data based on id
+     * 
+     * - Authentication:
+     *   - Requires valid bearer Token
+     * 
      * @routeParam {id} required
      * @param UpdateCompanyTypeRequest $request
      * @return JsonResponse
@@ -148,6 +176,13 @@ class CompanyTypeController extends Controller
 
     /**
      * GET /api/master/company-types/check
+     * 
+     * - Behavior:
+     *   - Check if data already exists
+     * 
+     * - Authentication:
+     *   - Requires valid bearer Token
+     * 
      * @param ExistsRequest $request
      * @return JsonResponse
      */

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Dedoc\Scramble\Attributes\ExcludeRouteFromDocs;
 
 class AuthController extends Controller
 {
@@ -13,6 +14,7 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
+    #[ExcludeRouteFromDocs]
     public function login(Request $request)
     {
         $credentials = $request->validate([
@@ -32,6 +34,7 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
+    #[ExcludeRouteFromDocs]
     public function me()
     {
         return response()->json(Auth::guard('api')->user());
@@ -42,6 +45,7 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
+    #[ExcludeRouteFromDocs]
     public function logout()
     {
         Auth::guard('api')->logout();
@@ -54,6 +58,7 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
+    #[ExcludeRouteFromDocs]
     public function refresh()
     {
         try {
@@ -78,6 +83,7 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
+    #[ExcludeRouteFromDocs]
     protected function respondWithToken($token)
     {
         return response()->json([

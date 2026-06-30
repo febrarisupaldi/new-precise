@@ -1,12 +1,11 @@
 <?php
 
-namespace App\DTOs\{{module}};
+namespace App\DTOs\Master\MoldPressing;
 
-// php namespace
 use App\DTOs\BaseDTO;
 use Illuminate\Http\Request;
 
-class {{name}}DTO extends BaseDTO
+class CreateMoldPressingDTO extends BaseDTO
 {
     // Define properties here
     // public $property;
