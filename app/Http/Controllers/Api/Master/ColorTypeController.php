@@ -150,6 +150,9 @@ class ColorTypeController extends Controller
      *   - updated by required, example: "Supaldi"
      *   - reason required, example: "Testing"
      * 
+     * - Path:
+     *   - id required, example: 1
+     * 
      * - Authentication:
      *   - Requires valid bearer Token
      * 
@@ -197,6 +200,9 @@ class ColorTypeController extends Controller
      *   - If there is a color type data that uses this color type, then it cannot be deleted.
      *   - reason required, example: "Only testing purposes"
      * 
+     * - Path:
+     *   - id required, example: 1  
+     * 
      * - Authentication:
      *   - Requires valid bearer Token
      * 
@@ -237,6 +243,10 @@ class ColorTypeController extends Controller
      * 
      * - Behavior:
      *   - Check if data already exists
+     * 
+     * - Query Parameters:
+     *   - columns[] required, example: ["color_type_name"]
+     *   - values[] required, example: ["test"]
      * 
      * - Available Request:
      *   - GET /api/master/color-types/check?columns[]=color_type_name&values[]=test

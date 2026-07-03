@@ -101,6 +101,11 @@ class CountryController extends Controller
      * 
      * - Behavior:
      *   - Create single country data
+     *
+     * - Body:
+     *   - country code required unique, example: "IDN"
+     *   - country name required unique, example: "Indonesia"
+     *   - created by required, example: "Supaldi"
      * 
      * - Authentication:
      *   - Requires valid bearer Token
@@ -137,6 +142,12 @@ class CountryController extends Controller
      * 
      * - Behavior:
      *   - Update single country data based on id
+     *
+     * - Body:
+     *   - country code required unique, example: "IDN"
+     *   - country name required, example: "Indonesia"
+     *   - updated by required, example: "Supaldi"
+     *   - reason required, example: "Testing"
      * 
      * - Authentication:
      *   - Requires valid bearer Token
@@ -181,6 +192,14 @@ class CountryController extends Controller
      * - Behavior:
      *   - Check if data already exists
      * 
+     * - Query Parameters:
+     *   - columns[] required, example: ["country_name"]
+     *   - values[] required, example: ["test"]
+     * 
+     * - Available Request:
+     *   - GET /api/master/countries/check?columns[]=country_name&values[]=test
+     *   - GET /api/master/countries/check?columns[]=country_code&values[]=test
+     * 
      * - Authentication:
      *   - Requires valid bearer Token
      * 
@@ -203,7 +222,7 @@ class CountryController extends Controller
                 code: 200
             );
         } catch (\Throwable $e) {
-            $this->logError($e, 'StateController@check', ['query' => $request->query()]);
+            $this->logError($e, 'CountryController@check', ['query' => $request->query()]);
             return $this->jsonResponse(
                 status: 'error',
                 message: 'Failed to perform check.',

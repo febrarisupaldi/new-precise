@@ -150,6 +150,9 @@ class CityController extends Controller
      *   - updated by will using logged in user
      *   - reason required, example: "Change city name from JKT to JKT1"
      * 
+     * - Path:
+     *   - id required, example: 1
+     * 
      * - Authentication:
      *   - Requires valid bearer Token
      * 

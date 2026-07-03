@@ -101,6 +101,11 @@ class CompanyTypeController extends Controller
      * - Behavior:
      *   - Create single company type data
      * 
+     * - Body:
+     *   - company type name required, example: "Company Type Name"
+     *   - company type description optional, example: "CT"
+     *   - created by required, example: "Supaldi"
+     * 
      * - Authentication:
      *   - Requires valid bearer Token
      * 
@@ -136,6 +141,15 @@ class CompanyTypeController extends Controller
      * 
      * - Behavior:
      *   - Update single company type data based on id
+     * 
+     * - Body:
+     *   - company type name optional, example: "Company Type Name"
+     *   - company type description optional, example: "CT"
+     *   - updated by required, example: "Supaldi"
+     *   - reason required, example: "Updated description"
+     * 
+     * - Path:
+     *   - id required, example: 1
      * 
      * - Authentication:
      *   - Requires valid bearer Token
@@ -179,6 +193,13 @@ class CompanyTypeController extends Controller
      * 
      * - Behavior:
      *   - Check if data already exists
+     * 
+     * - Query Parameters:
+     *   - columns[] required, example: ["company_type_name"]
+     *   - values[] required, example: ["test"]
+     * 
+     * - Available Request:
+     *   - GET /api/master/company-types/check?columns[]=company_type_code&values[]=test
      * 
      * - Authentication:
      *   - Requires valid bearer Token

@@ -24,8 +24,14 @@ class CustomerAddressController extends Controller
     }
 
     /**
-     * Get Customer Address list
-     *
+     * GET /api/master/customer-addresses
+     * 
+     * - Behavior:
+     *   - Return all customer address data
+     * 
+     * - Authentication:
+     *   - Requires valid bearer Token
+     * 
      * @return StreamedResponse
      */
     public function index(): StreamedResponse
@@ -46,7 +52,6 @@ class CustomerAddressController extends Controller
                             $first = false;
                         }
                     );
-
                 },
                 'Customer Address retrieved successfully.'
             );
@@ -54,16 +59,21 @@ class CustomerAddressController extends Controller
             $this->logError($e, 'CustomerAddressController@index');
 
             return $this->streamJsonResponse(
-                function () {
-                },
+                function () {},
                 'Failed to retrieve Customer Address list.'
             );
         }
     }
 
     /**
-     * Get Customer Address by ID
-     *
+     * GET /api/master/customer-addresses/{id}
+     * 
+     * - Behavior:
+     *   - Return single customer address data based on id
+     * 
+     * - Authentication:
+     *   - Requires valid bearer Token
+     * 
      * @param  int  $id
      * @return JsonResponse
      */
@@ -93,12 +103,33 @@ class CustomerAddressController extends Controller
     }
 
     /**
-     * Create Customer Address
-     *
+     * POST /api/master/customer-addresses
+     * 
+     * - Behavior:
+     *   - Create single customer address data
+     * 
+     * - Body:
+     *   - customer_id required, example: 1
+     *   - address_line_1 required, example: "Address Line 1"
+     *   - address_line_2 optional, example: "Address Line 2"
+     *   - city required, example: "City"
+     *   - state_id required, example: 1
+     *   - postal_code optional, example: "12345"
+     *   - country_id required, example: 1
+     *   - phone required, example: "1234567890"
+     *   - email optional, example: "[EMAIL_ADDRESS]"
+     *   - is_billing required, example: true
+     *   - is_shipping required, example: true
+     *   - created by required, example: "Supaldi"
+     * 
+     * - Authentication:
+     *   - Requires valid bearer Token
+     * 
      * @param  CreateCustomerAddressRequest  $request
      * @return JsonResponse
      */
-    public function store(CreateCustomerAddressRequest $request) {
+    public function store(CreateCustomerAddressRequest $request)
+    {
         try {
             $dto = CreateCustomerAddressDTO::fromRequest($request);
             $result = $this->customerAddressService->create($dto);
@@ -126,13 +157,38 @@ class CustomerAddressController extends Controller
     }
 
     /**
-     * Update Customer Address
-     *
+     * PUT /api/master/customer-addresses/{id}
+     * 
+     * - Behavior:
+     *   - Update single customer address data based on id
+     * 
+     * - Path:
+     *   - id required, example: 1
+     * 
+     * - Body:
+     *   - customer_id optional, example: 1
+     *   - address_line_1 optional, example: "Address Line 1"
+     *   - address_line_2 optional, example: "Address Line 2"
+     *   - city optional, example: "City"
+     *   - state_id optional, example: 1
+     *   - postal_code optional, example: "12345"
+     *   - country_id optional, example: 1
+     *   - phone optional, example: "1234567890"
+     *   - email optional, example: "[EMAIL_ADDRESS]"
+     *   - is_billing optional, example: true
+     *   - is_shipping optional, example: true
+     *   - updated by required, example: "Supaldi"
+     *   - reason required, example: "Updated description"
+     * 
+     * - Authentication:
+     *   - Requires valid bearer Token
+     * 
      * @param  UpdateCustomerAddressRequest  $request
      * @param  int  $id
      * @return JsonResponse
      */
-    public function update(UpdateCustomerAddressRequest $request, int $id): JsonResponse {
+    public function update(UpdateCustomerAddressRequest $request, int $id): JsonResponse
+    {
         try {
             $dto = UpdateCustomerAddressDTO::fromRequest($request);
             $this->customerAddressService->update($id, $dto);
@@ -158,13 +214,27 @@ class CustomerAddressController extends Controller
     }
 
     /**
-     * Delete Customer Address
-     *
+     * DELETE /api/master/customer-addresses/{id}
+     * 
+     * - Behavior:
+     *   - Delete single customer address data based on id
+     * 
+     * - Path:
+     *   - id required, example: 1
+     * 
+     * - Body:
+     *   - updated_by required, example: "Supaldi"
+     *   - reason required, example: "updated description"
+     * 
+     * - Authentication:
+     *   - Requires valid bearer Token
+     * 
      * @param  int  $id
      * @param  DeleteRequest  $request
      * @return JsonResponse
      */
-    public function delete(int $id, DeleteRequest $request): JsonResponse {
+    public function delete(int $id, DeleteRequest $request): JsonResponse
+    {
         try {
             $this->customerAddressService->delete($id, $request->toArray());
             return $this->jsonResponse(
@@ -186,5 +256,4 @@ class CustomerAddressController extends Controller
             );
         }
     }
-    
 }

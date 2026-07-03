@@ -148,6 +148,9 @@ class AddressTypeController extends Controller
      *   - updated by required, example: "Supaldi"
      *   - reason required, example: "Testing"
      * 
+     * - Path:
+     *   - id required, example: 1
+     * 
      * - Authentication:
      *   - Requires valid bearer Token
      * 
