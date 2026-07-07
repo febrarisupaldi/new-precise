@@ -3,14 +3,11 @@
 namespace App\Http\Controllers\Api\Master;
 
 use App\DTOs\ExistsDTO;
-use App\DTOs\Master\Supplier\CreateSupplierDTO;
-use App\DTOs\Master\Supplier\UpdateSupplierDTO;
+use App\DTOs\Master\Supplier\{CreateSupplierDTO, UpdateSupplierDTO};
 use App\Exceptions\BadRequestException;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\DeleteRequest;
 use App\Http\Requests\ExistsRequest;
-use App\Http\Requests\Master\Supplier\CreateSupplierRequest;
-use App\Http\Requests\Master\Supplier\UpdateSupplierRequest;
+use App\Http\Requests\Master\Supplier\{CreateSupplierRequest, UpdateSupplierRequest};
 use App\Services\Master\SupplierService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -26,13 +23,12 @@ class SupplierController extends Controller
 
     /**
      * GET /api/master/suppliers
-     * @param Request $request
      * @return JsonResponse
      */
-    public function index(Request $request): JsonResponse
+    public function index(): JsonResponse
     {
         try {
-            $result = $this->supplierService->all($request->toArray());
+            $result = $this->supplierService->all();
             return $this->jsonResponse(
                 status: 'ok',
                 message: 'Supplier list retrieved successfully.',

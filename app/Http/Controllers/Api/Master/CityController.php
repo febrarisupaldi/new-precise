@@ -3,16 +3,16 @@
 namespace App\Http\Controllers\Api\Master;
 
 use App\DTOs\ExistsDTO;
-use App\DTOs\Master\City\CreateCityDTO;
-use App\DTOs\Master\City\UpdateCityDTO;
+use App\DTOs\Master\City\{CreateCityDTO, UpdateCityDTO};
 use App\Exceptions\BadRequestException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ExistsRequest;
-use App\Http\Requests\Master\City\CreateCityRequest;
-use App\Http\Requests\Master\City\UpdateCityRequest;
+use App\Http\Requests\Master\City\{CreateCityRequest, UpdateCityRequest};
 use App\Services\Master\CityService;
+use Dedoc\Scramble\Attributes\Group;
 use Illuminate\Http\JsonResponse;
 
+#[Group('Master', 'Cities')]
 class CityController extends Controller
 {
     protected CityService $cityService;

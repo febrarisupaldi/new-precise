@@ -5,12 +5,10 @@ namespace App\Http\Controllers\Api\Master;
 use App\DTOs\ExistsDTO;
 use App\Http\Controllers\Controller;
 use App\Services\Master\StateService;
-use App\DTOs\Master\State\CreateStateDTO;
-use App\DTOs\Master\State\UpdateStateDTO;
+use App\DTOs\Master\State\{CreateStateDTO, UpdateStateDTO};
 use App\Exceptions\BadRequestException;
 use App\Http\Requests\ExistsRequest;
-use App\Http\Requests\Master\State\CreateStateRequest;
-use App\Http\Requests\Master\State\UpdateStateRequest;
+use App\Http\Requests\Master\State\{CreateStateRequest, UpdateStateRequest};
 use Illuminate\Http\JsonResponse;
 
 class StateController extends Controller

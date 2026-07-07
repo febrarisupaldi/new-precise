@@ -3,14 +3,12 @@
 namespace App\Http\Controllers\Api\Master;
 
 use App\DTOs\ExistsDTO;
-use App\DTOs\Master\Workcenter\CreateWorkcenterDTO;
-use App\DTOs\Master\Workcenter\UpdateWorkcenterDTO;
+use App\DTOs\Master\Workcenter\{CreateWorkcenterDTO, UpdateWorkcenterDTO};
 use App\Exceptions\BadRequestException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DeleteRequest;
 use App\Http\Requests\ExistsRequest;
-use App\Http\Requests\Master\Workcenter\CreateWorkcenterRequest;
-use App\Http\Requests\Master\Workcenter\UpdateWorkcenterRequest;
+use App\Http\Requests\Master\Workcenter\{CreateWorkcenterRequest, UpdateWorkcenterRequest};
 use App\Services\Master\WorkcenterService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -81,7 +79,6 @@ class WorkcenterController extends Controller
                 code: 500
             );
         }
-
     }
 
     /**

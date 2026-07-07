@@ -3,13 +3,11 @@
 namespace App\Http\Controllers\Api\Master;
 
 use App\DTOs\ExistsDTO;
-use App\DTOs\Master\Vehicle\CreateVehicleDTO;
-use App\DTOs\Master\Vehicle\UpdateVehicleDTO;
+use App\DTOs\Master\Vehicle\{CreateVehicleDTO, UpdateVehicleDTO};
 use App\Exceptions\BadRequestException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ExistsRequest;
-use App\Http\Requests\Master\Vehicle\CreateVehicleRequest;
-use App\Http\Requests\Master\Vehicle\UpdateVehicleRequest;
+use App\Http\Requests\Master\Vehicle\{CreateVehicleRequest, UpdateVehicleRequest};
 use App\Services\Master\VehicleService;
 use Illuminate\Http\JsonResponse;
 
@@ -175,7 +173,8 @@ class VehicleController extends Controller
      * @param ExistsRequest $request
      * @return JsonResponse
      */
-    public function check(ExistsRequest $request): JsonResponse{
+    public function check(ExistsRequest $request): JsonResponse
+    {
         try {
             $dto = ExistsDTO::fromRequest($request);
             $exists = $this->vehicleService->checkExist($dto);
@@ -188,13 +187,13 @@ class VehicleController extends Controller
                 ],
                 code: 200
             );
-        } catch (BadRequestException $e){
+        } catch (BadRequestException $e) {
             return $this->jsonResponse(
                 status: 'fail',
                 message: $e->getMessage(),
                 code: 400
             );
-        } catch (\Throwable $th){
+        } catch (\Throwable $th) {
             return $this->jsonResponse(
                 status: 'error',
                 message: 'Failed to check data',

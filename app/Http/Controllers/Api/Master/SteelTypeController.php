@@ -5,11 +5,9 @@ namespace App\Http\Controllers\Api\Master;
 use App\DTOs\ExistsDTO;
 use App\Http\Controllers\Controller;
 use App\Services\Master\SteelTypeService;
-use App\DTOs\Master\SteelType\CreateSteelTypeDTO;
-use App\DTOs\Master\SteelType\UpdateSteelTypeDTO;
+use App\DTOs\Master\SteelType\{CreateSteelTypeDTO, UpdateSteelTypeDTO};
 use App\Http\Requests\ExistsRequest;
-use App\Http\Requests\Master\SteelType\CreateSteelTypeRequest;
-use App\Http\Requests\Master\SteelType\UpdateSteelTypeRequest;
+use App\Http\Requests\Master\SteelType\{CreateSteelTypeRequest, UpdateSteelTypeRequest};
 use Illuminate\Http\JsonResponse;
 use App\Exceptions\BadRequestException;
 

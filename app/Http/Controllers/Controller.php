@@ -19,11 +19,11 @@ abstract class Controller
      * @return JsonResponse
      */
     protected function jsonResponse(
-        string $status = 'ok',
+        string $status  = 'ok',
         string $message = '',
-        mixed  $data    = null,
+        mixed $data     = null,
         mixed  $id      = null,
-        mixed  $errors  = null,
+        ?array $errors  = null,
         int    $code    = 200
     ): JsonResponse {
         $payload = [
@@ -71,20 +71,18 @@ abstract class Controller
     protected function streamJsonResponse(
         callable $callback,
         string $message = 'Success'
-    )
-    {
+    ) {
         return response()->stream(function () use ($callback, $message) {
 
-            echo '{"status":"success","message":"'.$message.'","data":[';
+            echo '{"status":"success","message":"' . $message . '","data":[';
 
             $first = true;
 
             $callback($first);
 
             echo ']}';
-
         }, 200, [
             'Content-Type' => 'application/json',
         ]);
-}
+    }
 }

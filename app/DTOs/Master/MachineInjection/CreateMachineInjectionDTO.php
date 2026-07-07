@@ -8,15 +8,15 @@ use Illuminate\Http\Request;
 class CreateMachineInjectionDTO extends BaseDTO
 {
     public string $machine_code;
-    public string $old_machine_code;
-    public string $line_code;
-    public string $line_number;
-    public int $tonnage;
-    public string $serial_number;
-    public int $production_year;
-    public string $brand;
-    public float $motor_power;
-    public float $heater_power;
+    public ?string $old_machine_code;
+    public ?string $line_code;
+    public ?string $line_number;
+    public ?int $tonnage;
+    public ?string $serial_number;
+    public ?int $production_year;
+    public ?string $brand;
+    public ?float $motor_power;
+    public ?float $heater_power;
     public string $machine_status_code;
     public string $created_by;
 

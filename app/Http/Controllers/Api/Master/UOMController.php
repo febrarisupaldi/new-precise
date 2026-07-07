@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\Api\Master;
 
 use App\DTOs\ExistsDTO;
-use App\DTOs\Master\UOM\CreateUOMDTO;
+use App\DTOs\Master\UOM\{CreateUOMDTO, UpdateUOMDTO};
 use App\Exceptions\BadRequestException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ExistsRequest;
-use App\Http\Requests\Master\UOM\CreateUOMRequest;
+use App\Http\Requests\Master\UOM\{CreateUOMRequest, UpdateUOMRequest};
 use App\Services\Master\UOMService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class UOMController extends Controller
 {

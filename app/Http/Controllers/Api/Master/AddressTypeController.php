@@ -5,14 +5,14 @@ namespace App\Http\Controllers\Api\Master;
 use App\DTOs\ExistsDTO;
 use App\Http\Controllers\Controller;
 use App\Services\Master\AddressTypeService;
-use App\DTOs\Master\AddressType\CreateAddressTypeDTO;
-use App\DTOs\Master\AddressType\UpdateAddressTypeDTO;
+use App\DTOs\Master\AddressType\{CreateAddressTypeDTO, UpdateAddressTypeDTO};
 use App\Http\Requests\ExistsRequest;
-use App\Http\Requests\Master\AddressType\CreateAddressTypeRequest;
-use App\Http\Requests\Master\AddressType\UpdateAddressTypeRequest;
+use App\Http\Requests\Master\AddressType\{CreateAddressTypeRequest, UpdateAddressTypeRequest};
 use Illuminate\Http\JsonResponse;
 use App\Exceptions\BadRequestException;
+use Dedoc\Scramble\Attributes\Group;
 
+#[Group('Master', 'Address Types')]
 class AddressTypeController extends Controller
 {
     protected AddressTypeService $addressTypeService;

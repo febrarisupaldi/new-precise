@@ -3,13 +3,11 @@
 namespace App\Http\Controllers\Api\Master;
 
 use App\DTOs\ExistsDTO;
-use App\DTOs\Master\MoldStatus\CreateMoldStatusDTO;
-use App\DTOs\Master\MoldStatus\UpdateMoldStatusDTO;
+use App\DTOs\Master\MoldStatus\{CreateMoldStatusDTO, UpdateMoldStatusDTO};
 use App\Exceptions\BadRequestException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ExistsRequest;
-use App\Http\Requests\Master\MoldStatus\CreateMoldStatusRequest;
-use App\Http\Requests\Master\MoldStatus\UpdateMoldStatusRequest;
+use App\Http\Requests\Master\MoldStatus\{CreateMoldStatusRequest, UpdateMoldStatusRequest};
 use Illuminate\Http\Request;
 use App\Services\Master\MoldStatusService;
 use Illuminate\Http\JsonResponse;
@@ -76,8 +74,8 @@ class MoldStatusController extends Controller
                 code: 500
             );
         }
-    }  
-    
+    }
+
     /**
      * POST /api/master/mold-statuses
      * @return JsonResponse

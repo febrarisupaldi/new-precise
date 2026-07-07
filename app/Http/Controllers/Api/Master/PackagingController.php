@@ -3,13 +3,11 @@
 namespace App\Http\Controllers\Api\Master;
 
 use App\DTOs\ExistsDTO;
-use App\DTOs\Master\Packaging\CreatePackagingDTO;
-use App\DTOs\Master\Packaging\UpdatePackagingDTO;
+use App\DTOs\Master\Packaging\{CreatePackagingDTO, UpdatePackagingDTO};
 use App\Exceptions\BadRequestException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ExistsRequest;
-use App\Http\Requests\Master\Packaging\CreatePackagingRequest;
-use App\Http\Requests\Master\Packaging\UpdatePackagingRequest;
+use App\Http\Requests\Master\Packaging\{CreatePackagingRequest, UpdatePackagingRequest};
 use App\Services\Master\PackagingService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -32,9 +30,9 @@ class PackagingController extends Controller
     public function index(Request $request): JsonResponse
     {
         try {
-            if($request->query("include") === "details"){
+            if ($request->query("include") === "details") {
                 $result = $this->packagingService->allWithDetails();
-            }else{
+            } else {
                 $result = $this->packagingService->all($request->query('status'));
             }
 
@@ -77,10 +75,10 @@ class PackagingController extends Controller
             return $this->jsonResponse(
                 status: 'error',
                 message: "Data Not Found",
-                data:[],
+                data: [],
                 code: 404
             );
-        }catch (\Throwable $e) {
+        } catch (\Throwable $e) {
             $this->logError($e, 'PackagingController@show');
 
             return $this->jsonResponse(
@@ -125,7 +123,8 @@ class PackagingController extends Controller
      * @param UpdatePackagingRequest $request
      * @return JsonResponse
      */
-    public function update(int $id, UpdatePackagingRequest $request): JsonResponse{
+    public function update(int $id, UpdatePackagingRequest $request): JsonResponse
+    {
         try {
             $dto = UpdatePackagingDTO::fromRequest($request);
             $this->packagingService->update($id, $dto);
@@ -140,10 +139,10 @@ class PackagingController extends Controller
             return $this->jsonResponse(
                 status: 'error',
                 message: "Data Not Found",
-                data:[],
+                data: [],
                 code: 404
             );
-        }catch (\Throwable $e) {
+        } catch (\Throwable $e) {
             $this->logError($e, 'PackagingController@update');
 
             return $this->jsonResponse(
@@ -159,7 +158,8 @@ class PackagingController extends Controller
      * @param ExistsRequest $request
      * @return JsonResponse
      */
-    public function check(ExistsRequest $request): JsonResponse{
+    public function check(ExistsRequest $request): JsonResponse
+    {
         try {
             $dto = ExistsDTO::fromRequest($request);
             $result = $this->packagingService->checkExist($dto);

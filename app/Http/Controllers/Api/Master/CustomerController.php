@@ -17,8 +17,20 @@ class CustomerController extends Controller
         $this->customerService = $customerService;
     }
 
-    public function index():JsonResponse{
-        try{
+    /**
+     * GET /api/master/customers
+     * 
+     * - Behavior:
+     *   - Return all customer data
+     * 
+     * - Authentication:
+     *   - Requires valid bearer Token
+     * 
+     * @return JsonResponse
+     */
+    public function index(): JsonResponse
+    {
+        try {
             $result = $this->customerService->all();
 
             return $this->jsonResponse(
@@ -27,13 +39,13 @@ class CustomerController extends Controller
                 data: $result,
                 code: 200
             );
-        }catch(BadRequestException $e){
+        } catch (BadRequestException $e) {
             return $this->jsonResponse(
                 status: 'fail',
                 message: $e->getMessage(),
                 code: 404
             );
-        }catch(\Throwable $e){
+        } catch (\Throwable $e) {
             $this->logError($e, 'CustomerController@index', []);
 
             return $this->jsonResponse(
@@ -44,8 +56,24 @@ class CustomerController extends Controller
         }
     }
 
-    public function show(int $id): JsonResponse{
-        try{
+    /**
+     * GET /api/master/customers/{id}
+     * 
+     * - Behavior:
+     *   - Return single customer data based on id
+     * 
+     * - Path:
+     *   - id required, example: 1
+     * 
+     * - Authentication:
+     *   - Requires valid bearer Token
+     * 
+     * @param  int  $id
+     * @return JsonResponse
+     */
+    public function show(int $id): JsonResponse
+    {
+        try {
             $result = $this->customerService->find($id);
 
             return $this->jsonResponse(
@@ -54,13 +82,13 @@ class CustomerController extends Controller
                 data: $result,
                 code: 200
             );
-        }catch(BadRequestException $e){
+        } catch (BadRequestException $e) {
             return $this->jsonResponse(
                 status: 'fail',
                 message: $e->getMessage(),
                 code: 404
             );
-        }catch(\Throwable $e){
+        } catch (\Throwable $e) {
             $this->logError($e, 'CustomerController@show', ['id' => $id]);
 
             return $this->jsonResponse(
@@ -71,6 +99,21 @@ class CustomerController extends Controller
         }
     }
 
+    /**
+     * GET /api/master/customers/{customer_ids}/addresses
+     * 
+     * - Behavior:
+     *   - Return single customer data based on id
+     * 
+     * - Path:
+     *   - customer_ids required, example: 1
+     * 
+     * - Authentication:
+     *   - Requires valid bearer Token
+     * 
+     * @param  string  $customerIDs
+     * @return JsonResponse
+     */
     public function findWithAddresses(string $customerIDs): JsonResponse
     {
         try {

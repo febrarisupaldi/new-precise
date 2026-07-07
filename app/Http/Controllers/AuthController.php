@@ -6,16 +6,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Dedoc\Scramble\Attributes\ExcludeRouteFromDocs;
+use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller
 {
     /**
      * Get a JWT via given credentials.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @unauthenticated
+     * @return JsonResponse
      */
-    #[ExcludeRouteFromDocs]
-    public function login(Request $request)
+    public function login(Request $request): JsonResponse
     {
         $credentials = $request->validate([
             'user_id' => ['required', 'string'],
@@ -62,7 +63,7 @@ class AuthController extends Controller
     public function refresh()
     {
         try {
-        $newToken = JWTAuth::refresh(JWTAuth::getToken());
+            $newToken = JWTAuth::refresh(JWTAuth::getToken());
 
             return response()->json([
                 'success' => true,
@@ -81,10 +82,10 @@ class AuthController extends Controller
      *
      * @param  string $token
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     #[ExcludeRouteFromDocs]
-    protected function respondWithToken($token)
+    protected function respondWithToken($token): JsonResponse
     {
         return response()->json([
             'access_token' => $token,

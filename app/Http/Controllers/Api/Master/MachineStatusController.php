@@ -3,16 +3,13 @@
 namespace App\Http\Controllers\Api\Master;
 
 use App\DTOs\ExistsDTO;
-use App\DTOs\Master\MachineStatus\CreateMachineStatusDTO;
-use App\DTOs\Master\MachineStatus\UpdateMachineStatusDTO;
+use App\DTOs\Master\MachineStatus\{CreateMachineStatusDTO, UpdateMachineStatusDTO};
 use App\Exceptions\BadRequestException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ExistsRequest;
-use App\Http\Requests\Master\MachineStatus\CreateMachineStatusRequest;
-use App\Http\Requests\Master\MachineStatus\UpdateMachineStatusRequest;
+use App\Http\Requests\Master\MachineStatus\{CreateMachineStatusRequest, UpdateMachineStatusRequest};
 use App\Services\Master\MachineStatusService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class MachineStatusController extends Controller
 {
@@ -136,7 +133,8 @@ class MachineStatusController extends Controller
      * @param ExistsRequest $request
      * @return JsonResponse
      */
-    public function check(ExistsRequest $request): JsonResponse{
+    public function check(ExistsRequest $request): JsonResponse
+    {
         try {
             $dto = ExistsDTO::fromRequest($request);
             $exists = $this->machineStatusService->checkExist($dto);

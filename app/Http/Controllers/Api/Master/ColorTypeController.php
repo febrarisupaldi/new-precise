@@ -3,18 +3,17 @@
 namespace App\Http\Controllers\Api\Master;
 
 use App\DTOs\ExistsDTO;
-use App\DTOs\Master\ColorType\CreateColorTypeDTO;
-use App\DTOs\Master\ColorType\UpdateColorTypeDTO;
+use App\DTOs\Master\ColorType\{CreateColorTypeDTO, UpdateColorTypeDTO};
 use App\Exceptions\BadRequestException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DeleteRequest;
 use App\Http\Requests\ExistsRequest;
-use App\Http\Requests\Master\ColorType\CreateColorTypeRequest;
-use App\Http\Requests\Master\ColorType\UpdateColorTypeRequest;
+use App\Http\Requests\Master\ColorType\{CreateColorTypeRequest, UpdateColorTypeRequest};
 use App\Services\Master\ColorTypeService;
+use Dedoc\Scramble\Attributes\Group;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
+#[Group('Master', 'Color Types', 2)]
 class ColorTypeController extends Controller
 {
     protected ColorTypeService $colorTypeService;

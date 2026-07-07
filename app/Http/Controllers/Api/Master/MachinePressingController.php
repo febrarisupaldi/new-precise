@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers\Api\Master;
 
-use App\DTOs\Master\MachinePressing\CreateMachinePressingDTO;
-use App\DTOs\Master\MachinePressing\UpdateMachinePressingDTO;
+use App\DTOs\Master\MachinePressing\{CreateMachinePressingDTO, UpdateMachinePressingDTO};
 use App\Exceptions\BadRequestException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ExistsRequest;
-use App\Http\Requests\Master\MachinePressing\CreateMachinePressingRequest;
-use App\Http\Requests\Master\MachinePressing\UpdateMachinePressingRequest;
+use App\Http\Requests\Master\MachinePressing\{CreateMachinePressingRequest, UpdateMachinePressingRequest};
 use App\Services\Master\MachinePressingService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -16,7 +14,7 @@ use Illuminate\Http\Request;
 class MachinePressingController extends Controller
 {
     private MachinePressingService $machinePressingService;
-    
+
     public function __construct(MachinePressingService $machinePressingService)
     {
         $this->machinePressingService = $machinePressingService;
@@ -24,6 +22,13 @@ class MachinePressingController extends Controller
 
     /**
      * GET /api/master/machine-pressings
+     * 
+     * - Behavior: 
+     *  - Return all machine pressing data
+     * 
+     * - Authentication:
+     *  - Requires valid bearer Token
+     * 
      * @param Request $request
      * @return JsonResponse
      */
@@ -50,10 +55,19 @@ class MachinePressingController extends Controller
 
     /**
      * GET /api/master/machine-pressings/{id}
+     * 
+     * - Behavior:
+     *  - Return single machine pressing data based on id
+     * 
+     * - Path:
+     *  - id required, example: 1
+     * 
+     * - Authentication:
+     *  - Requires valid bearer Token
+     * 
      * @param int $id
      * @return JsonResponse
      */
-
     public function show(int $id): JsonResponse
     {
         try {

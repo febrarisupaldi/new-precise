@@ -3,14 +3,12 @@
 namespace App\Http\Controllers\Api\Master;
 
 use App\DTOs\ExistsDTO;
-use App\DTOs\Master\Warehouse\CreateWarehouseDTO;
-use App\DTOs\Master\Warehouse\UpdateWarehouseDTO;
+use App\DTOs\Master\Warehouse\{CreateWarehouseDTO, UpdateWarehouseDTO};
 use App\Exceptions\BadRequestException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DeleteRequest;
 use App\Http\Requests\ExistsRequest;
-use App\Http\Requests\Master\Warehouse\CreateWarehouseRequest;
-use App\Http\Requests\Master\Warehouse\UpdateWarehouseRequest;
+use App\Http\Requests\Master\Warehouse\{CreateWarehouseRequest, UpdateWarehouseRequest};
 use App\Services\Master\WarehouseService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -95,7 +93,7 @@ class WarehouseController extends Controller
     {
         try {
             $dto = CreateWarehouseDTO::fromRequest($request);
-            
+
             $result = $this->warehouseService->create($dto);
 
             return $this->jsonResponse(

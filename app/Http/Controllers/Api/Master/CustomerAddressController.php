@@ -2,16 +2,13 @@
 
 namespace App\Http\Controllers\Api\Master;
 
-use App\DTOs\Master\CustomerAddress\CreateCustomerAddressDTO;
-use App\DTOs\Master\CustomerAddress\UpdateCustomerAddressDTO;
+use App\DTOs\Master\CustomerAddress\{CreateCustomerAddressDTO, UpdateCustomerAddressDTO};
 use App\Exceptions\BadRequestException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DeleteRequest;
-use App\Http\Requests\Master\CustomerAddress\CreateCustomerAddressRequest;
-use App\Http\Requests\Master\CustomerAddress\UpdateCustomerAddressRequest;
+use App\Http\Requests\Master\CustomerAddress\{CreateCustomerAddressRequest, UpdateCustomerAddressRequest};
 use App\Services\Master\CustomerAddressService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class CustomerAddressController extends Controller

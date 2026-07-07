@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers\Api\Master;
 
-use App\DTOs\Master\ProductEquivalent\CreateProductEquivalentDTO;
-use App\DTOs\Master\ProductEquivalent\UpdateProductEquivalentDTO;
+use App\DTOs\Master\ProductEquivalent\{CreateProductEquivalentDTO, UpdateProductEquivalentDTO};
 use App\Exceptions\BadRequestException;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Master\ProductEquivalent\ProductEquivalen\UpdateProductEquivalentRequest;
-use App\Http\Requests\Master\ProductEquivalent\ProductEquivalent\CreateProductEquivalentRequest;
+use App\Http\Requests\Master\ProductEquivalent\{CreateProductEquivalentRequest, UpdateProductEquivalentRequest};
 use App\Services\Master\ProductEquivalentService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -95,7 +93,7 @@ class ProductEquivalentController extends Controller
                 status: 'ok',
                 message: 'ProductEquivalent created successfully.',
                 data: $dto->toArray(),
-                id:$result,
+                id: $result,
                 code: 201
             );
         } catch (\Throwable $th) {

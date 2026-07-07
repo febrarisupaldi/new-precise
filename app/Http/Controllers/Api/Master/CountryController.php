@@ -5,11 +5,9 @@ namespace App\Http\Controllers\Api\Master;
 use App\DTOs\ExistsDTO;
 use App\Http\Controllers\Controller;
 use App\Services\Master\CountryService;
-use App\DTOs\Master\Country\CreateCountryDTO;
-use App\DTOs\Master\Country\UpdateCountryDTO;
+use App\DTOs\Master\Country\{CreateCountryDTO, UpdateCountryDTO};
 use App\Http\Requests\ExistsRequest;
-use App\Http\Requests\Master\Country\CreateCountryRequest;
-use App\Http\Requests\Master\Country\UpdateCountryRequest;
+use App\Http\Requests\Master\Country\{CreateCountryRequest, UpdateCountryRequest};
 use Illuminate\Http\JsonResponse;
 use App\Exceptions\BadRequestException;
 
