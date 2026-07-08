@@ -54,7 +54,7 @@ return [
     ],
 
     'ui' => [
-        'title' => null,
+        'title' => "PRECISE API for PT Presindo Central",
     ],
 
     'renderer' => 'elements',
@@ -104,7 +104,8 @@ s://scramble.dedoc.co/api',
      * ],
      * ```
      */
-    'servers' => ['Live' => 'api',
+    'servers' => [
+        'Live' => 'api',
     ],
 
     /**

@@ -10,7 +10,9 @@ use App\Http\Requests\ExistsRequest;
 use App\Http\Requests\Master\Country\{CreateCountryRequest, UpdateCountryRequest};
 use Illuminate\Http\JsonResponse;
 use App\Exceptions\BadRequestException;
+use Dedoc\Scramble\Attributes\Group;
 
+#[Group('MASTER|Country', 'Country')]
 class CountryController extends Controller
 {
     protected CountryService $countryService;

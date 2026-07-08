@@ -17,8 +17,8 @@ class CreateMachineInjectionDTO extends BaseDTO
     public ?string $brand;
     public ?float $motor_power;
     public ?float $heater_power;
-    public string $machine_status_code;
-    public string $created_by;
+    public ?string $machine_status_code;
+    public ?string $created_by;
 
     public static function fromRequest(Request $request): static
     {

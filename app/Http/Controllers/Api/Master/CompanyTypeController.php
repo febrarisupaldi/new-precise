@@ -12,7 +12,9 @@ use App\Http\Requests\Master\CompanyType\CreateCompanyTypeRequest;
 use App\Http\Requests\Master\CompanyType\UpdateCompanyTypeRequest;
 use Illuminate\Http\JsonResponse;
 use App\Exceptions\BadRequestException;
+use Dedoc\Scramble\Attributes\Group;
 
+#[Group('MASTER|Company Type', 'Company Type')]
 class CompanyTypeController extends Controller
 {
     protected CompanyTypeService $companyTypeService;

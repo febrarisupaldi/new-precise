@@ -10,9 +10,11 @@ use App\Http\Requests\DeleteRequest;
 use App\Http\Requests\ExistsRequest;
 use App\Http\Requests\Master\Warehouse\{CreateWarehouseRequest, UpdateWarehouseRequest};
 use App\Services\Master\WarehouseService;
+use Dedoc\Scramble\Attributes\Group;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
+#[Group('MASTER|Warehouse', 'Warehouses')]
 class WarehouseController extends Controller
 {
     protected WarehouseService $warehouseService;

@@ -10,8 +10,9 @@ use App\Http\Requests\ExistsRequest;
 use App\Http\Requests\Master\Supplier\{CreateSupplierRequest, UpdateSupplierRequest};
 use App\Services\Master\SupplierService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+use Dedoc\Scramble\Attributes\Group;
 
+#[Group('MASTER|Supplier', 'Suppliers')]
 class SupplierController extends Controller
 {
     protected SupplierService $supplierService;

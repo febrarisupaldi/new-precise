@@ -7,9 +7,11 @@ use App\Exceptions\BadRequestException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Master\ProductEquivalent\{CreateProductEquivalentRequest, UpdateProductEquivalentRequest};
 use App\Services\Master\ProductEquivalentService;
+use Dedoc\Scramble\Attributes\Group;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
+#[Group('MASTER|Product Equivalent', 'Product Equivalents')]
 class ProductEquivalentController extends Controller
 {
     protected ProductEquivalentService $productEquivalentService;

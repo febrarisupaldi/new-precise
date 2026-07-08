@@ -7,7 +7,9 @@ use App\Http\Controllers\Controller;
 use App\Services\Master\CustomerService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Dedoc\Scramble\Attributes\Group;
 
+#[Group('MASTER|Customer', 'Customers')]
 class CustomerController extends Controller
 {
     protected CustomerService $customerService;

@@ -10,7 +10,9 @@ use App\Http\Requests\ExistsRequest;
 use App\Http\Requests\Master\SteelType\{CreateSteelTypeRequest, UpdateSteelTypeRequest};
 use Illuminate\Http\JsonResponse;
 use App\Exceptions\BadRequestException;
+use Dedoc\Scramble\Attributes\Group;
 
+#[Group('MASTER|Steel Type', 'Steel Types')]
 class SteelTypeController extends Controller
 {
     protected SteelTypeService $steelTypeService;

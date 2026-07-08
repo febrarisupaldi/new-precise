@@ -12,7 +12,7 @@ use App\Services\Master\CityService;
 use Dedoc\Scramble\Attributes\Group;
 use Illuminate\Http\JsonResponse;
 
-#[Group('Master', 'Cities')]
+#[Group('MASTER|City', 'Cities')]
 class CityController extends Controller
 {
     protected CityService $cityService;

@@ -9,8 +9,10 @@ use App\DTOs\Master\State\{CreateStateDTO, UpdateStateDTO};
 use App\Exceptions\BadRequestException;
 use App\Http\Requests\ExistsRequest;
 use App\Http\Requests\Master\State\{CreateStateRequest, UpdateStateRequest};
+use Dedoc\Scramble\Attributes\Group;
 use Illuminate\Http\JsonResponse;
 
+#[Group('MASTER|State', 'States')]
 class StateController extends Controller
 {
     protected StateService $stateService;

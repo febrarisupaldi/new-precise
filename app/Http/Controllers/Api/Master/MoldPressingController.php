@@ -7,7 +7,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Master\MoldPressing\IndexMoldPressingRequest;
 use App\Services\Master\MoldPressingService;
 use Illuminate\Http\JsonResponse;
+use Dedoc\Scramble\Attributes\Group;
 
+#[Group('MASTER|Mold Pressing', 'Mold Pressings')]
 class MoldPressingController extends Controller
 {
     private MoldPressingService $moldPressingService;

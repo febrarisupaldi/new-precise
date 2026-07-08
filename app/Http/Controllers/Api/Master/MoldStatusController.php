@@ -8,10 +8,11 @@ use App\Exceptions\BadRequestException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ExistsRequest;
 use App\Http\Requests\Master\MoldStatus\{CreateMoldStatusRequest, UpdateMoldStatusRequest};
-use Illuminate\Http\Request;
 use App\Services\Master\MoldStatusService;
 use Illuminate\Http\JsonResponse;
+use Dedoc\Scramble\Attributes\Group;
 
+#[Group('MASTER|Mold Status', 'Mold Statuses')]
 class MoldStatusController extends Controller
 {
     private MoldStatusService $moldStatusService;

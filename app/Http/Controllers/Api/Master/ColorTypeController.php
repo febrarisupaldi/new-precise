@@ -13,7 +13,7 @@ use App\Services\Master\ColorTypeService;
 use Dedoc\Scramble\Attributes\Group;
 use Illuminate\Http\JsonResponse;
 
-#[Group('Master', 'Color Types', 2)]
+#[Group('MASTER|Color Type', 'Color Types')]
 class ColorTypeController extends Controller
 {
     protected ColorTypeService $colorTypeService;

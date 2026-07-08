@@ -8,9 +8,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ExistsRequest;
 use App\Http\Requests\Master\MachinePressing\{CreateMachinePressingRequest, UpdateMachinePressingRequest};
 use App\Services\Master\MachinePressingService;
+use Dedoc\Scramble\Attributes\Group;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
+#[Group('MASTER|Machine Pressing', 'Machine Pressings')]
 class MachinePressingController extends Controller
 {
     private MachinePressingService $machinePressingService;

@@ -9,9 +9,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ExistsRequest;
 use App\Http\Requests\Master\Packaging\{CreatePackagingRequest, UpdatePackagingRequest};
 use App\Services\Master\PackagingService;
+use Dedoc\Scramble\Attributes\Group;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
+#[Group('MASTER|Packaging', 'Packagings')]
 class PackagingController extends Controller
 {
 

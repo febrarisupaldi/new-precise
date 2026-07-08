@@ -10,7 +10,9 @@ use App\Http\Requests\ExistsRequest;
 use App\Http\Requests\Master\MachineStatus\{CreateMachineStatusRequest, UpdateMachineStatusRequest};
 use App\Services\Master\MachineStatusService;
 use Illuminate\Http\JsonResponse;
+use Dedoc\Scramble\Attributes\Group;
 
+#[Group('MASTER|Machine Status', 'Machine Statuses')]
 class MachineStatusController extends Controller
 {
     private MachineStatusService $machineStatusService;

@@ -10,7 +10,9 @@ use App\Http\Requests\ExistsRequest;
 use App\Http\Requests\Master\Vehicle\{CreateVehicleRequest, UpdateVehicleRequest};
 use App\Services\Master\VehicleService;
 use Illuminate\Http\JsonResponse;
+use Dedoc\Scramble\Attributes\Group;
 
+#[Group('MASTER|Vehicle', 'Vehicles')]
 class VehicleController extends Controller
 {
     protected VehicleService $vehicleService;

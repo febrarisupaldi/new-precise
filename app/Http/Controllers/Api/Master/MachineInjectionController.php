@@ -9,9 +9,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ExistsRequest;
 use App\Http\Requests\Master\MachineInjection\{CreateMachineInjectionRequest, UpdateMachineInjectionRequest};
 use App\Services\Master\MachineInjectionService;
+use Dedoc\Scramble\Attributes\Group;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
+#[Group('MASTER|Machine Injection', 'Machine Injections')]
 class MachineInjectionController extends Controller
 {
     private MachineInjectionService $machineInjectionService;

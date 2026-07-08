@@ -12,7 +12,9 @@ use App\Http\Requests\Master\Workcenter\{CreateWorkcenterRequest, UpdateWorkcent
 use App\Services\Master\WorkcenterService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Dedoc\Scramble\Attributes\Group;
 
+#[Group('MASTER|Workcenter', 'Workcenters')]
 class WorkcenterController extends Controller
 {
     protected WorkcenterService $workcenterService;

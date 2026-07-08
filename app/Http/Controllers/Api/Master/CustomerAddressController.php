@@ -10,7 +10,9 @@ use App\Http\Requests\Master\CustomerAddress\{CreateCustomerAddressRequest, Upda
 use App\Services\Master\CustomerAddressService;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Dedoc\Scramble\Attributes\Group;
 
+#[Group('MASTER|Customer Address', 'Customer Address')]
 class CustomerAddressController extends Controller
 {
     private CustomerAddressService $customerAddressService;

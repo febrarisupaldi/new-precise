@@ -12,7 +12,7 @@ use Illuminate\Http\JsonResponse;
 use App\Exceptions\BadRequestException;
 use Dedoc\Scramble\Attributes\Group;
 
-#[Group('Master', 'Address Types')]
+#[Group('MASTER|Address Type', 'Address Types')]
 class AddressTypeController extends Controller
 {
     protected AddressTypeService $addressTypeService;

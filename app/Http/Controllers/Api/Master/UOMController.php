@@ -9,8 +9,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ExistsRequest;
 use App\Http\Requests\Master\UOM\{CreateUOMRequest, UpdateUOMRequest};
 use App\Services\Master\UOMService;
+use Dedoc\Scramble\Attributes\Group;
 use Illuminate\Http\JsonResponse;
 
+#[Group('MASTER|UOM', 'UOMs')]
 class UOMController extends Controller
 {
     private UOMService $uomService;
