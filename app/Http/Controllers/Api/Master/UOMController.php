@@ -24,6 +24,13 @@ class UOMController extends Controller
 
     /**
      * GET /api/master/uoms
+     * 
+     * Behavior:
+     *  - get all uoms
+     * 
+     * Authentication:
+     *  - Requires valid bearer token
+     * 
      * @return JsonResponse
      */
     public function index(): JsonResponse
@@ -48,6 +55,16 @@ class UOMController extends Controller
 
     /**
      * GET /api/master/uoms/{id}
+     * 
+     * Behavior:
+     *  - get uom by id
+     * 
+     * Path:
+     *  - id required, example: 1
+     * 
+     * Authentication:
+     *  - Requires valid bearer token
+     * 
      * @routeParam {id} required
      * @return JsonResponse
      */
@@ -79,6 +96,20 @@ class UOMController extends Controller
 
     /**
      * POST /api/master/uoms
+     * 
+     * Behavior:
+     *  - create uom
+     * 
+     * Body:
+     *  - uom code required, example: "KG"
+     *  - uom name required, example: "Kilogram"
+     *  - uom coretax required, example: "UM.0021"
+     *  - is active optional, example: true
+     *  - created by required, example: "admin"
+     * 
+     * Authentication:
+     *  - Requires valid bearer token
+     * 
      * @param CreateUOMRequest $request
      * @return JsonResponse
      */
@@ -112,7 +143,74 @@ class UOMController extends Controller
     }
 
     /**
+     * PUT /api/master/uoms/{id}
+     * 
+     * Behavior:
+     *  - update uom
+     * 
+     * Path:
+     *  - id required, example: 1
+     * 
+     * Body:
+     *  - uom code optional, example: "KG"
+     *  - uom name optional, example: "Kilogram"
+     *  - uom coretax optional, example: "UM.0021"
+     *  - is active optional, example: true
+     *  - updated by required, example: "admin"
+     *  - reason required, example: "Updated description"
+     * 
+     * Authentication:
+     *  - Requires valid bearer token
+     * 
+     * @param UpdateUOMRequest $request
+     * @routeParam {id} required
+     * @return JsonResponse
+     */
+    public function update(string $id, UpdateUOMRequest $request): JsonResponse
+    {
+        try {
+            $dto = UpdateUOMDTO::fromRequest($request);
+            $this->uomService->update($id, $dto);
+
+            return $this->jsonResponse(
+                status: 'ok',
+                message: 'UOM updated successfully.',
+                id: $id,
+                data: $dto->toArray(),
+                code: 200
+            );
+        } catch (BadRequestException $e) {
+            return $this->jsonResponse(
+                status: 'fail',
+                message: $e->getMessage(),
+                code: 404
+            );
+        } catch (\Throwable $e) {
+            $this->logError($e, 'UOMController@update', ['id' => $id, 'payload' => $request->all()]);
+            return $this->jsonResponse(
+                status: 'error',
+                message: 'Failed to update UOM.',
+                code: 500
+            );
+        }
+    }
+
+    /**
      * GET /api/master/uoms/check
+     * 
+     * Behavior:
+     *  - check if uom exists
+     * 
+     * Business Rules:
+     *  - columns and values required and must be same length
+     * 
+     * Query Parameters:
+     *  - columns[] required, example: ["uom_code"]
+     *  - values[] required, example: ["KG"]
+     * 
+     * Authentication:
+     *  - Requires valid bearer token
+     * 
      * @param ExistsRequest $request
      * @return JsonResponse
      */

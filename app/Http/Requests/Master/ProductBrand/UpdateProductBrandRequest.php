@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\{{module}};
+namespace App\Http\Requests\Master\ProductBrand;
 
 use App\Http\Requests\BaseApiRequest;
 
-class Update{{name}}Request extends BaseApiRequest
+class UpdateProductBrandRequest extends BaseApiRequest
 {
     public function authorize(): bool
     {
@@ -15,6 +15,8 @@ class Update{{name}}Request extends BaseApiRequest
     {
         return [
             // Define validation rules here
+            'product_brand_name' => ['required', 'string', 'max:100'],
+            'is_active' => ['required', 'boolean'],
             'updated_by' => ['required', 'string', 'max:100'],
             'reason'     => ['required', 'string'],
         ];

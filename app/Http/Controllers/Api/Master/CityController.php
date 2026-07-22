@@ -25,10 +25,10 @@ class CityController extends Controller
     /**
      * GET /api/master/cities
      * 
-     * - Behavior:
+     * Behavior:
      *   - Return all city data
      * 
-     * - Authentication:
+     * Authentication:
      *   - Requires valid bearer Token
      * 
      * @return JsonResponse
@@ -59,10 +59,10 @@ class CityController extends Controller
     /**
      * GET /api/master/cities/{id}
      * 
-     * - Behavior:
+     * Behavior:
      *   - Return single city data based on id
      * 
-     * - Authentication:
+     * Authentication:
      *   - Requires valid bearer Token
      * 
      * @routeParam {id} required
@@ -99,16 +99,16 @@ class CityController extends Controller
     /**
      * POST /api/master/cities
      * 
-     * - Behavior:
+     * Behavior:
      *   - Create single city data
      * 
-     * - Body:
+     * Body:
      *   - city code required and unique, example: JKT
      *   - city name required, example: "Jakarta", "Bandung"
      *   - state id required, example: 1
      *   - created by required, example: Supaldi
      * 
-     * - Authentication:
+     * Authentication:
      *   - Requires valid bearer Token
      * 
      * @param CreateCityRequest $request
@@ -140,20 +140,20 @@ class CityController extends Controller
     /**
      * PUT /api/master/cities/{id}
      * 
-     * - Behavior:
+     * Behavior:
      *   - Update single city data based on id
      * 
-     * - Body:
+     * Body:
      *   - city code required and unique, example: JKT
      *   - city name required, example: "Jakarta", "Bandung"
      *   - state id required and id must be exists in state table, example: 1
      *   - updated by will using logged in user
      *   - reason required, example: "Change city name from JKT to JKT1"
      * 
-     * - Path:
+     * Path:
      *   - id required, example: 1
      * 
-     * - Authentication:
+     * Authentication:
      *   - Requires valid bearer Token
      * 
      * @routeParam {id} required
@@ -199,23 +199,21 @@ class CityController extends Controller
     /**
      * GET /api/master/cities/check
      * 
-     * - Behavior:
+     * Behavior:
      *   - Check if data already exists
      * 
-     * - Business Rules:
+     * Business Rules:
      *   - columns and values required and must be same length
      * 
-     * - Query Parameters:
+     * Query Parameters:
      *   - columns[] required, example: ["city_name"]
      *   - values[] required, example: ["test"]
      * 
-     * - Available Request:
+     * Available Request:
      *   - /api/master/cities/check?columns[]=city_name&values[]=test
      *   - /api/master/cities/check?columns[]=city_code&values[]=test
-     
-     * - Available 
      * 
-     * - Authentication:
+     * Authentication:
      *   - Requires valid bearer Token
      * 
      * @param ExistsRequest $request

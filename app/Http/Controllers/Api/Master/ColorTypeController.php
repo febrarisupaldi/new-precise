@@ -26,10 +26,10 @@ class ColorTypeController extends Controller
     /**
      * GET /api/master/color-types
      * 
-     * - Behavior:
+     * Behavior:
      *   - Return all color type data
      * 
-     * - Authentication:
+     * Authentication:
      *   - Requires valid bearer Token
      * 
      * @return JsonResponse
@@ -59,10 +59,10 @@ class ColorTypeController extends Controller
     /**
      * GET /api/master/color-types/{id}
      * 
-     * - Behavior:
+     * Behavior:
      *   - Return single color type data based on id
      * 
-     * - Authentication:
+     * Authentication:
      *   - Requires valid bearer Token
      * 
      * @routeParam {id} required
@@ -99,15 +99,15 @@ class ColorTypeController extends Controller
     /**
      * POST /api/master/company-types
      * 
-     * - Behavior:
+     * Behavior:
      *   - Create single color type data
      * 
-     * - Business rules:
+     * Business Rules:
      *   - color type name required and unique, example: "Color Name"
      *   - color type code required and unique, example: "CT"
      *   - created by required
      * 
-     * - Authentication:
+     * Authentication:
      *   - Requires valid bearer Token
      * 
      * @param CreateColorTypeRequest $request
@@ -140,19 +140,19 @@ class ColorTypeController extends Controller
     /**
      * PUT /api/master/company-types/{id}
      * 
-     * - Behavior:
+     * Behavior:
      *   - Update single color type data based on id
      * 
-     * - Business Rules:
+     * Business Rules:
      *   - color type name required and unique, example: "Color Name"
      *   - color type code required and unique, example: "CT"
      *   - updated by required, example: "Supaldi"
      *   - reason required, example: "Testing"
      * 
-     * - Path:
+     * Path:
      *   - id required, example: 1
      * 
-     * - Authentication:
+     * Authentication:
      *   - Requires valid bearer Token
      * 
      * @routeParam {id} required
@@ -192,17 +192,17 @@ class ColorTypeController extends Controller
     /**
      * Delete a Color Type
      * 
-     * - Behavior:
+     * Behavior:
      *   - Delete single color type data based on id
      * 
-     * - Business Rules:
+     * Business Rules:
      *   - If there is a color type data that uses this color type, then it cannot be deleted.
      *   - reason required, example: "Only testing purposes"
      * 
-     * - Path:
+     * Path:
      *   - id required, example: 1  
      * 
-     * - Authentication:
+     * Authentication:
      *   - Requires valid bearer Token
      * 
      * @routeParam {id} required
@@ -240,18 +240,21 @@ class ColorTypeController extends Controller
     /**
      * GET /api/master/color-types/check
      * 
-     * - Behavior:
+     * Behavior:
      *   - Check if data already exists
      * 
-     * - Query Parameters:
+     * Business Rules:
+     *   - columns and values required and must be same length
+     * 
+     * Query Parameters:
      *   - columns[] required, example: ["color_type_name"]
      *   - values[] required, example: ["test"]
      * 
-     * - Available Request:
+     * Available Request:
      *   - GET /api/master/color-types/check?columns[]=color_type_name&values[]=test
      *   - GET /api/master/color-types/check?columns[]=color_type_code&values[]=test
      * 
-     * - Authentication:
+     * Authentication:
      *   - Requires valid bearer Token
      * 
      * @param ExistsRequest $request

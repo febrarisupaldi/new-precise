@@ -24,14 +24,24 @@ class WarehouseController extends Controller
     }
 
     /**
-     * Get all warehouses
+     * GET /api/master/warehouses
      * 
+     * Behavior:
+     *  - get all warehouses
+     * 
+     * Query Parameters:
+     *  - group_code optional, example: "1234"
+     * 
+     * Authentication:
+     *  - Requires valid bearer token
+     * 
+     * @param Request $request
      * @return JsonResponse
      */
     public function index(Request $request): JsonResponse
     {
         try {
-            $result = $this->warehouseService->all($request->query('group_code'));
+            $result = $this->warehouseService->all($request->toArray());
 
             return $this->jsonResponse(
                 status: 'ok',
@@ -51,7 +61,16 @@ class WarehouseController extends Controller
     }
 
     /**
-     * Get warehouse by ID
+     * GET /api/master/warehouses/{id}
+     * 
+     * Behavior:
+     *  - get warehouse by id
+     * 
+     * Path:
+     *  - id required, example: 1
+     * 
+     * Authentication:
+     *  - Requires valid bearer token
      * 
      * @param int $id
      * @return JsonResponse
@@ -86,7 +105,24 @@ class WarehouseController extends Controller
     }
 
     /**
-     * Create a new warehouse
+     * POST /api/master/warehouses
+     * 
+     * Behavior:
+     *  - create warehouse
+     * 
+     * Body:
+     *  - warehouse code required, example: "WH1"
+     *  - warehouse name required, example: "Warehouse 1"
+     *  - warehouse alias optional, example: "Alias 1"
+     *  - warehouse group code required, example: "1234"
+     *  - is active optional, example: true
+     *  - warehouse pic 1 optional, example: 2010123
+     *  - warehouse pic 2 optional, example: 2010124
+     *  - warehouse approver optional, example: 2010125
+     *  - created by required, example: "admin"
+     * 
+     * Authentication:
+     *  - Requires valid bearer token
      * 
      * @param CreateWarehouseRequest $request
      * @return JsonResponse
@@ -123,7 +159,28 @@ class WarehouseController extends Controller
     }
 
     /**
-     * Update a warehouse
+     * PUT /api/master/warehouses/{id}
+     * 
+     * Behavior:
+     *  - update warehouse
+     * 
+     * Path:
+     *  - id required, example: 1
+     * 
+     * Body:
+     *  - warehouse code optional, example: "WH1"
+     *  - warehouse name optional, example: "Warehouse 1"
+     *  - warehouse alias optional, example: "Alias 1"
+     *  - warehouse group code optional, example: "1234"
+     *  - is active optional, example: true
+     *  - warehouse pic 1 optional, example: 2010123
+     *  - warehouse pic 2 optional, example: 2010124
+     *  - warehouse approver optional, example: 2010125
+     *  - updated by required, example: "admin"
+     *  - reason required, example: "test"
+     * 
+     * Authentication:
+     *  - Requires valid bearer token
      *
      * @param int $id
      * @param UpdateWarehouseRequest $request
@@ -161,7 +218,20 @@ class WarehouseController extends Controller
     }
 
     /**
-     * Delete a warehouse
+     * DELETE /api/master/warehouses/{id}
+     * 
+     * Behavior:
+     *  - delete warehouse
+     * 
+     * Path:
+     *  - id required, example: 1
+     * 
+     * Body:
+     *  - deleted by required, example: "admin"
+     *  - reason required, example: "test"
+     * 
+     * Authentication:
+     *  - Requires valid bearer token
      *
      * @param int $id
      * @param DeleteRequest $request
@@ -198,8 +268,21 @@ class WarehouseController extends Controller
     }
 
     /**
-     * Check if a warehouse exists
-     * GET /check?columns[]=column1,column2&values[]=value1,value2
+     * GET /api/master/warehouses/check
+     * 
+     * Behavior:
+     *  - check if warehouse exists
+     * 
+     * Business Rules:
+     *  - Columns and values must have the same length
+     * 
+     * Query Parameters:
+     *  - columns[] required, example: "warehouse_code,warehouse_name"
+     *  - values[] required, example: "WH1,Warehouse 1"
+     * 
+     * Authentication:
+     *  - Requires valid bearer token
+     * 
      * @param ExistsRequest $request
      * @return JsonResponse
      */

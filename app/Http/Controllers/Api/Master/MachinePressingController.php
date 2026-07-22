@@ -25,10 +25,10 @@ class MachinePressingController extends Controller
     /**
      * GET /api/master/machine-pressings
      * 
-     * - Behavior: 
+     * Behavior: 
      *  - Return all machine pressing data
      * 
-     * - Authentication:
+     * Authentication:
      *  - Requires valid bearer Token
      * 
      * @param Request $request
@@ -58,13 +58,13 @@ class MachinePressingController extends Controller
     /**
      * GET /api/master/machine-pressings/{id}
      * 
-     * - Behavior:
+     * Behavior:
      *  - Return single machine pressing data based on id
      * 
-     * - Path:
+     * Path:
      *  - id required, example: 1
      * 
-     * - Authentication:
+     * Authentication:
      *  - Requires valid bearer Token
      * 
      * @param int $id
@@ -99,6 +99,34 @@ class MachinePressingController extends Controller
 
     /**
      * POST /api/master/machine-pressings
+     * 
+     * Behavior:
+     *  - Create single machine pressing data
+     * 
+     * Body:
+     *  - machine code required unique, example: "Machine Pressing 1"
+     *  - old machine code optional, example: "Machine Pressing 1"
+     *  - machine location required, example: "Machine Pressing 1"
+     *  - line code required, example: "Machine Pressing 1"
+     *  - line number optional, example: "Machine Pressing 1"
+     *  - tonnage required, example: "1"
+     *  - serial number required, example: "1"
+     *  - production year required, example: "2022"
+     *  - brand required, example: "Brand Name"
+     *  - motor power required, example: "1"
+     *  - heater power required, example: "1"
+     *  - can plain optional, example: true
+     *  - can print optional, example: true
+     *  - can mug optional, example: true
+     *  - can bico lg optional, example: true
+     *  - can bico material optional, example: true
+     *  - priority rank required, example: 1
+     *  - machine status code required, example: 1
+     *  - created by required, example: "Supaldi"
+     * 
+     * Authentication:
+     *  - Requires valid bearer Token
+     * 
      * @param CreateMachinePressingRequest $request
      * @return JsonResponse
      */
@@ -133,7 +161,39 @@ class MachinePressingController extends Controller
     }
 
     /**
-     * UPDATE /api/master/machine-pressings/{id}
+     * PUT /api/master/machine-pressings/{id}
+     * 
+     * Behavior:
+     *  - Update single machine pressing data based on id
+     * 
+     * Path:
+     *  - id required, example: 1
+     * 
+     * Body:
+     *  - machine code required unique, example: "Machine Pressing 1"
+     *  - old machine code optional, example: "Machine Pressing 1"
+     *  - machine location required, example: "Machine Pressing 1"
+     *  - line code required, example: "Machine Pressing 1"
+     *  - line number optional, example: "Machine Pressing 1"
+     *  - tonnage required, example: "1"
+     *  - serial number required, example: "1"
+     *  - production year required, example: "2022"
+     *  - brand required, example: "Brand Name"
+     *  - motor power required, example: "1"
+     *  - heater power required, example: "1"
+     *  - can plain optional, example: true
+     *  - can print optional, example: true
+     *  - can mug optional, example: true
+     *  - can bico lg optional, example: true
+     *  - can bico material optional, example: true
+     *  - priority rank required, example: 1
+     *  - machine status code required, example: 1
+     *  - updated by required, example: "Supaldi"
+     *  - reason required, example: "Testing"
+     * 
+     * Authentication:
+     *  - Requires valid bearer Token
+     * 
      * @param int $id
      * @param UpdateMachinePressingRequest $request
      * @return JsonResponse
@@ -167,6 +227,24 @@ class MachinePressingController extends Controller
 
     /**
      * GET /api/master/machine-pressings/check
+     * 
+     * Behavior:
+     *  - Check if data already exists
+     * 
+     * Business Rules:
+     *  - columns and values required and must be same length
+     * 
+     * Query Parameters:
+     *  - columns[] required, example: ["machine_code"]
+     *  - values[] required, example: ["Machine Pressing 1"]
+     * 
+     * Available Request:
+     *  - GET /api/master/machine-pressings/check?columns[]=machine_code&values[]=Machine Pressing 1
+     *  - GET /api/master/machine-pressings/check?columns[]=line_code,line_number&values[]=1,1
+     * 
+     * Authentication:
+     *  - Requires valid bearer Token
+     * 
      * @param ExistsRequest $request
      * @return JsonResponse
      */

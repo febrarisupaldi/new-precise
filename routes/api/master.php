@@ -1,25 +1,28 @@
 <?php
 
-use App\Http\Controllers\Api\Master\AddressTypeController;
-use App\Http\Controllers\Api\Master\CityController;
-use App\Http\Controllers\Api\Master\ColorTypeController;
-use App\Http\Controllers\Api\Master\CompanyTypeController;
-use App\Http\Controllers\Api\Master\CountryController;
-use App\Http\Controllers\Api\Master\CustomerAddressController;
-use App\Http\Controllers\Api\Master\CustomerController;
-use App\Http\Controllers\Api\Master\MachineInjectionController;
-use App\Http\Controllers\Api\Master\MachinePressingController;
-use App\Http\Controllers\Api\Master\MachineStatusController;
-use App\Http\Controllers\Api\Master\MoldPressingController;
-use App\Http\Controllers\Api\Master\MoldStatusController;
-use App\Http\Controllers\Api\Master\PackagingController;
-use App\Http\Controllers\Api\Master\ProductEquivalentController;
-use App\Http\Controllers\Api\Master\StateController;
-use App\Http\Controllers\Api\Master\SteelTypeController;
-use App\Http\Controllers\Api\Master\UOMController;
-use App\Http\Controllers\Api\Master\VehicleController;
-use App\Http\Controllers\Api\Master\WarehouseController;
-use App\Http\Controllers\Api\Master\WorkcenterController;
+use App\Http\Controllers\Api\Master\{
+    AddressTypeController,
+    CityController,
+    ColorTypeController,
+    CompanyTypeController,
+    CountryController,
+    CustomerAddressController,
+    CustomerController,
+    MachineInjectionController,
+    MachinePressingController,
+    MachineStatusController,
+    MoldPressingController,
+    MoldStatusController,
+    PackagingController,
+    ProductEquivalentController,
+    StateController,
+    SteelTypeController,
+    UOMController,
+    ProductBrandController,
+    VehicleController,
+    WarehouseController,
+    WorkcenterController,
+};
 use Illuminate\Support\Facades\Route;
 
 // Address Type
@@ -128,6 +131,14 @@ Route::prefix('packagings')->group(function () {
     Route::get('{id}', [PackagingController::class, 'show']);
     Route::post('/', [PackagingController::class, 'store']);
     Route::put('{id}', [PackagingController::class, 'update']);
+});
+
+Route::prefix('product-brands')->group(function () {
+    Route::get('/', [ProductBrandController::class, 'index']);
+    Route::get('check', [ProductBrandController::class, 'check']);
+    Route::get('{id}', [ProductBrandController::class, 'show']);
+    Route::post('/', [ProductBrandController::class, 'store']);
+    Route::put('{id}', [ProductBrandController::class, 'update']);
 });
 
 Route::prefix('product-equivalents')->group(function () {

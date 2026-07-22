@@ -22,10 +22,10 @@ class CustomerController extends Controller
     /**
      * GET /api/master/customers
      * 
-     * - Behavior:
+     * Behavior:
      *   - Return all customer data
      * 
-     * - Authentication:
+     * Authentication:
      *   - Requires valid bearer Token
      * 
      * @return JsonResponse
@@ -61,13 +61,13 @@ class CustomerController extends Controller
     /**
      * GET /api/master/customers/{id}
      * 
-     * - Behavior:
+     * Behavior:
      *   - Return single customer data based on id
      * 
-     * - Path:
+     * Path:
      *   - id required, example: 1
      * 
-     * - Authentication:
+     * Authentication:
      *   - Requires valid bearer Token
      * 
      * @param  int  $id
@@ -104,13 +104,13 @@ class CustomerController extends Controller
     /**
      * GET /api/master/customers/{customer_ids}/addresses
      * 
-     * - Behavior:
+     * Behavior:
      *   - Return single customer data based on id
      * 
-     * - Path:
+     * Path:
      *   - customer_ids required, example: 1
      * 
-     * - Authentication:
+     * Authentication:
      *   - Requires valid bearer Token
      * 
      * @param  string  $customerIDs

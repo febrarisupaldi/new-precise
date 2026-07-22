@@ -26,10 +26,10 @@ class MachineInjectionController extends Controller
     /**
      * GET /api/master/machine-injections
      * 
-     * - Behavior:
+     * Behavior:
      *   - Return all machine injection data
      * 
-     * - Query Parameters:
+     * Query Parameters:
      *   - machine_code string optional
      * 
      * @return JsonResponse
@@ -58,13 +58,13 @@ class MachineInjectionController extends Controller
     /**
      * GET /api/master/machine-injections/{id}
      * 
-     * - Behavior:
+     * Behavior:
      *   - Return single machine injection data based on id
      * 
-     * - Path:
+     * Path:
      *   - id required, example: 1
      * 
-     * - Authentication:
+     * Authentication:
      *   - Requires valid bearer Token
      * 
      * @param  int  $id
@@ -99,10 +99,10 @@ class MachineInjectionController extends Controller
     /**
      * POST /api/master/machine-injections
      * 
-     * - Behavior:
+     * Behavior:
      *   - Create single machine injection data
      * 
-     * - Body:
+     * Body:
      *   - machine_code required, example: "MI-001"
      *   - old_machine_code optional, example: "Machine Injection 1"
      *   - machine_type required, example: "Injection"
@@ -115,7 +115,7 @@ class MachineInjectionController extends Controller
      *   - customer_id required, example: 1
      *   - created_by required, example: "User"
      * 
-     * - Authentication:
+     * Authentication:
      *   - Requires valid bearer Token
      * 
      * @param CreateMachineInjectionRequest $request
@@ -152,13 +152,13 @@ class MachineInjectionController extends Controller
     /**
      * PUT /api/master/machine-injections/{id}
      * 
-     * - Behavior:
+     * Behavior:
      *   - Update single machine injection data based on id
      * 
-     * - Path:
+     * Path:
      *   - id required, example: 1
      * 
-     * - Body:
+     * Body:
      *   - machine_code optional, example: "MI-001"
      *   - old_machine_code optional, example: "Machine Injection 1"
      *   - machine_type optional, example: "Injection"
@@ -172,7 +172,7 @@ class MachineInjectionController extends Controller
      *   - updated_by required, example: "User"
      *   - reason required, example: "Update reason"
      * 
-     * - Authentication:
+     * Authentication:
      *   - Requires valid bearer Token
      * 
      * @routeParam int  $id
@@ -209,18 +209,21 @@ class MachineInjectionController extends Controller
     /**
      * GET /api/master/machine-injections/check
      * 
-     * - Behavior:
+     * Behavior:
      *   - Check if machine injection exists based on machine_code or (line code and line number)
      * 
-     * - Query Parameters:
+     * Business Rules:
+     *   - columns and values required and must be same length
+     * 
+     * Query Parameters:
      *   - columns[] required, example: ["machine_code", "line_code", "line_number"]
      *   - values[] required, example: ["MI-001", "A", "1"]
      * 
-     * - Available Request:
+     * Available Request:
      *   - GET /api/master/machine-injections/check?columns[]=machine_code&values[]=MI-001
      *   - GET /api/master/machine-injections/check?columns[]=line_code,line_number&values[]=A,1
      * 
-     * - Authentication:
+     * Authentication:
      *   - Requires valid bearer Token
      * 
      * @param ExistsRequest $request

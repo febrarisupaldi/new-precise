@@ -26,6 +26,14 @@ class WorkcenterController extends Controller
 
     /**
      * GET /api/master/workcenters
+     * 
+     * Behavior:
+     *  - Return all workcenter data
+     * 
+     * Authentication:
+     *  - Requires valid bearer token
+     * 
+     * @return JsonResponse
      */
     public function index(Request $request): JsonResponse
     {
@@ -51,8 +59,15 @@ class WorkcenterController extends Controller
 
     /**
      * GET /api/master/workcenters/{id}
+     * 
+     * Behavior:
+     *  - Return single workcenter data
+     * 
+     * Authentication:
+     *  - Requires valid bearer token
      *
      * @routeParam {id} required
+     * @return JsonResponse
      */
     public function show(int $id): JsonResponse
     {
@@ -85,6 +100,23 @@ class WorkcenterController extends Controller
 
     /**
      * POST /api/master/workcenters
+     * 
+     * Behavior:
+     *  - Create single workcenter data
+     * 
+     * Body:
+     *  - workcenter code required, example: "WC1"
+     *  - workcenter name required, example: "Workcenter 1"
+     *  - description optional, example: "Description"
+     *  - default warehouse optional, example: 1
+     *  - is active optional, example: true
+     *  - production type required, example: "ML" or "PL"
+     *  - created by required, example: "admin"
+     * 
+     * Authentication:
+     *  - Requires valid bearer token
+     * 
+     * @return JsonResponse
      */
     public function store(CreateWorkcenterRequest $request): JsonResponse
     {
@@ -117,8 +149,25 @@ class WorkcenterController extends Controller
 
     /**
      * PUT /api/master/workcenters/{id}
+     * 
+     * Behavior:
+     *  - Update single workcenter data
+     * 
+     * Body:
+     *  - workcenter code optional, example: "WC1"
+     *  - workcenter name optional, example: "Workcenter 1"
+     *  - description optional, example: "Description"
+     *  - default warehouse optional, example: 1
+     *  - is active optional, example: true
+     *  - production type optional, example: "ML" or "PL"
+     *  - updated by required, example: "admin"
+     *  - reason required, example: "test"
+     * 
+     * Authentication:
+     *  - Requires valid bearer token
      *
      * @routeParam {id} required
+     * @return JsonResponse
      */
     public function update(int $id, UpdateWorkcenterRequest $request): JsonResponse
     {

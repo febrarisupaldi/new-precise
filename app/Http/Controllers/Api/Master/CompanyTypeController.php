@@ -5,11 +5,9 @@ namespace App\Http\Controllers\Api\Master;
 use App\DTOs\ExistsDTO;
 use App\Http\Controllers\Controller;
 use App\Services\Master\CompanyTypeService;
-use App\DTOs\Master\CompanyType\CreateCompanyTypeDTO;
-use App\DTOs\Master\CompanyType\UpdateCompanyTypeDTO;
+use App\DTOs\Master\CompanyType\{CreateCompanyTypeDTO, UpdateCompanyTypeDTO};
 use App\Http\Requests\ExistsRequest;
-use App\Http\Requests\Master\CompanyType\CreateCompanyTypeRequest;
-use App\Http\Requests\Master\CompanyType\UpdateCompanyTypeRequest;
+use App\Http\Requests\Master\CompanyType\{CreateCompanyTypeRequest, UpdateCompanyTypeRequest};
 use Illuminate\Http\JsonResponse;
 use App\Exceptions\BadRequestException;
 use Dedoc\Scramble\Attributes\Group;
@@ -27,10 +25,10 @@ class CompanyTypeController extends Controller
     /**
      * GET /api/master/company-types
      * 
-     * - Behavior:
+     * Behavior:
      *   - Return all company type data
      * 
-     * - Authentication:
+     * Authentication:
      *   - Requires valid bearer Token
      * 
      * @return JsonResponse
@@ -60,10 +58,13 @@ class CompanyTypeController extends Controller
     /**
      * GET /api/master/company-types/{id}
      * 
-     * - Behavior:
+     * Behavior:
      *   - Return single company type data based on id
      * 
-     * - Authentication:
+     * Path:
+     *   - id required, example: 1
+     * 
+     * Authentication:
      *   - Requires valid bearer Token
      * 
      * @routeParam {id} required
@@ -100,15 +101,15 @@ class CompanyTypeController extends Controller
     /**
      * POST /api/master/company-types
      * 
-     * - Behavior:
+     * Behavior:
      *   - Create single company type data
      * 
-     * - Body:
+     * Body:
      *   - company type name required, example: "Company Type Name"
      *   - company type description optional, example: "CT"
      *   - created by required, example: "Supaldi"
      * 
-     * - Authentication:
+     * Authentication:
      *   - Requires valid bearer Token
      * 
      * @param CreateCompanyTypeRequest $request
@@ -141,19 +142,19 @@ class CompanyTypeController extends Controller
     /**
      * PUT /api/master/company-types/{id}
      * 
-     * - Behavior:
+     * Behavior:
      *   - Update single company type data based on id
      * 
-     * - Body:
+     * Body:
      *   - company type name optional, example: "Company Type Name"
      *   - company type description optional, example: "CT"
      *   - updated by required, example: "Supaldi"
      *   - reason required, example: "Updated description"
      * 
-     * - Path:
+     * Path:
      *   - id required, example: 1
      * 
-     * - Authentication:
+     * Authentication:
      *   - Requires valid bearer Token
      * 
      * @routeParam {id} required
@@ -193,17 +194,20 @@ class CompanyTypeController extends Controller
     /**
      * GET /api/master/company-types/check
      * 
-     * - Behavior:
+     * Behavior:
      *   - Check if data already exists
      * 
-     * - Query Parameters:
+     * Business Rules:
+     *   - columns and values required and must be same length
+     * 
+     * Query Parameters:
      *   - columns[] required, example: ["company_type_name"]
      *   - values[] required, example: ["test"]
      * 
-     * - Available Request:
+     * Available Request:
      *   - GET /api/master/company-types/check?columns[]=company_type_code&values[]=test
      * 
-     * - Authentication:
+     * Authentication:
      *   - Requires valid bearer Token
      * 
      * @param ExistsRequest $request

@@ -23,8 +23,14 @@ class VehicleController extends Controller
     }
 
     /**
-     * Get all vehicles
-     *
+     * GET /api/master/vehicles
+     * 
+     * Behavior:
+     *  - get all vehicles
+     * 
+     * Authentication:
+     *  - Requires valid bearer token
+     * 
      * @return JsonResponse
      */
     public function index(): JsonResponse
@@ -47,8 +53,17 @@ class VehicleController extends Controller
     }
 
     /**
-     * Get vehicle by ID
-     *
+     * GET /api/master/vehicles/{id}
+     * 
+     * Behavior:
+     *  - get vehicle by id
+     * 
+     * Path:
+     *  - id required, example: 1
+     * 
+     * Authentication:
+     *  - Requires valid bearer token
+     * 
      * @param int $id
      * @return JsonResponse
      */
@@ -78,8 +93,17 @@ class VehicleController extends Controller
     }
 
     /**
-     * Get vehicle by license number
-     *
+     * GET /api/master/vehicles/license-number/{licenseNumber}
+     * 
+     * Behavior:
+     *  - get vehicle by license number
+     * 
+     * Path:
+     *  - licenseNumber required, example: "B 1234 XYZ"
+     * 
+     * Authentication:
+     *  - Requires valid bearer token
+     * 
      * @param string $licenseNumber
      * @return JsonResponse
      */
@@ -110,6 +134,21 @@ class VehicleController extends Controller
 
     /**
      * POST /api/master/vehicles
+     * 
+     * Behavior:
+     *  - create vehicle
+     * 
+     * Body:
+     *  - vehicle model optional, example: "MOTOR"
+     *  - license number required, example: "B 1234 XYZ"
+     *  - vehicle description optional, example: "test"
+     *  - is owned optional, example: true
+     *  - is active optional, example: true
+     *  - created by required, example: "admin"
+     * 
+     * Authentication:
+     *  - Requires valid bearer token
+     * 
      * @param CreateVehicleRequest $request
      * @return JsonResponse
      */
@@ -138,6 +177,25 @@ class VehicleController extends Controller
 
     /**
      * PUT /api/master/vehicles/{id}
+     * 
+     * Behavior:
+     *  - update vehicle
+     * 
+     * Path:
+     *  - id required, example: 1
+     * 
+     * Body:
+     *  - vehicle model optional, example: "MOTOR"
+     *  - license number required, example: "B 1234 XYZ"
+     *  - vehicle description optional, example: "test"
+     *  - is owned optional, example: true
+     *  - is active optional, example: true
+     *  - updated by required, example: "admin"
+     *  - reason optional, example: "Updated description"
+     * 
+     * Authentication:
+     *  - Requires valid bearer token
+     * 
      * @routeParam {id} required
      * @param UpdateVehicleRequest $request
      * @return JsonResponse
@@ -172,6 +230,20 @@ class VehicleController extends Controller
 
     /**
      * GET /api/master/vehicles/check
+     * 
+     * Behavior:
+     *  - check if vehicle exists
+     * 
+     * Business Rules:
+     *  - columns and values required and must be same length
+     * 
+     * Query Parameters:
+     *  - columns[] required, example: ["license_number"]
+     *  - values[] required, example: ["B 1234 XYZ"]
+     * 
+     * Authentication:
+     *  - Requires valid bearer token
+     * 
      * @param ExistsRequest $request
      * @return JsonResponse
      */

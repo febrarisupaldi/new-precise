@@ -24,6 +24,13 @@ class SupplierController extends Controller
 
     /**
      * GET /api/master/suppliers
+     * 
+     * Behavior:
+     *  - get all suppliers
+     * 
+     * Authentication:
+     *  - Requires valid bearer token
+     * 
      * @return JsonResponse
      */
     public function index(): JsonResponse
@@ -48,6 +55,16 @@ class SupplierController extends Controller
 
     /**
      * GET /api/master/suppliers/{id}
+     * 
+     * Behavior:
+     *  - get supplier by id
+     * 
+     * Path:
+     *  - id required, example: 1
+     * 
+     * Authentication:
+     *  - Requires valid bearer token
+     * 
      * @routeParam {id} required
      * @return JsonResponse
      */
@@ -80,6 +97,17 @@ class SupplierController extends Controller
 
     /**
      * POST /api/master/suppliers
+     * 
+     * Behavior:
+     *  - create supplier
+     * 
+     * Body:
+     *  - supplier name required, example: "Supplier"
+     *  - created by required, example: "admin"
+     * 
+     * Authentication:
+     *  - Requires valid bearer token
+     * 
      * @param CreateSupplierRequest $request
      * @return JsonResponse
      */

@@ -62,6 +62,16 @@ class MoldPressingController extends Controller
 
     /**
      * GET /api/master/mold-pressings/{id}
+     * 
+     * Behavior:
+     *  - get mold pressing by id
+     * 
+     * Path:
+     *  - id required, example: 1
+     * 
+     * Authentication:
+     *  - Requires valid bearer Token
+     * 
      * @param int $id
      * @return JsonResponse
      */

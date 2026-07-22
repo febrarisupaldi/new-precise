@@ -24,7 +24,13 @@ class MachineStatusController extends Controller
 
     /**
      * GET /api/master/machine-statuses
-     * 1@return JsonResponse
+     * 
+     * Behavior:
+     *  - get all machine statuses
+     * 
+     * Authentication:
+     *  - Requires valid bearer Token
+     * @return JsonResponse
      */
     public function index(): JsonResponse
     {
@@ -48,6 +54,13 @@ class MachineStatusController extends Controller
 
     /**
      * GET /api/master/machine-statuses/{code}
+     * 
+     * Behavior:
+     *  - get machine status by code
+     * 
+     * Authentication:
+     *  - Requires valid bearer Token
+     * 
      * @routeParam {code} string required
      * @return JsonResponse
      */
@@ -79,6 +92,19 @@ class MachineStatusController extends Controller
 
     /**
      * POST /api/master/machine-statuses
+     * 
+     * Behavior:
+     *  - create machine status
+     * 
+     * Body:
+     *  - status_code required, unique, example: "RUNNING"
+     *  - status_description nullable, example: "Machine is running"
+     *  - is_active required, example: true
+     *  - created_by required, example: "admin"
+     * 
+     * Authentication:
+     *  - Requires valid bearer Token
+     * 
      * @param CreateMachineStatusRequest $request
      * @return JsonResponse
      */
@@ -105,6 +131,19 @@ class MachineStatusController extends Controller
 
     /**
      * PUT /api/master/machine-statuses/{code}
+     * 
+     * Behavior:
+     *  - update machine status
+     * 
+     * Body:
+     *  - status_description nullable, example: "Machine is running"
+     *  - is_active required, example: true
+     *  - updated_by required, example: "admin"
+     *  - reason required, example: "Testing"
+     * 
+     * Authentication:
+     *  - Requires valid bearer Token
+     * 
      * @routeParam {code} string required
      * @param UpdateMachineStatusRequest $request
      * @return JsonResponse
@@ -132,6 +171,20 @@ class MachineStatusController extends Controller
 
     /**
      * GET /api/master/machine-statuses/check
+     * 
+     * Behavior:
+     *  - check if machine status exists
+     * 
+     * Business Rules:
+     *  - columns and values required and must be same length
+     * 
+     * Query Parameters:
+     *  - columns[] required, example: ["status_code"]
+     *  - values[] required, example: ["RUNNING"]
+     * 
+     * Authentication:
+     *  - Requires valid bearer Token
+     * 
      * @param ExistsRequest $request
      * @return JsonResponse
      */

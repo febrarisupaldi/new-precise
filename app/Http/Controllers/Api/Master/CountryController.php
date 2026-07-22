@@ -25,10 +25,10 @@ class CountryController extends Controller
     /**
      * GET /api/master/countries
      * 
-     * - Behavior:
+     * Behavior:
      *   - Return all country data
      * 
-     * - Authentication:
+     * Authentication:
      *   - Requires valid bearer Token
      * 
      * @return JsonResponse
@@ -59,10 +59,13 @@ class CountryController extends Controller
     /**
      * GET /api/master/countries/{id}
      * 
-     * - Behavior:
+     * Behavior:
      *   - Return single country data based on id
      * 
-     * - Authentication:
+     * Path:
+     *   - id required, example: 1
+     * 
+     * Authentication:
      *   - Requires valid bearer Token
      * 
      * @routeParam {id} required
@@ -99,15 +102,15 @@ class CountryController extends Controller
     /**
      * POST /api/master/countries
      * 
-     * - Behavior:
+     * Behavior:
      *   - Create single country data
      *
-     * - Body:
+     * Body:
      *   - country code required unique, example: "IDN"
      *   - country name required unique, example: "Indonesia"
      *   - created by required, example: "Supaldi"
      * 
-     * - Authentication:
+     * Authentication:
      *   - Requires valid bearer Token
      * 
      * @param CreateCountryRequest $request
@@ -140,16 +143,19 @@ class CountryController extends Controller
     /**
      * PUT /api/master/countries/{id}
      * 
-     * - Behavior:
+     * Behavior:
      *   - Update single country data based on id
      *
-     * - Body:
+     * Body:
      *   - country code required unique, example: "IDN"
      *   - country name required, example: "Indonesia"
      *   - updated by required, example: "Supaldi"
      *   - reason required, example: "Testing"
      * 
-     * - Authentication:
+     * Path:
+     *   - id required, example: 1
+     * 
+     * Authentication:
      *   - Requires valid bearer Token
      * 
      * @routeParam {id} required
@@ -189,18 +195,21 @@ class CountryController extends Controller
     /**
      * GET /api/master/countries/check
      * 
-     * - Behavior:
+     * Behavior:
      *   - Check if data already exists
      * 
-     * - Query Parameters:
+     * Business Rules:
+     *   - columns and values required and must be same length
+     * 
+     * Query Parameters:
      *   - columns[] required, example: ["country_name"]
      *   - values[] required, example: ["test"]
      * 
-     * - Available Request:
+     * Available Request:
      *   - GET /api/master/countries/check?columns[]=country_name&values[]=test
      *   - GET /api/master/countries/check?columns[]=country_code&values[]=test
      * 
-     * - Authentication:
+     * Authentication:
      *   - Requires valid bearer Token
      * 
      * @param ExistsRequest $request

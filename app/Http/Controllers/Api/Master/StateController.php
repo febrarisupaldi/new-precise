@@ -24,6 +24,13 @@ class StateController extends Controller
 
     /**
      * GET /api/master/states
+     * 
+     * Behavior:
+     *  - get all states
+     * 
+     * Authentication:
+     *  - Requires valid bearer Token
+     * 
      * @return JsonResponse
      */
     public function index(): JsonResponse
@@ -48,7 +55,16 @@ class StateController extends Controller
 
     /**
      * GET /api/master/states/{id}
-     * @routeParam {id} required
+     * 
+     * Behavior:
+     *  - get state by id
+     * 
+     * Path:
+     *  - id required, example: 1
+     * 
+     * Authentication:
+     *  - Requires valid bearer Token
+     * 
      * @return JsonResponse
      */
     public function show(int $id): JsonResponse
@@ -81,6 +97,19 @@ class StateController extends Controller
 
     /**
      * POST /api/master/states
+     * 
+     * Behavior:
+     *  - create state
+     * 
+     * Body:
+     *  - state name required, example: "State Name"
+     *  - country id required, example: 1
+     *  - is active required, example: true
+     *  - created by required, example: "admin"
+     * 
+     * Authentication:
+     *  - Requires valid bearer Token
+     * 
      * @param CreateStateRequest $request
      * @return JsonResponse
      */
@@ -110,6 +139,23 @@ class StateController extends Controller
 
     /**
      * PUT /api/master/states/{id}
+     * 
+     * Behavior:
+     *  - update state
+     * 
+     * Path:
+     *  - id required, example: 1
+     * 
+     * Body:
+     *  - state name optional, example: "State Name"
+     *  - country id optional, example: 1
+     *  - is active optional, example: true
+     *  - updated by required, example: "admin"
+     *  - reason required, example: "Updated description"
+     * 
+     * Authentication:
+     *  - Requires valid bearer Token
+     * 
      * @routeParam {id} required
      * @param UpdateStateRequest $request
      * @return JsonResponse
@@ -153,6 +199,20 @@ class StateController extends Controller
 
     /**
      * GET /api/master/states/check
+     * 
+     * Behavior:
+     *  - check if state exists
+     * 
+     * Business Rules:
+     *  - columns and values required and must be same length
+     * 
+     * Query Parameters:
+     *  - columns[] required, example: ["status_code"]
+     *  - values[] required, example: ["RUNNING"]
+     * 
+     * Authentication:
+     *  - Requires valid bearer Token
+     * 
      * @param ExistsRequest $request
      * @return JsonResponse
      */

@@ -25,10 +25,10 @@ class CustomerAddressController extends Controller
     /**
      * GET /api/master/customer-addresses
      * 
-     * - Behavior:
+     * Behavior:
      *   - Return all customer address data
      * 
-     * - Authentication:
+     * Authentication:
      *   - Requires valid bearer Token
      * 
      * @return StreamedResponse
@@ -67,10 +67,10 @@ class CustomerAddressController extends Controller
     /**
      * GET /api/master/customer-addresses/{id}
      * 
-     * - Behavior:
+     * Behavior:
      *   - Return single customer address data based on id
      * 
-     * - Authentication:
+     * Authentication:
      *   - Requires valid bearer Token
      * 
      * @param  int  $id
@@ -104,10 +104,10 @@ class CustomerAddressController extends Controller
     /**
      * POST /api/master/customer-addresses
      * 
-     * - Behavior:
+     * Behavior:
      *   - Create single customer address data
      * 
-     * - Body:
+     * Body:
      *   - customer_id required, example: 1
      *   - address_line_1 required, example: "Address Line 1"
      *   - address_line_2 optional, example: "Address Line 2"
@@ -121,7 +121,7 @@ class CustomerAddressController extends Controller
      *   - is_shipping required, example: true
      *   - created by required, example: "Supaldi"
      * 
-     * - Authentication:
+     * Authentication:
      *   - Requires valid bearer Token
      * 
      * @param  CreateCustomerAddressRequest  $request
@@ -158,13 +158,13 @@ class CustomerAddressController extends Controller
     /**
      * PUT /api/master/customer-addresses/{id}
      * 
-     * - Behavior:
+     * Behavior:
      *   - Update single customer address data based on id
      * 
-     * - Path:
+     * Path:
      *   - id required, example: 1
      * 
-     * - Body:
+     * Body:
      *   - customer_id optional, example: 1
      *   - address_line_1 optional, example: "Address Line 1"
      *   - address_line_2 optional, example: "Address Line 2"
@@ -179,7 +179,7 @@ class CustomerAddressController extends Controller
      *   - updated by required, example: "Supaldi"
      *   - reason required, example: "Updated description"
      * 
-     * - Authentication:
+     * Authentication:
      *   - Requires valid bearer Token
      * 
      * @param  UpdateCustomerAddressRequest  $request
@@ -215,17 +215,17 @@ class CustomerAddressController extends Controller
     /**
      * DELETE /api/master/customer-addresses/{id}
      * 
-     * - Behavior:
+     * Behavior:
      *   - Delete single customer address data based on id
      * 
-     * - Path:
+     * Path:
      *   - id required, example: 1
      * 
-     * - Body:
+     * Body:
      *   - updated_by required, example: "Supaldi"
      *   - reason required, example: "updated description"
      * 
-     * - Authentication:
+     * Authentication:
      *   - Requires valid bearer Token
      * 
      * @param  int  $id

@@ -22,7 +22,16 @@ class ProductEquivalentController extends Controller
     }
 
     /**
-     * 
+     * GET /api/master/product-equivalents
+     *
+     * Behavior:
+     *  - get all product equivalents
+     *
+     * Query Parameters:
+     *  - product_code optional, example: "A1"
+     *
+     * Authentication:
+     *  - Requires valid bearer Token
      */
     public function index(Request $request): JsonResponse
     {
@@ -50,6 +59,17 @@ class ProductEquivalentController extends Controller
     }
 
     /**
+     * GET /api/master/product-equivalents/{id}
+     * 
+     * Behavior:
+     *  - get product equivalent by id
+     * 
+     * Path:
+     *  - id required, example: 1
+     * 
+     * Authentication:
+     *  - Requires valid bearer Token
+     * 
      * @param int $id
      * @return JsonResponse
      */
@@ -82,6 +102,21 @@ class ProductEquivalentController extends Controller
     }
 
     /**
+     * POST /api/master/product-equivalents
+     * 
+     * Behavior:
+     *  - create product equivalent
+     * 
+     * Body:
+     *  - product code required, example: "01.1.01.101.001"
+     *  - uom code required, example: "KG"
+     *  - qty std required, example: "1"
+     *  - qty conversion required, example: 1000
+     *  - updated by required, example: "hermanto"
+     * 
+     * Authentication:
+     *  - Requires valid bearer Token
+     * 
      * @param CreateProductEquivalentRequest $request
      * @return JsonResponse
      */
@@ -110,6 +145,25 @@ class ProductEquivalentController extends Controller
     }
 
     /**
+     * PUT /api/master/product-equivalents/{id}
+     * 
+     * Behavior:
+     *  - update product equivalent
+     * 
+     * Path:
+     *  - id required, example: 1
+     * 
+     * Body:
+     *  - product code optional, example: "01.1.01.101.001"
+     *  - uom code optional, example: "KG"
+     *  - qty std optional, example: "1"
+     *  - qty conversion optional, example: 1000
+     *  - updated by required, example: "hermanto"
+     *  - reason required, example: "Updated description"
+     * 
+     * Authentication:
+     *  - Requires valid bearer Token
+     * 
      * @param int $id
      * @param Request $request
      * @return JsonResponse
@@ -142,10 +196,5 @@ class ProductEquivalentController extends Controller
                 code: 500
             );
         }
-    }
-
-    public function check()
-    {
-        throw new \Exception('Not implemented');
     }
 }

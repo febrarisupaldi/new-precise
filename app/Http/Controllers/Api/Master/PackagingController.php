@@ -26,17 +26,27 @@ class PackagingController extends Controller
 
     /**
      * GET /api/master/packagings
+     * 
+     * Behavior:
+     *  - No parameter: return all packagings.
+     *  - `with=details`: return all packagings including details.
+     *  - `status=1`: return only active packagings.
+     *  - `status=0`: return only inactive packagings.
+     *  
+     * Query Parameters:
+     *  - include optional, example: "details"
+     *  - status optional, example: "active"
+     * 
+     * Authentication:
+     *  - Requires valid bearer Token
+     * 
      * @param Request $request
      * @return JsonResponse
      */
     public function index(Request $request): JsonResponse
     {
         try {
-            if ($request->query("include") === "details") {
-                $result = $this->packagingService->allWithDetails();
-            } else {
-                $result = $this->packagingService->all($request->query('status'));
-            }
+            $result = $this->packagingService->all($request->toArray());
 
 
             return $this->jsonResponse(
@@ -58,6 +68,20 @@ class PackagingController extends Controller
 
     /**
      * GET /api/master/packagings/{id}
+     * 
+     * Behavior:
+     *  - return packagings data with id
+     *  - if include details, return packaging data with details
+     * 
+     * Path:
+     *  - id required, example: 1
+     * 
+     * Query Parameters:
+     *  - include optional, example: "details"
+     * 
+     * Authentication:
+     *  - Requires valid bearer Token
+     * 
      * @routeParam {id} required
      * @return JsonResponse
      */
@@ -93,6 +117,21 @@ class PackagingController extends Controller
 
     /**
      * POST /api/master/packagings
+     * 
+     * Behavior:
+     *  - create new packaging
+     * 
+     * Body:
+     *  - code: string
+     *  - name: string
+     *  - uom: string
+     *  - status: int
+     *  - description: string
+     *  - created by: int
+     * 
+     * Authentication:
+     *  - Requires valid bearer Token
+     * 
      * @param CreatePackagingRequest $request
      * @return JsonResponse
      */

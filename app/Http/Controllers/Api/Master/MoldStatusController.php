@@ -24,6 +24,13 @@ class MoldStatusController extends Controller
 
     /**
      * GET /api/master/mold-statuses
+     * 
+     * Behavior:
+     *  - get all mold statuses
+     * 
+     * Authentication:
+     *  - Requires valid bearer Token
+     * 
      * @return JsonResponse
      */
     public function index(): JsonResponse
@@ -47,8 +54,15 @@ class MoldStatusController extends Controller
     }
 
     /**
-     * GET /api/master/mold-statuses/{id}
-     * @routeParam {id} required
+     * GET /api/master/mold-statuses/{code}
+     * 
+     * Behavior:
+     *  - get mold status by code
+     *
+     * Authentication:
+     *  - Requires valid bearer Token
+     * 
+     * @routeParam {code} required
      * @return JsonResponse
      */
     public function show(string $id): JsonResponse
@@ -79,6 +93,19 @@ class MoldStatusController extends Controller
 
     /**
      * POST /api/master/mold-statuses
+     * 
+     * Behavior:
+     *  - create mold status
+     *
+     * Body:
+     *  - status_code required, example: "RUNNING"
+     *  - status_description optional, example: "Machine is running"
+     *  - is_active required, example: true
+     *  - created_by required, example: "admin"
+     * 
+     * Authentication:
+     *  - Requires valid bearer Token
+     * 
      * @return JsonResponse
      */
     public function store(CreateMoldStatusRequest $request): JsonResponse
@@ -110,16 +137,32 @@ class MoldStatusController extends Controller
     }
 
     /**
-     * PUT /api/master/mold-statuses/{id}
-     * @param string $id
+     * PUT /api/master/mold-statuses/{code}
+     * 
+     * Behavior:
+     *  - update mold status
+     *
+     * Body:
+     *  - status_description optional, example: "Machine is running"
+     *  - is_active required, example: true
+     *  - updated_by required, example: "admin"
+     *  - reason required, example: "Testing"
+     * 
+     * Route Parameter:
+     *  - code required, example: "RUNNING"
+     * 
+     * Authentication:
+     *  - Requires valid bearer Token
+     * 
+     * @param string $code
      * @param UpdateMoldStatusRequest $request
      * @return JsonResponse
      */
-    public function update(string $id, UpdateMoldStatusRequest $request): JsonResponse
+    public function update(string $code, UpdateMoldStatusRequest $request): JsonResponse
     {
         try {
             $data = UpdateMoldStatusDTO::fromRequest($request);
-            $this->moldStatusService->update($id, $data);
+            $this->moldStatusService->update($code, $data);
             return $this->jsonResponse(
                 status: 'ok',
                 message: 'Mold Status updated successfully.',
@@ -133,7 +176,7 @@ class MoldStatusController extends Controller
                 code: 404
             );
         } catch (\Throwable $e) {
-            $this->logError($e, 'MoldStatusController@update', ['id' => $id, 'payload' => $request->all()]);
+            $this->logError($e, 'MoldStatusController@update', ['id' => $code, 'payload' => $request->all()]);
             return $this->jsonResponse(
                 status: 'error',
                 message: 'Failed to update Mold Status.',
@@ -142,6 +185,25 @@ class MoldStatusController extends Controller
         }
     }
 
+    /**
+     * POST /api/master/mold-statuses/check
+     * 
+     * Behavior:
+     *  - check if mold status exists
+     * 
+     * Business Rules:
+     *  - columns and values required and must be same length
+     * 
+     * Query Parameters:
+     *  - columns[] required, example: ["status_code"]
+     *  - values[] required, example: ["RUNNING"]
+     * 
+     * Authentication:
+     *  - Requires valid bearer Token
+     * 
+     * @param ExistsRequest $request
+     * @return JsonResponse
+     */
     public function exists(ExistsRequest $request): JsonResponse
     {
         try {

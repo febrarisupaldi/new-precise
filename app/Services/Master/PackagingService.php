@@ -22,15 +22,13 @@ class PackagingService
         $this->packagingDetailRepo = $packagingDetailRepo;
     }
 
-    public function all(?string $status = null): object
+    public function all(?array $filters = null): object
     {
-        if ($status) {
-            return $this->packagingRepo->all()->where('hd.is_active', $status)->get();
-        }
-        return $this->packagingRepo->all()->get();
+        return $this->packagingRepo->all($filters)->get();
     }
 
-    public function allWithDetails(): object{
+    public function allWithDetails(): object
+    {
         return $this->packagingRepo->allWithDetails()->get();
     }
 
@@ -52,22 +50,19 @@ class PackagingService
             $this->packagingRepo->insert($dto->except(['details']));
             $id = $dto->packaging_id;
 
-            if($dto->details != null){
-                $details = collect( $dto->details ) 
-                    ->map(function ($detail) use($id) 
-                    { 
+            if ($dto->details != null) {
+                $details = collect($dto->details)
+                    ->map(function ($detail) use ($id) {
                         $row = $detail->toArray();
                         $row['packaging_id'] = $id;
-                        
+
                         return $row;
-                    }) 
+                    })
                     ->toArray();
 
                 $this->packagingDetailRepo->insertBatch($details);
             }
         }, 3);
-
-        
     }
 
     public function update(int $id, UpdatePackagingDTO $dto): void
@@ -80,7 +75,7 @@ class PackagingService
             }
             $this->packagingRepo->setAuditSession($dto->toAuditArray());
 
-            $this->packagingRepo->update($id, $dto->except(['details','reason']));
+            $this->packagingRepo->update($id, $dto->except(['details', 'reason']));
 
             $existing = $this->packagingDetailRepo->findByHeaderID($id)->get();
 
@@ -88,7 +83,7 @@ class PackagingService
                 ->filter(fn($detail) => !empty($detail->packaging_dt_id))
                 ->keyBy(fn($detail) => $detail->packaging_dt_id);
 
-            
+
             $incomingNew = collect($dto->details)
                 ->filter(fn($detail) => empty($detail->packaging_dt_id));
 
@@ -98,9 +93,9 @@ class PackagingService
                 ->values()
                 ->toArray();
 
-            
 
-            if(!empty($deleteIds)) {
+
+            if (!empty($deleteIds)) {
                 $this->packagingDetailRepo->bulkDeleteDetails($deleteIds);
             }
 
@@ -118,9 +113,9 @@ class PackagingService
                 ->values()
                 ->toArray();
 
-            
-            
-            if(!empty($updateRows)){
+
+
+            if (!empty($updateRows)) {
                 $this->packagingDetailRepo->bulkUpdateDetails($updateRows);
             }
 
@@ -138,7 +133,7 @@ class PackagingService
                 ->values()
                 ->toArray();
 
-            if(!empty($insertRows)){
+            if (!empty($insertRows)) {
                 $this->packagingDetailRepo->insertBatch($insertRows);
             }
         });

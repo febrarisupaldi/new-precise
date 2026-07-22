@@ -24,6 +24,13 @@ class SteelTypeController extends Controller
 
     /**
      * GET /api/master/steel-types
+     * 
+     * Behavior:
+     *  - get all steel types
+     * 
+     * Authentication:
+     *  - Requires valid bearer token
+     * 
      * @return JsonResponse
      */
     public function index(): JsonResponse
@@ -50,6 +57,16 @@ class SteelTypeController extends Controller
 
     /**
      * GET /api/master/steel-types/{id}
+     * 
+     * Behavior:
+     *  - get steel type by id
+     * 
+     * Path:
+     *  - id required, example: 1
+     * 
+     * Authentication:
+     *  - Requires valid bearer token
+     * 
      * @routeParam {id} required
      * @return JsonResponse
      */
@@ -83,6 +100,18 @@ class SteelTypeController extends Controller
 
     /**
      * POST /api/master/steel-types
+     * 
+     * Behavior:
+     *  - create steel type
+     * 
+     * Body:
+     *  - steel type name required, example: "Steel Type"
+     *  - is active optional, example: true
+     *  - created by required, example: "admin"
+     * 
+     * Authentication:
+     *  - Requires valid bearer token
+     * 
      * @param CreateSteelTypeRequest $request
      * @return JsonResponse
      */
@@ -112,6 +141,22 @@ class SteelTypeController extends Controller
 
     /**
      * PUT /api/master/steel-types/{id}
+     * 
+     * Behavior:
+     *  - update steel type
+     * 
+     * Path:
+     *  - id required, example: 1
+     * 
+     * Body:
+     *  - steel type name optional, example: "Steel Type"
+     *  - is active optional, example: true
+     *  - updated by required, example: "admin"
+     *  - reason required, example: "Updated description"
+     * 
+     * Authentication:
+     *  - Requires valid bearer token
+     * 
      * @routeParam {id} required
      * @param UpdateSteelTypeRequest $request
      * @return JsonResponse
@@ -148,6 +193,20 @@ class SteelTypeController extends Controller
 
     /**
      * GET /api/master/steel-types/check
+     * 
+     * Behavior:
+     *  - check if steel type exists
+     * 
+     * Business Rules:
+     *  - columns and values required and must be same length
+     * 
+     * Query Parameters:
+     *  - columns[] required, example: ["name"]
+     *  - values[] required, example: ["Steel Type"]
+     * 
+     * Authentication:
+     *  - Requires valid bearer token
+     * 
      * @param ExistsRequest $request
      * @return JsonResponse
      */

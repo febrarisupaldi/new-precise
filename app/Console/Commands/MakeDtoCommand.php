@@ -51,7 +51,7 @@ class MakeDtoCommand extends Command
             return;
         }
         $stub = File::get($stubPath);
-        /** * Aggregate DTO */ 
+        /** * Aggregate DTO */
         if ($isAggregate) {
             $baseName = preg_replace('/^(Create|Update)/', '', $name);
             $aggregateFields = " public {$name}MasterDTO \$master;\n\n" . " /**\n" . " * @var array<{$name}DetailDTO>\n" . " */\n" . " public array \$details = [];\n";
@@ -59,7 +59,7 @@ class MakeDtoCommand extends Command
         }
         /** * Update DTO */
         elseif (Str::startsWith($name, 'Update')) {
-            $headers = "\nuse App\DTOs\Traits\AuditDTO;\n\n";
+            $headers = "\nuse App\DTOs\Traits\AuditDTO;\n";
             $auditFields = " use AuditDTO;\n public string \$updated_by;\n" . " public string \$reason;\n";
             $auditMapping = " \$dto->updated_by = \$request->input('updated_by');\n" . " \$dto->reason = \$request->input('reason');\n";
             $stub = str_replace("// php namespace", $headers, $stub);
