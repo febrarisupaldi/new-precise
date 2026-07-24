@@ -18,4 +18,8 @@ class SteelTypeRepository extends BaseRepository
         "st.updated_by",
         "st.updated_on"
     ];
+
+    protected array $allowedExistsColumns = [
+        ["steel_type_name"]
+    ];
 }

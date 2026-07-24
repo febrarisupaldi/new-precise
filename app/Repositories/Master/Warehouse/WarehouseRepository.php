@@ -28,6 +28,12 @@ class WarehouseRepository extends BaseRepository
         'wh.updated_by'
     ];
 
+    protected array $allowedExistsColumns = [
+        ["warehouse_code"],
+        ["warehouse_name"],
+        ["warehouse_alias"]
+    ];
+
     public function __construct(WarehouseGroupRepository $warehouseGroupRepo)
     {
         $this->warehouseGroupRepo = $warehouseGroupRepo;
@@ -37,21 +43,25 @@ class WarehouseRepository extends BaseRepository
     {
         return parent::all()
             ->addSelect("wg.warehouse_group_name")
-            ->join($this->warehouseGroupRepo->getTable() . " as wg",
+            ->join(
+                $this->warehouseGroupRepo->getTable() . " as wg",
                 $this->warehouseGroupRepo->getPrimaryKey(),
                 "=",
-                "wh.warehouse_group_code")
-                ->when( isset($filters['group_code']) , function($query) use ($filters){
-                    return $query->where("wg.warehouse_group_code", $filters['group_code']);
-                });
+                "wh.warehouse_group_code"
+            )
+            ->when(isset($filters['group_code']), function ($query) use ($filters) {
+                return $query->where("wg.warehouse_group_code", $filters['group_code']);
+            });
     }
 
     public function find(mixed $id): Builder
     {
         return parent::find($id)->addSelect("wg.warehouse_group_name")
-            ->join($this->warehouseGroupRepo->getTable() . " as wg",
+            ->join(
+                $this->warehouseGroupRepo->getTable() . " as wg",
                 $this->warehouseGroupRepo->getPrimaryKey(),
                 "=",
-                "wh.warehouse_group_code");
+                "wh.warehouse_group_code"
+            );
     }
 }

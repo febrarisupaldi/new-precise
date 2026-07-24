@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api\Master;
 
-use App\DTOs\ExistsDTO;
+
 use App\DTOs\Master\MoldStatus\{CreateMoldStatusDTO, UpdateMoldStatusDTO};
 use App\Exceptions\BadRequestException;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ExistsRequest;
+use Illuminate\Http\Request;
 use App\Http\Requests\Master\MoldStatus\{CreateMoldStatusRequest, UpdateMoldStatusRequest};
 use App\Services\Master\MoldStatusService;
 use Illuminate\Http\JsonResponse;
@@ -198,17 +198,20 @@ class MoldStatusController extends Controller
      *  - columns[] required, example: ["status_code"]
      *  - values[] required, example: ["RUNNING"]
      * 
+     * Available Request:
+     *  - /api/master/mold-statuses/check?columns[]=status_code&values[]=MC
+     * 
      * Authentication:
      *  - Requires valid bearer Token
      * 
-     * @param ExistsRequest $request
+     * @param Request $request
      * @return JsonResponse
      */
-    public function exists(ExistsRequest $request): JsonResponse
+    public function exists(Request $request): JsonResponse
     {
         try {
-            $dto = ExistsDTO::fromRequest($request);
-            $exists = $this->moldStatusService->checkExist($dto);
+
+            $exists = $this->moldStatusService->checkExist($request->query());
             return $this->jsonResponse(
                 status: 'ok',
                 message: 'Mold Status exists check completed.',

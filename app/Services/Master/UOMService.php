@@ -2,7 +2,7 @@
 
 namespace App\Services\Master;
 
-use App\DTOs\ExistsDTO;
+
 use App\Repositories\Master\UOM\UOMRepository;
 use App\DTOs\Master\UOM\CreateUOMDTO;
 use App\DTOs\Master\UOM\UpdateUOMDTO;
@@ -57,7 +57,7 @@ class UOMService
         });
     }
 
-    public function checkExist(ExistsDTO $dto): bool
+    public function checkExist(array $conditions): bool
     {
         return $this->UOMRepo->exists($dto->columns, $dto->values);
     }

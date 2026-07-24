@@ -2,7 +2,7 @@
 
 namespace App\Services\Master;
 
-use App\DTOs\ExistsDTO;
+
 use App\Repositories\Master\MoldStatus\MoldStatusRepository;
 use App\DTOs\Master\MoldStatus\CreateMoldStatusDTO;
 use App\DTOs\Master\MoldStatus\UpdateMoldStatusDTO;
@@ -57,7 +57,7 @@ class MoldStatusService
         });
     }
 
-    public function checkExist(ExistsDTO $dto): bool
+    public function checkExist(array $conditions): bool
     {
         return $this->moldStatusRepo->exists($dto->columns, $dto->values);
     }

@@ -2,7 +2,7 @@
 
 namespace App\Services\Master;
 
-use App\DTOs\ExistsDTO;
+
 use App\Repositories\Master\Supplier\SupplierRepository;
 use App\DTOs\Master\Supplier\CreateSupplierDTO;
 use App\DTOs\Master\Supplier\UpdateSupplierDTO;
@@ -57,7 +57,7 @@ class SupplierService
         });
     }
 
-    public function checkExist(ExistsDTO $dto): bool
+    public function checkExist(array $conditions): bool
     {
         return $this->supplierRepo->exists($dto->columns, $dto->values);
     }

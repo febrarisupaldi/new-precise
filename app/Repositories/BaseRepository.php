@@ -11,6 +11,7 @@ abstract class BaseRepository
     protected string $as;
     protected string $primaryKey;
     protected array $columns;
+    protected array $allowedExistsColumns;
 
     /**
      * Get all records
@@ -104,62 +105,69 @@ abstract class BaseRepository
     /**
      * Check if record exists
      *
-     * @param array $columns
-     * @param array $value
+     * @param array $conditions
      * @return bool
      */
-    public function exists(array $columns, array $value): bool
+    public function exists(array $conditions): bool
     {
-        if (count($columns) !== count($value)) {
-            throw new \InvalidArgumentException('Columns and values must have the same number of elements.', 400);
+        $columns = array_keys($conditions);
+
+        sort($columns);
+
+        $allowed = collect($this->allowedExistsColumns)
+            ->map(function ($item) {
+                sort($item);
+                return $item;
+            });
+
+        if (!$allowed->contains($columns)) {
+            throw new \InvalidArgumentException('Condition is not allowed.');
         }
 
-        $check = DB::table("INFORMATION_SCHEMA.COLUMNS")
-            ->select('COLUMN_NAME')
-            ->where('TABLE_SCHEMA', config('database.connections.mysql.database'))
-            ->where('TABLE_NAME', str_replace("precise.", "", $this->table))
-            ->whereIn('COLUMN_NAME', $columns)
+        return DB::table($this->table, $this->as)
+            ->where($conditions)
             ->exists();
-
-        if (!$check) {
-            throw new \InvalidArgumentException('Not exists', 404);
-        }
-
-        $data = array_combine($columns, $value);
-        return DB::table($this->table)->where($data)->exists();
     }
 
-    public function removeAllColumns(): void{
+    public function removeAllColumns(): void
+    {
         $this->columns = [];
     }
 
-    public function removeColumn(array $column):array{
+    public function removeColumn(array $column): array
+    {
         return array_diff($this->columns, $column);
     }
 
-    public function getTable(): string{
+    public function getTable(): string
+    {
         return $this->table;
     }
 
-    public function getColumns(): array{
+    public function getColumns(): array
+    {
         return $this->columns;
     }
 
-    public function getAlias(): string{
+    public function getAlias(): string
+    {
         return $this->as;
     }
 
-    public function setAlias(string $alias): void{
+    public function setAlias(string $alias): void
+    {
         $this->as = $alias;
         $getPrimaryKey = explode(".", $this->primaryKey);
         $this->primaryKey = $alias . "." . $getPrimaryKey[1];
     }
 
-    public function getPrimaryKey(): string{
+    public function getPrimaryKey(): string
+    {
         return $this->primaryKey;
     }
 
-    public function setPrimaryKey(string $column): void{
+    public function setPrimaryKey(string $column): void
+    {
         $this->primaryKey = $column;
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Services\Master;
 
-use App\DTOs\ExistsDTO;
+
 use App\Repositories\Master\ProductBrand\ProductBrandRepository;
 use App\DTOs\Master\ProductBrand\CreateProductBrandDTO;
 use App\DTOs\Master\ProductBrand\UpdateProductBrandDTO;
@@ -57,7 +57,7 @@ class ProductBrandService
         });
     }
 
-    public function checkExist(ExistsDTO $dto): bool
+    public function checkExist(array $conditions): bool
     {
         return $this->productBrandRepo->exists($dto->columns, $dto->values);
     }

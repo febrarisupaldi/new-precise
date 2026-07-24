@@ -2,7 +2,7 @@
 
 namespace App\Services\{{module}};
 
-use App\DTOs\ExistsDTO;
+
 use App\Repositories\{{module}}\{{name}}\{{name}}Repository;
 use App\DTOs\{{module}}\{{name}}\Create{{name}}DTO;
 use App\DTOs\{{module}}\{{name}}\Update{{name}}DTO;
@@ -57,7 +57,7 @@ class {{name}}Service
         });
     }
 
-    public function checkExist(ExistsDTO $dto): bool
+    public function checkExist(array $conditions): bool
     {
         return $this->{{nameLower}}Repo->exists($dto->columns, $dto->values);
     }

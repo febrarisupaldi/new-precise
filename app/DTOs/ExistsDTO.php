@@ -9,14 +9,12 @@ class ExistsDTO extends BaseDTO
 {
     // Define properties here
     // public $property;
-    public array $columns;
-    public array $values;
+    public array $conditions;
 
     public static function fromRequest(Request $request): static
     {
         $dto = new self();
-        $dto->columns = $request->input('columns');
-        $dto->values = $request->input('values');
+        $dto->conditions = $request->query();
         return $dto;
     }
 }

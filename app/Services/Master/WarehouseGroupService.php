@@ -2,7 +2,7 @@
 
 namespace App\Services\Master;
 
-use App\DTOs\ExistsDTO;
+
 use App\Repositories\Master\WarehouseGroup\WarehouseGroupRepository;
 use App\DTOs\Master\WarehouseGroup\CreateWarehouseGroupDTO;
 use App\DTOs\Master\WarehouseGroup\UpdateWarehouseGroupDTO;
@@ -57,7 +57,7 @@ class WarehouseGroupService
         });
     }
 
-    public function checkExist(ExistsDTO $dto): bool
+    public function checkExist(array $conditions): bool
     {
         return $this->warehouseGroupRepo->exists($dto->columns, $dto->values);
     }

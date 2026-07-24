@@ -2,7 +2,7 @@
 
 namespace App\Services\Master;
 
-use App\DTOs\ExistsDTO;
+
 use App\Repositories\Master\ColorType\ColorTypeRepository;
 use App\DTOs\Master\ColorType\CreateColorTypeDTO;
 use App\DTOs\Master\ColorType\UpdateColorTypeDTO;
@@ -74,7 +74,7 @@ class ColorTypeService
         });
     }
 
-    public function checkExist(ExistsDTO $dto): bool
+    public function checkExist(array $conditions): bool
     {
         return $this->colorTypeRepo->exists($dto->columns, $dto->values);
     }

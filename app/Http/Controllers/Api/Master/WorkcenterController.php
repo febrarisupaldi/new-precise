@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Api\Master;
 
-use App\DTOs\ExistsDTO;
+
 use App\DTOs\Master\Workcenter\{CreateWorkcenterDTO, UpdateWorkcenterDTO};
 use App\Exceptions\BadRequestException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DeleteRequest;
-use App\Http\Requests\ExistsRequest;
 use App\Http\Requests\Master\Workcenter\{CreateWorkcenterRequest, UpdateWorkcenterRequest};
 use App\Services\Master\WorkcenterService;
 use Illuminate\Http\JsonResponse;
@@ -234,11 +233,11 @@ class WorkcenterController extends Controller
     /**
      * GET /api/master/workcenters/check?columns[]=column1,column2&values[]=value1,value2
      */
-    public function check(ExistsRequest $request): JsonResponse
+    public function check(Request $request): JsonResponse
     {
         try {
-            $dto = ExistsDTO::fromRequest($request);
-            $exists = $this->workcenterService->checkExist($dto);
+
+            $exists = $this->workcenterService->checkExist($request->query());
 
             return $this->jsonResponse(
                 status: 'ok',

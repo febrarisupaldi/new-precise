@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api\Master;
 
-use App\DTOs\ExistsDTO;
+
 use App\Http\Controllers\Controller;
 use App\Services\Master\SteelTypeService;
 use App\DTOs\Master\SteelType\{CreateSteelTypeDTO, UpdateSteelTypeDTO};
-use App\Http\Requests\ExistsRequest;
+use Illuminate\Http\Request;
 use App\Http\Requests\Master\SteelType\{CreateSteelTypeRequest, UpdateSteelTypeRequest};
 use Illuminate\Http\JsonResponse;
 use App\Exceptions\BadRequestException;
@@ -207,15 +207,15 @@ class SteelTypeController extends Controller
      * Authentication:
      *  - Requires valid bearer token
      * 
-     * @param ExistsRequest $request
+     * @param Request $request
      * @return JsonResponse
      */
-    public function check(ExistsRequest $request): JsonResponse
+    public function check(Request $request): JsonResponse
     {
         try {
-            $dto = ExistsDTO::fromRequest($request);
 
-            $exists = $this->steelTypeService->checkExist($dto);
+
+            $exists = $this->steelTypeService->checkExist($request->query());
 
             return $this->jsonResponse(
                 status: 'ok',

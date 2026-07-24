@@ -7,7 +7,7 @@ use App\Repositories\BaseRepository;
 class ProductRepository extends BaseRepository
 {
     protected string $table = 'precise.product';
-    protected string $as = 'p'; 
+    protected string $as = 'p';
     protected string $primaryKey = 'p.product_id';
     protected array $columns = [
         'p.product_id',
@@ -23,6 +23,10 @@ class ProductRepository extends BaseRepository
         'p.created_by',
         'p.updated_on',
         'p.updated_by'
+    ];
+
+    protected array $allowedExistsColumns = [
+        ["product_code"]
     ];
 
     // Add custom repository methods here

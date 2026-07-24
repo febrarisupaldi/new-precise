@@ -6,7 +6,7 @@ use App\Repositories\BaseRepository;
 
 class MachineStatusRepository extends BaseRepository
 {
-    protected string $table = 'precise.machine_status'; 
+    protected string $table = 'precise.machine_status';
     protected string $as = 'ms';
     protected string $primaryKey = 'ms.status_code';
     protected array $columns = [
@@ -17,6 +17,10 @@ class MachineStatusRepository extends BaseRepository
         'ms.created_on',
         'ms.updated_by',
         'ms.updated_on'
+    ];
+
+    protected array $allowedExistsColumns = [
+        ["status_code"]
     ];
 
     // Add custom repository methods here

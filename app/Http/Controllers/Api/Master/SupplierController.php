@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api\Master;
 
-use App\DTOs\ExistsDTO;
+
 use App\DTOs\Master\Supplier\{CreateSupplierDTO, UpdateSupplierDTO};
 use App\Exceptions\BadRequestException;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ExistsRequest;
+use Illuminate\Http\Request;
 use App\Http\Requests\Master\Supplier\{CreateSupplierRequest, UpdateSupplierRequest};
 use App\Services\Master\SupplierService;
 use Illuminate\Http\JsonResponse;
@@ -176,11 +176,11 @@ class SupplierController extends Controller
      * @queryParam values[] string required values to check
      * @return JsonResponse
      */
-    public function check(ExistsRequest $request): JsonResponse
+    public function check(Request $request): JsonResponse
     {
         try {
-            $dto = ExistsDTO::fromRequest($request);
-            $exists = $this->supplierService->checkExist($dto);
+
+            $exists = $this->supplierService->checkExist($request->query());
             return $this->jsonResponse(
                 status: 'ok',
                 message: 'Supplier checked successfully.',

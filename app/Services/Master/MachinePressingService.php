@@ -2,7 +2,7 @@
 
 namespace App\Services\Master;
 
-use App\DTOs\ExistsDTO;
+
 use App\Repositories\Master\MachinePressing\MachinePressingRepository;
 use App\DTOs\Master\MachinePressing\CreateMachinePressingDTO;
 use App\DTOs\Master\MachinePressing\UpdateMachinePressingDTO;
@@ -57,7 +57,7 @@ class MachinePressingService
         });
     }
 
-    public function checkExist(ExistsDTO $dto): bool
+    public function checkExist(array $conditions): bool
     {
         return $this->machinePressingRepo->exists($dto->columns, $dto->values);
     }

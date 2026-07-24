@@ -2,7 +2,7 @@
 
 namespace App\Services\Master;
 
-use App\DTOs\ExistsDTO;
+
 use App\Repositories\Master\MoldInjection\MoldInjectionRepository;
 use App\DTOs\Master\MoldInjection\CreateMoldInjectionDTO;
 use App\DTOs\Master\MoldInjection\UpdateMoldInjectionDTO;
@@ -57,7 +57,7 @@ class MoldInjectionService
         });
     }
 
-    public function checkExist(ExistsDTO $dto): bool
+    public function checkExist(array $conditions): bool
     {
         return $this->moldInjectionRepo->exists($dto->columns, $dto->values);
     }

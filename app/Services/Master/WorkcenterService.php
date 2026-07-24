@@ -2,7 +2,7 @@
 
 namespace App\Services\Master;
 
-use App\DTOs\ExistsDTO;
+
 use App\Repositories\Master\Workcenter\WorkcenterRepository;
 use App\DTOs\Master\Workcenter\CreateWorkcenterDTO;
 use App\DTOs\Master\Workcenter\UpdateWorkcenterDTO;
@@ -74,7 +74,7 @@ class WorkcenterService
         });
     }
 
-    public function checkExist(ExistsDTO $dto): bool
+    public function checkExist(array $conditions): bool
     {
         return $this->workcenterRepo->exists($dto->columns, $dto->values);
     }

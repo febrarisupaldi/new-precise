@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\DB;
 class MoldPressingDetailRepository extends BaseRepository
 {
     private MoldStatusRepository $moldStatusRepo;
-    
-    protected string $table = 'precise.mold_pressing_dt'; 
+
+    protected string $table = 'precise.mold_pressing_dt';
     protected string $as = 'mpdt';
     protected string $primaryKey = 'mphd.mold_pressing_dt_id';
     protected array $columns = [
@@ -28,13 +28,18 @@ class MoldPressingDetailRepository extends BaseRepository
         'mpdt.updated_by'
     ];
 
+    protected array $allowedExistsColumns = [
+        ["mold_number"]
+    ];
+
     public function __construct(
         MoldStatusRepository $moldStatusRepo
-    ){
+    ) {
         $this->moldStatusRepo = $moldStatusRepo;
     }
 
-    public function findByMasterID(string|int $id): Builder{
+    public function findByMasterID(string|int $id): Builder
+    {
         $query = DB::table("precise.mold_pressing_dt as mpdt")
             ->select(
                 'mpdt.mold_pressing_dt_id',
@@ -49,16 +54,16 @@ class MoldPressingDetailRepository extends BaseRepository
                 'mpdt.updated_on',
                 'mpdt.updated_by'
             );
-        if(is_int($id)){
+        if (is_int($id)) {
             $query->where("mpdt.mold_pressing_hd_id", $id);
-        }else{
+        } else {
             $query->leftJoin(
                 "precise.mold_pressing_hd as mphd",
                 'mpdt.mold_pressing_hd_id',
                 '=',
                 "mphd.mold_pressing_hd_id"
             )
-            ->where("mphd.mold_number", $id);
+                ->where("mphd.mold_number", $id);
         }
 
         return $query;

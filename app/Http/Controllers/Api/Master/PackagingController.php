@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\Api\Master;
 
-use App\DTOs\ExistsDTO;
+
 use App\DTOs\Master\Packaging\{CreatePackagingDTO, UpdatePackagingDTO};
 use App\Exceptions\BadRequestException;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ExistsRequest;
 use App\Http\Requests\Master\Packaging\{CreatePackagingRequest, UpdatePackagingRequest};
 use App\Services\Master\PackagingService;
 use Dedoc\Scramble\Attributes\Group;
@@ -196,14 +195,14 @@ class PackagingController extends Controller
 
     /**
      * GET /api/master/packagings/check
-     * @param ExistsRequest $request
+     * @param Request $request
      * @return JsonResponse
      */
-    public function check(ExistsRequest $request): JsonResponse
+    public function check(Request $request): JsonResponse
     {
         try {
-            $dto = ExistsDTO::fromRequest($request);
-            $result = $this->packagingService->checkExist($dto);
+
+            $result = $this->packagingService->checkExist($request->query());
 
             return $this->jsonResponse(
                 status: 'ok',

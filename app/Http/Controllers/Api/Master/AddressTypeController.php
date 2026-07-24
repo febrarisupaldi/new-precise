@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Api\Master;
 
-use App\DTOs\ExistsDTO;
+
 use App\Http\Controllers\Controller;
 use App\Services\Master\AddressTypeService;
 use App\DTOs\Master\AddressType\{CreateAddressTypeDTO, UpdateAddressTypeDTO};
-use App\Http\Requests\ExistsRequest;
 use App\Http\Requests\Master\AddressType\{CreateAddressTypeRequest, UpdateAddressTypeRequest};
 use Illuminate\Http\JsonResponse;
 use App\Exceptions\BadRequestException;
 use Dedoc\Scramble\Attributes\Group;
+use Illuminate\Http\Request;
 
 #[Group('MASTER|Address Type', 'Address Types')]
 class AddressTypeController extends Controller
@@ -194,28 +194,19 @@ class AddressTypeController extends Controller
      * Behavior:
      *   - Check if data already exists
      * 
-     * Business Rules:
-     *   - columns and values required and must be same length
-     * 
      * Query Parameters:
-     *   - columns[] required, example: ["address_type_name"]
-     *   - values[] required, example: ["test"]
-     * 
-     * Available Request:
-     *   - /api/master/address-types/check?columns[]=address_type_name&values[]=test
+     *   - address_type_name required, example: "test"
      * 
      * Authentication:
      *   - Requires valid bearer Token
      * 
-     * @param ExistsRequest $request
+     * @param Request $request
      * @return JsonResponse
      */
-    public function check(ExistsRequest $request): JsonResponse
+    public function check(Request $request): JsonResponse
     {
         try {
-            $dto = ExistsDTO::fromRequest($request);
-
-            $exists = $this->addressTypeService->checkExist($dto);
+            $exists = $this->addressTypeService->checkExist($request->query());
 
             return $this->jsonResponse(
                 status: 'ok',

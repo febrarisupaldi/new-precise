@@ -2,7 +2,7 @@
 
 namespace App\Services\Master;
 
-use App\DTOs\ExistsDTO;
+
 use App\Repositories\Master\Country\CountryRepository;
 use App\DTOs\Master\Country\CreateCountryDTO;
 use App\DTOs\Master\Country\UpdateCountryDTO;
@@ -62,7 +62,7 @@ class CountryService
         });
     }
 
-    public function checkExist(ExistsDTO $dto): bool
+    public function checkExist(array $conditions): bool
     {
         return $this->countryRepo->exists($dto->columns, $dto->values);
     }

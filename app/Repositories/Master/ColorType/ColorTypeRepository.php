@@ -19,5 +19,10 @@ class ColorTypeRepository extends BaseRepository
         'ct.updated_on'
     ];
 
+    protected array $allowedExistsColumns = [
+        ["color_type_name"],
+        ["color_type_code"]
+    ];
+
     // Add custom repository methods here
 }

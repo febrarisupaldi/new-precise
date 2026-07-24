@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\Api\Master;
 
-use App\DTOs\ExistsDTO;
+
 use App\DTOs\Master\MachineInjection\{CreateMachineInjectionDTO, UpdateMachineInjectionDTO};
 use App\Exceptions\BadRequestException;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ExistsRequest;
 use App\Http\Requests\Master\MachineInjection\{CreateMachineInjectionRequest, UpdateMachineInjectionRequest};
 use App\Services\Master\MachineInjectionService;
 use Dedoc\Scramble\Attributes\Group;
@@ -226,14 +225,14 @@ class MachineInjectionController extends Controller
      * Authentication:
      *   - Requires valid bearer Token
      * 
-     * @param ExistsRequest $request
+     * @param Request $request
      * @return JsonResponse
      */
-    public function check(ExistsRequest $request): JsonResponse
+    public function check(Request $request): JsonResponse
     {
         try {
-            $dto = ExistsDTO::fromRequest($request);
-            $exists = $this->machineInjectionService->checkExist($dto);
+
+            $exists = $this->machineInjectionService->checkExist($request->query());
             return $this->jsonResponse(
                 status: 'ok',
                 message: 'Machine Injection checked successfully.',

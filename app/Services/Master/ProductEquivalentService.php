@@ -2,7 +2,7 @@
 
 namespace App\Services\Master;
 
-use App\DTOs\ExistsDTO;
+
 use App\Repositories\Master\ProductEquivalent\ProductEquivalentRepository;
 use App\DTOs\Master\ProductEquivalent\CreateProductEquivalentDTO;
 use App\DTOs\Master\ProductEquivalent\UpdateProductEquivalentDTO;
@@ -62,7 +62,7 @@ class ProductEquivalentService
         });
     }
 
-    public function checkExist(ExistsDTO $dto): bool
+    public function checkExist(array $conditions): bool
     {
         return $this->productEquivalentRepo->exists($dto->columns, $dto->values);
     }

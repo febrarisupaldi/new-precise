@@ -2,7 +2,7 @@
 
 namespace App\Services\Master;
 
-use App\DTOs\ExistsDTO;
+
 use App\Repositories\Master\City\CityRepository;
 use App\DTOs\Master\City\CreateCityDTO;
 use App\DTOs\Master\City\UpdateCityDTO;
@@ -62,8 +62,8 @@ class CityService
         });
     }
 
-    public function checkExist(ExistsDTO $dto): bool
+    public function checkExist(array $conditions): bool
     {
-        return $this->cityRepo->exists($dto->columns, $dto->values);
+        return $this->cityRepo->exists($conditions);
     }
 }

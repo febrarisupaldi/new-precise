@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api\Master;
 use App\DTOs\Master\MachinePressing\{CreateMachinePressingDTO, UpdateMachinePressingDTO};
 use App\Exceptions\BadRequestException;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ExistsRequest;
 use App\Http\Requests\Master\MachinePressing\{CreateMachinePressingRequest, UpdateMachinePressingRequest};
 use App\Services\Master\MachinePressingService;
 use Dedoc\Scramble\Attributes\Group;
@@ -245,14 +244,13 @@ class MachinePressingController extends Controller
      * Authentication:
      *  - Requires valid bearer Token
      * 
-     * @param ExistsRequest $request
+     * @param Request $request
      * @return JsonResponse
      */
-    public function check(ExistsRequest $request): JsonResponse
+    public function check(Request $request): JsonResponse
     {
         try {
-            $dto = ExistsRequest::fromRequest($request);
-            $exists = $this->machinePressingService->checkExist($dto);
+            $exists = $this->machinePressingService->checkExist($request->query());
             return $this->jsonResponse(
                 status: 'ok',
                 message: 'Machine Pressing exists successfully.',

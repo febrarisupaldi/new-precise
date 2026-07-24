@@ -19,5 +19,10 @@ class UOMRepository extends BaseRepository
         'u.updated_on'
     ];
 
+    protected array $allowedExistsColumns = [
+        ["uom_code"],
+        ["uom_name"]
+    ];
+
     // Add custom repository methods here
 }

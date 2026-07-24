@@ -10,7 +10,7 @@ class MachineInjectionRepository extends BaseRepository
 {
 
     private MachineStatusRepository $machineStatusRepo;
-    protected string $table = 'precise.machine_injection'; 
+    protected string $table = 'precise.machine_injection';
     protected string $as = 'mi';
     protected string $primaryKey = 'mi.machine_injection_id';
     protected array $columns = [
@@ -32,12 +32,18 @@ class MachineInjectionRepository extends BaseRepository
         'mi.updated_by'
     ];
 
+    protected array $allowedExistsColumns = [
+        ["machine_code"],
+        ["line_code", "line_number"]
+    ];
+
     public function __construct(MachineStatusRepository $machineStatusRepo)
     {
         $this->machineStatusRepo = $machineStatusRepo;
     }
 
-    public function all(?array $filters = []): Builder{
+    public function all(?array $filters = []): Builder
+    {
         return parent::all()->addSelect(
             "ms.status_description"
         )->join(
@@ -45,7 +51,7 @@ class MachineInjectionRepository extends BaseRepository
             'mi.machine_status_code',
             '=',
             $this->machineStatusRepo->primaryKey
-        )->when($filters['code'] ?? null, function($query) use ($filters) {
+        )->when($filters['code'] ?? null, function ($query) use ($filters) {
             return $query->where('mi.machine_code', $filters['code']);
         });
     }

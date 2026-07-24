@@ -11,7 +11,7 @@ class MachinePressingRepository extends BaseRepository
 {
     private MachineStatusRepository $machineStatusRepo;
 
-    protected string $table = 'precise.machine_pressing'; 
+    protected string $table = 'precise.machine_pressing';
     protected string $as = 'mp';
     protected string $primaryKey = 'mp.machine_pressing_id';
     protected array $columns = [
@@ -37,7 +37,12 @@ class MachinePressingRepository extends BaseRepository
         'mp.created_on',
         'mp.created_by',
         'mp.updated_on',
-        'mp.updated_by'  
+        'mp.updated_by'
+    ];
+
+    protected array $allowedExistsColumns = [
+        ["machine_code"],
+        ["line_code", "line_number"]
     ];
 
     public function __construct(MachineStatusRepository $machineStatusRepo)
@@ -45,7 +50,8 @@ class MachinePressingRepository extends BaseRepository
         $this->machineStatusRepo = $machineStatusRepo;
     }
 
-    public function all(?array $filters = []): Builder{
+    public function all(?array $filters = []): Builder
+    {
         $this->removeColumn(['mp.can_plain', 'mp.can_print', 'mp.can_mug', 'mp.can_bico_lg', 'mp.can_bico_material']);
         return parent::all()->addSelect(
             "ms.status_description",
@@ -61,15 +67,16 @@ class MachinePressingRepository extends BaseRepository
             'mp.machine_status_code',
             '=',
             $this->machineStatusRepo->primaryKey
-        )->when($filters['code'] ?? null, function($query) use ($filters) {
+        )->when($filters['code'] ?? null, function ($query) use ($filters) {
             return $query->where('mp.machine_code', $filters['code']);
         })
-        ->when($filters['old_machine_code'] ?? null && $filters['machine_location'] ?? null, 
-            function($query) use($filters){
-                return $query->where('mp.old_machine_code', $filters['old_machine_code'])
-                            ->where('mp.machine_location', $filters['machine_location']);                           
-            }
-        );
+            ->when(
+                $filters['old_machine_code'] ?? null && $filters['machine_location'] ?? null,
+                function ($query) use ($filters) {
+                    return $query->where('mp.old_machine_code', $filters['old_machine_code'])
+                        ->where('mp.machine_location', $filters['machine_location']);
+                }
+            );
     }
     // Add custom repository methods here
 }

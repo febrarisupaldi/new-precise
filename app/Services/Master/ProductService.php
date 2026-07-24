@@ -2,7 +2,7 @@
 
 namespace App\Services\Master;
 
-use App\DTOs\ExistsDTO;
+
 use App\Repositories\Master\ProductRepository;
 use App\DTOs\Master\CreateProductDTO;
 use App\DTOs\Master\UpdateProductDTO;
@@ -57,7 +57,7 @@ class ProductService
         });
     }
 
-    public function checkExist(ExistsDTO $dto): bool
+    public function checkExist(array $conditions): bool
     {
         return $this->productRepo->exists($dto->columns, $dto->values);
     }

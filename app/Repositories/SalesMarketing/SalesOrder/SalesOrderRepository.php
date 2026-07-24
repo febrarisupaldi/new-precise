@@ -16,8 +16,8 @@ class SalesOrderRepository extends BaseRepository
     private ProductRepository $productRepository;
     private CityRepository $cityRepository;
     private WarehouseRepository $warehouseRepository;
-    
-    protected string $table = 'precise.sales_order_hd'; 
+
+    protected string $table = 'precise.sales_order_hd';
     protected string $as = 'hd';
     protected string $primaryKey = 'hd.sales_order_hd_id';
     protected array $columns = [
@@ -45,22 +45,27 @@ class SalesOrderRepository extends BaseRepository
         'hd.updated_by'
     ];
 
+    protected array $allowedExistsColumns = [
+        ["sales_order_number"]
+    ];
+
     public function __construct(
         SalesOrderDetailRepository $salesOrderDetailRepository,
-        ProductRepository $productRepository, 
+        ProductRepository $productRepository,
         CityRepository $cityRepository,
-        WarehouseRepository $warehouseRepository)
-    {
+        WarehouseRepository $warehouseRepository
+    ) {
         $this->salesOrderDetailRepository = $salesOrderDetailRepository;
         $this->productRepository = $productRepository;
         $this->cityRepository = $cityRepository;
         $this->warehouseRepository = $warehouseRepository;
     }
-    public function allWithFilter(array $filter): Builder{
+    public function allWithFilter(array $filter): Builder
+    {
         return parent::all()
             ->when(
-                isset($filter['start']) && isset($filter['end']) && $filter['number'] == null, 
-                function($query) use ($filter){
+                isset($filter['start']) && isset($filter['end']) && $filter['number'] == null,
+                function ($query) use ($filter) {
                     return $query->addSelect(
                         "dt.sales_order_seq",
                         "dt.uom_code",
@@ -82,23 +87,29 @@ class SalesOrderRepository extends BaseRepository
                         "dt.ppn",
                         "dt.net"
                     )
-                    ->whereBetween("hd.sales_order_date", [$filter['start'], $filter['end']])
-                    ->leftJoin($this->salesOrderDetailRepository->getTable(). " as " .$this->salesOrderDetailRepository->getAlias(),
-                        $this->salesOrderDetailRepository->getPrimaryKey(), "=", $this->primaryKey
-                    )
-                    ->leftJoin($this->productRepository->getTable(). " as " .$this->productRepository->getAlias(),
-                        $this->productRepository->getPrimaryKey(), "=", "dt.product_id"
-                    );
+                        ->whereBetween("hd.sales_order_date", [$filter['start'], $filter['end']])
+                        ->leftJoin(
+                            $this->salesOrderDetailRepository->getTable() . " as " . $this->salesOrderDetailRepository->getAlias(),
+                            $this->salesOrderDetailRepository->getPrimaryKey(),
+                            "=",
+                            $this->primaryKey
+                        )
+                        ->leftJoin(
+                            $this->productRepository->getTable() . " as " . $this->productRepository->getAlias(),
+                            $this->productRepository->getPrimaryKey(),
+                            "=",
+                            "dt.product_id"
+                        );
                 }
             )
-            ->when($filter['number'] != null, function($query) use ($filter){
+            ->when($filter['number'] != null, function ($query) use ($filter) {
                 $this->setPrimaryKey("hd.sales_order_number");
                 return $this->show($filter['number']);
-            });
-        ;
+            });;
     }
 
-    public function show(string|int $id): Builder{
+    public function show(string|int $id): Builder
+    {
         $this->columns = $this->removeColumn([
             'sales_order_status'
         ]);
@@ -124,28 +135,28 @@ class SalesOrderRepository extends BaseRepository
             "emp.employee_name",
             "w.warehouse_code",
             "w.warehouse_name"
-        )->leftJoin("precise.customer as cust", "cust.customer_id","=","hd.customer_id")
-        ->leftJoin("precise.customer_address as ca", function($join){
-            $join->on("cust.customer_id","=","ca.customer_id");
-            $join->on("ca.address_type_id","=", DB::raw(1));
-            $join->on("ca.is_default","=", DB::raw(1));
-        })
-        ->leftJoin(
-            $this->cityRepository->getTable()." as ". $this->cityRepository->getAlias(),
-            "ca.city_id", 
-            "=",
-            $this->cityRepository->getPrimaryKey()
-        )
-        ->leftJoin(
-            $this->warehouseRepository->getTable()." as ". $this->warehouseRepository->getAlias(),
-            "hd.warehouse_id",
-            "=",
-            $this->warehouseRepository->getPrimaryKey()
+        )->leftJoin("precise.customer as cust", "cust.customer_id", "=", "hd.customer_id")
+            ->leftJoin("precise.customer_address as ca", function ($join) {
+                $join->on("cust.customer_id", "=", "ca.customer_id");
+                $join->on("ca.address_type_id", "=", DB::raw(1));
+                $join->on("ca.is_default", "=", DB::raw(1));
+            })
+            ->leftJoin(
+                $this->cityRepository->getTable() . " as " . $this->cityRepository->getAlias(),
+                "ca.city_id",
+                "=",
+                $this->cityRepository->getPrimaryKey()
             )
-        ->leftJoin("precise.retail_type as rt", "cust.retail_type_id", "=", "rt.retail_type_id")
-        ->leftJoin("precise.revenue_center as rc","rt.retail_type_id","=","rc.retail_type_id")
-        ->leftJoin("precise.cost_center as cc","rc.cost_center_id","=","cc.cost_center_id")
-        ->leftJoin("precise.employee as emp","hd.sales_person","=","emp.employee_nik");
+            ->leftJoin(
+                $this->warehouseRepository->getTable() . " as " . $this->warehouseRepository->getAlias(),
+                "hd.warehouse_id",
+                "=",
+                $this->warehouseRepository->getPrimaryKey()
+            )
+            ->leftJoin("precise.retail_type as rt", "cust.retail_type_id", "=", "rt.retail_type_id")
+            ->leftJoin("precise.revenue_center as rc", "rt.retail_type_id", "=", "rc.retail_type_id")
+            ->leftJoin("precise.cost_center as cc", "rc.cost_center_id", "=", "cc.cost_center_id")
+            ->leftJoin("precise.employee as emp", "hd.sales_person", "=", "emp.employee_nik");
     }
     // Add custom repository methods here
 }

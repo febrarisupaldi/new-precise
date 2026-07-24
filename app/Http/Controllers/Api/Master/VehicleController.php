@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api\Master;
 
-use App\DTOs\ExistsDTO;
+
 use App\DTOs\Master\Vehicle\{CreateVehicleDTO, UpdateVehicleDTO};
 use App\Exceptions\BadRequestException;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ExistsRequest;
+use Illuminate\Http\Request;
 use App\Http\Requests\Master\Vehicle\{CreateVehicleRequest, UpdateVehicleRequest};
 use App\Services\Master\VehicleService;
 use Illuminate\Http\JsonResponse;
@@ -244,14 +244,14 @@ class VehicleController extends Controller
      * Authentication:
      *  - Requires valid bearer token
      * 
-     * @param ExistsRequest $request
+     * @param Request $request
      * @return JsonResponse
      */
-    public function check(ExistsRequest $request): JsonResponse
+    public function check(Request $request): JsonResponse
     {
         try {
-            $dto = ExistsDTO::fromRequest($request);
-            $exists = $this->vehicleService->checkExist($dto);
+
+            $exists = $this->vehicleService->checkExist($request->query());
 
             return $this->jsonResponse(
                 status: 'ok',

@@ -13,7 +13,7 @@ class StateRepository extends BaseRepository
     protected string $as = "s";
     protected string $primaryKey = "s.state_id";
     protected array $columns = [
-        "s.state_id",   
+        "s.state_id",
         "s.state_code",
         "s.state_name",
         "s.country_id",
@@ -23,6 +23,11 @@ class StateRepository extends BaseRepository
         "s.updated_on"
     ];
 
+    protected array $allowedExistsColumns = [
+        ["state_code"],
+        ["state_name"]
+    ];
+
     public function __construct(CountryRepository $countryRepo)
     {
         $this->countryRepo = $countryRepo;
@@ -30,9 +35,10 @@ class StateRepository extends BaseRepository
 
     public function all(): Builder
     {
-        return parent::all()    
+        return parent::all()
             ->addSelect("c.country_name")
-            ->join($this->countryRepo->getTable()." as ".$this->countryRepo->getAlias(),
+            ->join(
+                $this->countryRepo->getTable() . " as " . $this->countryRepo->getAlias(),
                 $this->countryRepo->getPrimaryKey(),
                 "=",
                 "s.country_id"
@@ -42,9 +48,11 @@ class StateRepository extends BaseRepository
     public function find(mixed $id): Builder
     {
         return parent::find($id)->addSelect("c.country_name")
-            ->join($this->countryRepo->getTable()." as ".$this->countryRepo->getAlias(),
+            ->join(
+                $this->countryRepo->getTable() . " as " . $this->countryRepo->getAlias(),
                 $this->countryRepo->getPrimaryKey(),
                 "=",
-                "s.country_id");
+                "s.country_id"
+            );
     }
 }

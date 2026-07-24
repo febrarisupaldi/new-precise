@@ -2,7 +2,7 @@
 
 namespace App\Services\Master;
 
-use App\DTOs\ExistsDTO;
+
 use App\Repositories\Master\MachineInjection\MachineInjectionRepository;
 use App\DTOs\Master\MachineInjection\CreateMachineInjectionDTO;
 use App\DTOs\Master\MachineInjection\UpdateMachineInjectionDTO;
@@ -57,7 +57,7 @@ class MachineInjectionService
         });
     }
 
-    public function checkExist(ExistsDTO $dto): bool
+    public function checkExist(array $conditions): bool
     {
         return $this->machineInjectionRepo->exists($dto->columns, $dto->values);
     }

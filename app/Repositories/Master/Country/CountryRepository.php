@@ -18,4 +18,8 @@ class CountryRepository extends BaseRepository
         "c.updated_by",
         "c.updated_on"
     ];
+    protected array $allowedExistsColumns = [
+        ["country_name"],
+        ["country_code"]
+    ];
 }

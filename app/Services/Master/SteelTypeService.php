@@ -2,7 +2,7 @@
 
 namespace App\Services\Master;
 
-use App\DTOs\ExistsDTO;
+
 use App\Repositories\Master\SteelType\SteelTypeRepository;
 use App\DTOs\Master\SteelType\CreateSteelTypeDTO;
 use App\DTOs\Master\SteelType\UpdateSteelTypeDTO;
@@ -62,7 +62,7 @@ class SteelTypeService
         });
     }
 
-    public function checkExist(ExistsDTO $dto): bool
+    public function checkExist(array $conditions): bool
     {
         return $this->steelTypeRepo->exists($dto->columns, $dto->values);
     }

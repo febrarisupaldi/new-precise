@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api\Master;
 
-use App\DTOs\ExistsDTO;
+
 use App\DTOs\Master\MachineStatus\{CreateMachineStatusDTO, UpdateMachineStatusDTO};
 use App\Exceptions\BadRequestException;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ExistsRequest;
+use Illuminate\Http\Request;
 use App\Http\Requests\Master\MachineStatus\{CreateMachineStatusRequest, UpdateMachineStatusRequest};
 use App\Services\Master\MachineStatusService;
 use Illuminate\Http\JsonResponse;
@@ -182,17 +182,20 @@ class MachineStatusController extends Controller
      *  - columns[] required, example: ["status_code"]
      *  - values[] required, example: ["RUNNING"]
      * 
+     * Available Request:
+     *  - /api/master/machine-statuses/check?columns[]=status_code&values[]=MC
+     * 
      * Authentication:
      *  - Requires valid bearer Token
      * 
-     * @param ExistsRequest $request
+     * @param Request $request
      * @return JsonResponse
      */
-    public function check(ExistsRequest $request): JsonResponse
+    public function check(Request $request): JsonResponse
     {
         try {
-            $dto = ExistsDTO::fromRequest($request);
-            $exists = $this->machineStatusService->checkExist($dto);
+
+            $exists = $this->machineStatusService->checkExist($request->query());
             return $this->jsonResponse(
                 status: 'ok',
                 message: 'Machine Status check successfully.',

@@ -2,7 +2,7 @@
 
 namespace App\Services\Master;
 
-use App\DTOs\ExistsDTO;
+
 use App\Repositories\Master\MachineStatus\MachineStatusRepository;
 use App\DTOs\Master\MachineStatus\CreateMachineStatusDTO;
 use App\DTOs\Master\MachineStatus\UpdateMachineStatusDTO;
@@ -57,7 +57,7 @@ class MachineStatusService
         });
     }
 
-    public function checkExist(ExistsDTO $dto): bool
+    public function checkExist(array $conditions): bool
     {
         return $this->machineStatusRepo->exists($dto->columns, $dto->values);
     }

@@ -11,7 +11,7 @@ class WorkcenterRepository extends BaseRepository
 {
     private WarehouseRepository $warehouseRepository;
 
-    protected string $table = 'precise.workcenter'; 
+    protected string $table = 'precise.workcenter';
     protected string $as = 'wc';
     protected string $primaryKey = 'wc.workcenter_id';
     protected array $columns = [
@@ -30,12 +30,18 @@ class WorkcenterRepository extends BaseRepository
         'wc.updated_by'
     ];
 
+    protected array $allowedExistsColumns = [
+        ["workcenter_code"],
+        ["workcenter_name"]
+    ];
+
     public function __construct(WarehouseRepository $warehouseRepository)
     {
         $this->warehouseRepository = $warehouseRepository;
     }
 
-    public function all(?array $filters= null): Builder{
+    public function all(?array $filters = null): Builder
+    {
         return parent::all()
             ->addSelect(
                 DB::raw(
@@ -47,24 +53,27 @@ class WorkcenterRepository extends BaseRepository
                     "
                 )
             )
-            ->leftJoin($this->warehouseRepository->table . ' as ' . $this->warehouseRepository->as, 
-                'wc.default_warehouse', 
-                '=', 
+            ->leftJoin(
+                $this->warehouseRepository->table . ' as ' . $this->warehouseRepository->as,
+                'wc.default_warehouse',
+                '=',
                 $this->warehouseRepository->primaryKey
-            )->when($filters['code'] ?? null, function($query) use ($filters){
+            )->when($filters['code'] ?? null, function ($query) use ($filters) {
                 return $query->where('wc.workcenter_code', $filters['code']);
             });
     }
 
-    public function find(int|string $id): Builder{
+    public function find(int|string $id): Builder
+    {
         $this->removeColumn(["wc.default_warehouse"]);
         return parent::find($id)
             ->addSelect(
                 "wh.warehouse_id",
                 "wh.warehouse_code",
                 "wh.warehouse_name"
-                )
-            ->leftJoin($this->warehouseRepository->table . ' as ' . $this->warehouseRepository->as, 
+            )
+            ->leftJoin(
+                $this->warehouseRepository->table . ' as ' . $this->warehouseRepository->as,
                 'wc.default_warehouse',
                 '=',
                 $this->warehouseRepository->primaryKey

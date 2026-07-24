@@ -2,7 +2,7 @@
 
 namespace App\Services\Master;
 
-use App\DTOs\ExistsDTO;
+
 use App\DTOs\Master\Packaging\CreatePackagingDTO;
 use App\DTOs\Master\Packaging\UpdatePackagingDTO;
 use App\Repositories\Master\Packaging\PackagingRepository;
@@ -139,7 +139,7 @@ class PackagingService
         });
     }
 
-    public function checkExist(ExistsDTO $dto): bool
+    public function checkExist(array $conditions): bool
     {
         return $this->packagingRepo->exists($dto->columns, $dto->values);
     }

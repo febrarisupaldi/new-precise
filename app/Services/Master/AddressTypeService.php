@@ -2,7 +2,7 @@
 
 namespace App\Services\Master;
 
-use App\DTOs\ExistsDTO;
+
 use App\Repositories\Master\AddressType\AddressTypeRepository;
 use App\DTOs\Master\AddressType\CreateAddressTypeDTO;
 use App\DTOs\Master\AddressType\UpdateAddressTypeDTO;
@@ -62,8 +62,8 @@ class AddressTypeService
         });
     }
 
-    public function checkExist(ExistsDTO $dto): bool
+    public function checkExist(array $conditions): bool
     {
-        return $this->addressTypeRepo->exists($dto->columns, $dto->values);
+        return $this->addressTypeRepo->exists($conditions);
     }
 }

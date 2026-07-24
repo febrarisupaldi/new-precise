@@ -6,7 +6,7 @@ use App\Repositories\BaseRepository;
 
 class MoldStatusRepository extends BaseRepository
 {
-    protected string $table = 'precise.mold_status'; 
+    protected string $table = 'precise.mold_status';
     protected string $as = 'ms';
     protected string $primaryKey = 'ms.status_code';
     protected array $columns = [
@@ -17,6 +17,10 @@ class MoldStatusRepository extends BaseRepository
         'ms.created_by',
         'ms.updated_on',
         'ms.updated_by'
+    ];
+
+    protected array $allowedExistsColumns = [
+        ["status_code"]
     ];
 
     // Add custom repository methods here

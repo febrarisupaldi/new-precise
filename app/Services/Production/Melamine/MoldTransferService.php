@@ -2,7 +2,7 @@
 
 namespace App\Services\Production\Melamine;
 
-use App\DTOs\ExistsDTO;
+
 use App\Repositories\Production\Melamine\MoldTransfer\MoldTransferHeaderRepository;
 use App\DTOs\Production\Melamine\MoldTransfer\CreateMoldTransferDTO;
 use App\DTOs\Production\Melamine\MoldTransfer\UpdateMoldTransferDTO;
@@ -11,13 +11,13 @@ use Illuminate\Support\Facades\DB;
 
 class MoldTransferService
 {
-    protected MoldTransferHeaderRepository $moldTransferRepo ;
+    protected MoldTransferHeaderRepository $moldTransferRepo;
     protected MoldTransferDetailRepository $moldTransferDetailRepo;
 
     public function __construct(
-        MoldTransferHeaderRepository $moldTransferRepo, 
-        MoldTransferDetailRepository $moldTransferDetailRepo)
-    {
+        MoldTransferHeaderRepository $moldTransferRepo,
+        MoldTransferDetailRepository $moldTransferDetailRepo
+    ) {
         $this->moldTransferRepo = $moldTransferRepo;
         $this->moldTransferDetailRepo = $moldTransferDetailRepo;
     }
@@ -60,7 +60,7 @@ class MoldTransferService
         });
     }
 
-    public function checkExist(ExistsDTO $dto): bool
+    public function checkExist(array $conditions): bool
     {
         return $this->moldTransferRepo->exists($dto->columns, $dto->values);
     }

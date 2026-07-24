@@ -18,4 +18,7 @@ class AddressTypeRepository extends BaseRepository
         "at.updated_by",
         "at.updated_on"
     ];
+    protected array $allowedExistsColumns = [
+        ["address_type_name"]
+    ];
 }

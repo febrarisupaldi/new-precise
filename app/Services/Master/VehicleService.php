@@ -2,7 +2,7 @@
 
 namespace App\Services\Master;
 
-use App\DTOs\ExistsDTO;
+
 use App\Repositories\Master\Vehicle\VehicleRepository;
 use App\DTOs\Master\Vehicle\CreateVehicleDTO;
 use App\DTOs\Master\Vehicle\UpdateVehicleDTO;
@@ -72,7 +72,7 @@ class VehicleService
         });
     }
 
-    public function checkExist(ExistsDTO $dto): bool
+    public function checkExist(array $conditions): bool
     {
         return $this->vehicleRepo->exists($dto->columns, $dto->values);
     }

@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Api\Master;
 
-use App\DTOs\ExistsDTO;
+
 use App\DTOs\Master\Warehouse\{CreateWarehouseDTO, UpdateWarehouseDTO};
 use App\Exceptions\BadRequestException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DeleteRequest;
-use App\Http\Requests\ExistsRequest;
 use App\Http\Requests\Master\Warehouse\{CreateWarehouseRequest, UpdateWarehouseRequest};
 use App\Services\Master\WarehouseService;
 use Dedoc\Scramble\Attributes\Group;
@@ -283,14 +282,14 @@ class WarehouseController extends Controller
      * Authentication:
      *  - Requires valid bearer token
      * 
-     * @param ExistsRequest $request
+     * @param Request $request
      * @return JsonResponse
      */
-    public function check(ExistsRequest $request): JsonResponse
+    public function check(Request $request): JsonResponse
     {
         try {
-            $dto = ExistsDTO::fromRequest($request);
-            $exists = $this->warehouseService->checkExist($dto);
+
+            $exists = $this->warehouseService->checkExist($request->query());
 
             return $this->jsonResponse(
                 status: 'ok',

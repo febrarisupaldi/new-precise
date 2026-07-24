@@ -2,7 +2,7 @@
 
 namespace App\Services\Master;
 
-use App\DTOs\ExistsDTO;
+
 use App\Repositories\Master\MoldPressing\MoldPressingRepository;
 use App\DTOs\Master\MoldPressing\CreateMoldPressingDTO;
 use App\DTOs\Master\MoldPressing\UpdateMoldPressingDTO;
@@ -29,7 +29,7 @@ class MoldPressingService
 
     public function find(mixed $id): ?object
     {
-        $data = $this->moldPressingRepo->find($id)->first();  
+        $data = $this->moldPressingRepo->find($id)->first();
         if (!$data) {
             throw new BadRequestException('Mold Pressing data not found.', code: 404);
         }
@@ -67,7 +67,7 @@ class MoldPressingService
         });
     }
 
-    public function checkExist(ExistsDTO $dto): bool
+    public function checkExist(array $conditions): bool
     {
         return $this->moldPressingRepo->exists($dto->columns, $dto->values);
     }

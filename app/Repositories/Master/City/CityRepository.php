@@ -21,6 +21,10 @@ class CityRepository extends BaseRepository
         "c.updated_by",
         "c.updated_on"
     ];
+    protected array $allowedExistsColumns = [
+        ["city_name"],
+        ["city_code"]
+    ];
 
     public function __construct(StateRepository $stateRepo)
     {
@@ -31,18 +35,22 @@ class CityRepository extends BaseRepository
     {
         return parent::all()
             ->addSelect("s.state_name")
-            ->join($this->stateRepo->getTable()." as ".$this->stateRepo->getAlias(),
+            ->join(
+                $this->stateRepo->getTable() . " as " . $this->stateRepo->getAlias(),
                 $this->stateRepo->getPrimaryKey(),
                 "=",
-                "c.state_id");
+                "c.state_id"
+            );
     }
 
     public function find(mixed $id): Builder
     {
         return parent::find($id)->addSelect("s.state_name")
-            ->join($this->stateRepo->getTable()." as ".$this->stateRepo->getAlias(),
+            ->join(
+                $this->stateRepo->getTable() . " as " . $this->stateRepo->getAlias(),
                 $this->stateRepo->getPrimaryKey(),
                 "=",
-                "c.state_id");
+                "c.state_id"
+            );
     }
 }

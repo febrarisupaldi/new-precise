@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api\Master;
 
-use App\DTOs\ExistsDTO;
+
 use App\Http\Controllers\Controller;
 use App\Services\Master\CountryService;
 use App\DTOs\Master\Country\{CreateCountryDTO, UpdateCountryDTO};
-use App\Http\Requests\ExistsRequest;
+use Illuminate\Http\Request;
 use App\Http\Requests\Master\Country\{CreateCountryRequest, UpdateCountryRequest};
 use Illuminate\Http\JsonResponse;
 use App\Exceptions\BadRequestException;
@@ -212,15 +212,15 @@ class CountryController extends Controller
      * Authentication:
      *   - Requires valid bearer Token
      * 
-     * @param ExistsRequest $request
+     * @param Request $request
      * @return JsonResponse
      */
-    public function check(ExistsRequest $request): JsonResponse
+    public function check(Request $request): JsonResponse
     {
         try {
-            $dto = ExistsDTO::fromRequest($request);
 
-            $exists = $this->countryService->checkExist($dto);
+
+            $exists = $this->countryService->checkExist($request->query());
 
             return $this->jsonResponse(
                 status: 'ok',

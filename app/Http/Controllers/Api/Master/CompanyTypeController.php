@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api\Master;
 
-use App\DTOs\ExistsDTO;
+
 use App\Http\Controllers\Controller;
 use App\Services\Master\CompanyTypeService;
 use App\DTOs\Master\CompanyType\{CreateCompanyTypeDTO, UpdateCompanyTypeDTO};
-use App\Http\Requests\ExistsRequest;
+use Illuminate\Http\Request;
 use App\Http\Requests\Master\CompanyType\{CreateCompanyTypeRequest, UpdateCompanyTypeRequest};
 use Illuminate\Http\JsonResponse;
 use App\Exceptions\BadRequestException;
@@ -210,15 +210,15 @@ class CompanyTypeController extends Controller
      * Authentication:
      *   - Requires valid bearer Token
      * 
-     * @param ExistsRequest $request
+     * @param Request $request
      * @return JsonResponse
      */
-    public function check(ExistsRequest $request): JsonResponse
+    public function check(Request $request): JsonResponse
     {
         try {
-            $dto = ExistsDTO::fromRequest($request);
 
-            $exists = $this->companyTypeService->checkExist($dto);
+
+            $exists = $this->companyTypeService->checkExist($request->query());
 
             return $this->jsonResponse(
                 status: 'ok',

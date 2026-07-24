@@ -20,5 +20,9 @@ class ProductBrandRepository extends BaseRepository
         'pb.updated_on'
     ];
 
+    protected array $allowedExistsColumns = [
+        ["product_brand_name"]
+    ];
+
     // Add custom repository methods here
 }

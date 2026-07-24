@@ -32,6 +32,10 @@ class PackagingRepository extends BaseRepository
         'hd.updated_by'
     ];
 
+    protected array $allowedExistsColumns = [
+        ["packaging_id"]
+    ];
+
 
     public function __construct(PackagingDetailRepository $packagingDetailRepo)
     {

@@ -2,7 +2,7 @@
 
 namespace App\Services\Master;
 
-use App\DTOs\ExistsDTO;
+
 use App\Repositories\Master\Customer\CustomerRepository;
 use App\DTOs\Master\Customer\CreateCustomerDTO;
 use App\DTOs\Master\Customer\UpdateCustomerDTO;
@@ -34,7 +34,7 @@ class CustomerService
         $customers = explode("-", $customerIDs);
         $data = $this->customerRepo->findAddressesByCustomerIDs($customers)->get();
 
-        if($data->isEmpty()){
+        if ($data->isEmpty()) {
             throw new BadRequestException('Customer Address not found', code: 404);
         }
         return $data;
@@ -68,7 +68,7 @@ class CustomerService
         });
     }
 
-    public function checkExist(ExistsDTO $dto): bool
+    public function checkExist(array $conditions): bool
     {
         return $this->customerRepo->exists($dto->columns, $dto->values);
     }

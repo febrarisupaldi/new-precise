@@ -23,6 +23,10 @@ class VehicleRepository extends BaseRepository
         "updated_by"
     ];
 
+    protected array $allowedExistsColumns = [
+        ["license_number"]
+    ];
+
     // Add custom repository methods here
     public function findByLicenseNumber(string $licenseNumber): Builder
     {

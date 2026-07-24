@@ -18,4 +18,7 @@ class CompanyTypeRepository extends BaseRepository
         "ct.updated_by",
         "ct.updated_on"
     ];
+    protected array $allowedExistsColumns = [
+        ["company_type_code"]
+    ];
 }

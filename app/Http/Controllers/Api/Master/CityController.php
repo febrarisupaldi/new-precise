@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Api\Master;
 
-use App\DTOs\ExistsDTO;
+
 use App\DTOs\Master\City\{CreateCityDTO, UpdateCityDTO};
 use App\Exceptions\BadRequestException;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ExistsRequest;
 use App\Http\Requests\Master\City\{CreateCityRequest, UpdateCityRequest};
 use App\Services\Master\CityService;
 use Dedoc\Scramble\Attributes\Group;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 #[Group('MASTER|City', 'Cities')]
 class CityController extends Controller
@@ -202,28 +202,20 @@ class CityController extends Controller
      * Behavior:
      *   - Check if data already exists
      * 
-     * Business Rules:
-     *   - columns and values required and must be same length
-     * 
      * Query Parameters:
-     *   - columns[] required, example: ["city_name"]
-     *   - values[] required, example: ["test"]
-     * 
-     * Available Request:
-     *   - /api/master/cities/check?columns[]=city_name&values[]=test
-     *   - /api/master/cities/check?columns[]=city_code&values[]=test
+     *   - city_code required, example: "JKT"
+     *   - city_name required, example: "Jakarta"
      * 
      * Authentication:
      *   - Requires valid bearer Token
      * 
-     * @param ExistsRequest $request
+     * @param Request $request
      * @return JsonResponse
      */
-    public function check(ExistsRequest $request): JsonResponse
+    public function check(Request $request): JsonResponse
     {
         try {
-            $dto    = ExistsDTO::fromRequest($request);
-            $exists = $this->cityService->checkExist($dto);
+            $exists = $this->cityService->checkExist($request->query());
 
             return $this->jsonResponse(
                 status: 'ok',

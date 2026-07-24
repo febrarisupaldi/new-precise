@@ -2,7 +2,7 @@
 
 namespace App\Services\Master;
 
-use App\DTOs\ExistsDTO;
+
 use App\Repositories\Master\CustomerAddress\CustomerAddressRepository;
 use App\DTOs\Master\CustomerAddress\CreateCustomerAddressDTO;
 use App\DTOs\Master\CustomerAddress\UpdateCustomerAddressDTO;
@@ -26,7 +26,7 @@ class CustomerAddressService
 
     public function show(int $id): ?object
     {
-       $data = $this->customerAddressRepo->find($id)->first();
+        $data = $this->customerAddressRepo->find($id)->first();
         if (!$data) {
             throw new BadRequestException('Customer Address not found.', code: 404);
         }

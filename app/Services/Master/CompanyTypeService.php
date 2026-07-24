@@ -2,7 +2,7 @@
 
 namespace App\Services\Master;
 
-use App\DTOs\ExistsDTO;
+
 use App\Repositories\Master\CompanyType\CompanyTypeRepository;
 use App\DTOs\Master\CompanyType\CreateCompanyTypeDTO;
 use App\DTOs\Master\CompanyType\UpdateCompanyTypeDTO;
@@ -62,7 +62,7 @@ class CompanyTypeService
         });
     }
 
-    public function checkExist(ExistsDTO $dto): bool
+    public function checkExist(array $conditions): bool
     {
         return $this->companyTypeRepo->exists($dto->columns, $dto->values);
     }

@@ -2,7 +2,7 @@
 
 namespace App\Services\Master;
 
-use App\DTOs\ExistsDTO;
+
 use App\Repositories\Master\State\StateRepository;
 use App\DTOs\Master\State\CreateStateDTO;
 use App\DTOs\Master\State\UpdateStateDTO;
@@ -63,7 +63,7 @@ class StateService
         });
     }
 
-    public function checkExist(ExistsDTO $dto): bool
+    public function checkExist(array $conditions): bool
     {
         return $this->stateRepo->exists($dto->columns, $dto->values);
     }

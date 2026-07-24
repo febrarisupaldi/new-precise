@@ -2,7 +2,7 @@
 
 namespace App\Services\SalesMarketing;
 
-use App\DTOs\ExistsDTO;
+
 use App\DTOs\SalesMarketing\SalesOrder\CreateSalesOrderDTO;
 use App\DTOs\SalesMarketing\SalesOrder\UpdateSalesOrderDTO;
 use App\Exceptions\BadRequestException;
@@ -17,8 +17,8 @@ class SalesOrderService
 
     public function __construct(
         SalesOrderRepository $salesOrderRepo,
-        SalesOrderDetailRepository $salesOrderDetailRepo)
-    {
+        SalesOrderDetailRepository $salesOrderDetailRepo
+    ) {
         $this->salesOrderRepo = $salesOrderRepo;
         $this->salesOrderDetailRepo = $salesOrderDetailRepo;
     }
@@ -33,7 +33,7 @@ class SalesOrderService
 
     public function find(int $id): ?object
     {
-        $data = $this->salesOrderRepo->find($id)->first();  
+        $data = $this->salesOrderRepo->find($id)->first();
         if (!$data) {
             throw new BadRequestException('Sales Order data not found.', code: 404);
         }
@@ -43,7 +43,8 @@ class SalesOrderService
         return $data;
     }
 
-    public function findBySalesNumber(string $number): ?object{
+    public function findBySalesNumber(string $number): ?object
+    {
         $data = $this->salesOrderRepo->allWithFilter(['number' => $number])->first();
         if (!$data) {
             throw new BadRequestException('Sales Order data not found.', code: 404);
@@ -82,7 +83,7 @@ class SalesOrderService
         });
     }
 
-    public function checkExist(ExistsDTO $dto): bool
+    public function checkExist(array $conditions): bool
     {
         return $this->salesOrderRepo->exists($dto->columns, $dto->values);
     }

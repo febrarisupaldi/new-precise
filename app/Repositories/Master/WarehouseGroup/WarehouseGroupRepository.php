@@ -18,5 +18,9 @@ class WarehouseGroupRepository extends BaseRepository
         'wg.updated_on',
     ];
 
+    protected array $allowedExistsColumns = [
+        ["warehouse_group_code"]
+    ];
+
     // Add custom repository methods here
 }
