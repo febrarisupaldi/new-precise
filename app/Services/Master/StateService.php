@@ -65,6 +65,6 @@ class StateService
 
     public function checkExist(array $conditions): bool
     {
-        return $this->stateRepo->exists($dto->columns, $dto->values);
+        return $this->stateRepo->exists($conditions);
     }
 }

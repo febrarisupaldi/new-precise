@@ -59,6 +59,6 @@ class ProductBrandService
 
     public function checkExist(array $conditions): bool
     {
-        return $this->productBrandRepo->exists($dto->columns, $dto->values);
+        return $this->productBrandRepo->exists($conditions);
     }
 }

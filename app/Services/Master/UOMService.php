@@ -59,6 +59,6 @@ class UOMService
 
     public function checkExist(array $conditions): bool
     {
-        return $this->UOMRepo->exists($dto->columns, $dto->values);
+        return $this->UOMRepo->exists($conditions);
     }
 }

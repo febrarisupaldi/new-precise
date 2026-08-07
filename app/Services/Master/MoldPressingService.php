@@ -69,6 +69,6 @@ class MoldPressingService
 
     public function checkExist(array $conditions): bool
     {
-        return $this->moldPressingRepo->exists($dto->columns, $dto->values);
+        return $this->moldPressingRepo->exists($conditions);
     }
 }

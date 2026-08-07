@@ -70,6 +70,6 @@ class CustomerService
 
     public function checkExist(array $conditions): bool
     {
-        return $this->customerRepo->exists($dto->columns, $dto->values);
+        return $this->customerRepo->exists($conditions);
     }
 }

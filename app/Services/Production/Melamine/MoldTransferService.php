@@ -62,6 +62,6 @@ class MoldTransferService
 
     public function checkExist(array $conditions): bool
     {
-        return $this->moldTransferRepo->exists($dto->columns, $dto->values);
+        return $this->moldTransferRepo->exists($conditions);
     }
 }

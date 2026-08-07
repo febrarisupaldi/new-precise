@@ -66,7 +66,7 @@ class ColorTypeService
                 throw new BadRequestException('ColorType not found', code: 404);
             }
             $this->colorTypeRepo->setAuditSession($data);
-            $success = $this->colorTypeRepo->delete($id, $data);
+            $success = $this->colorTypeRepo->delete($id);
 
             if ($success === false) {
                 throw new Exception('Failed to delete ColorType');
@@ -76,6 +76,6 @@ class ColorTypeService
 
     public function checkExist(array $conditions): bool
     {
-        return $this->colorTypeRepo->exists($dto->columns, $dto->values);
+        return $this->colorTypeRepo->exists($conditions);
     }
 }

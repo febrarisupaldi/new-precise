@@ -33,13 +33,13 @@ class VehicleController extends Controller
      * 
      * @return JsonResponse
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
         try {
             return $this->jsonResponse(
                 status: 'ok',
                 message: 'Data fetched successfully',
-                data: $this->vehicleService->all(),
+                data: $this->vehicleService->all($request->toArray()),
                 code: 200
             );
         } catch (\Throwable $e) {
@@ -84,46 +84,6 @@ class VehicleController extends Controller
             );
         } catch (\Throwable $e) {
             $this->logError($e, 'VehicleController@show');
-            return $this->jsonResponse(
-                status: 'error',
-                message: 'Failed to fetch data',
-                code: 500
-            );
-        }
-    }
-
-    /**
-     * GET /api/master/vehicles/license-number/{licenseNumber}
-     * 
-     * Behavior:
-     *  - get vehicle by license number
-     * 
-     * Path:
-     *  - licenseNumber required, example: "B 1234 XYZ"
-     * 
-     * Authentication:
-     *  - Requires valid bearer token
-     * 
-     * @param string $licenseNumber
-     * @return JsonResponse
-     */
-    public function findByLicenseNumber(string $licenseNumber): JsonResponse
-    {
-        try {
-            return $this->jsonResponse(
-                status: 'ok',
-                message: 'Data fetched successfully',
-                data: $this->vehicleService->findByLicenseNumber($licenseNumber),
-                code: 200
-            );
-        } catch (BadRequestException $e) {
-            return $this->jsonResponse(
-                status: 'fail',
-                message: $e->getMessage(),
-                code: 404
-            );
-        } catch (\Throwable $e) {
-            $this->logError($e, 'VehicleController@findByLicenseNumber');
             return $this->jsonResponse(
                 status: 'error',
                 message: 'Failed to fetch data',

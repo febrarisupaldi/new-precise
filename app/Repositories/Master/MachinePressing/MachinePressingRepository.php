@@ -2,6 +2,8 @@
 
 namespace App\Repositories\Master\MachinePressing;
 
+use App\Database\JoinBuilder;
+use App\Database\Schema\Table;
 use App\Repositories\BaseRepository;
 use App\Repositories\Master\MachineStatus\MachineStatusRepository;
 use Illuminate\Database\Query\Builder;
@@ -9,74 +11,48 @@ use Illuminate\Support\Facades\DB;
 
 class MachinePressingRepository extends BaseRepository
 {
-    private MachineStatusRepository $machineStatusRepo;
+    protected Table $table;
 
-    protected string $table = 'precise.machine_pressing';
-    protected string $as = 'mp';
-    protected string $primaryKey = 'mp.machine_pressing_id';
-    protected array $columns = [
-        'mp.machine_pressing_id',
-        'mp.machine_code',
-        'mp.old_machine_code',
-        'mp.machine_location',
-        'mp.line_code',
-        'mp.line_number',
-        'mp.tonnage',
-        'mp.serial_number',
-        'mp.production_year',
-        'mp.brand',
-        'mp.motor_power',
-        'mp.heater_power',
-        'mp.can_plain',
-        'mp.can_print',
-        'mp.can_mug',
-        'mp.can_bico_lg',
-        'mp.can_bico_material',
-        'mp.priority_rank',
-        'mp.machine_status_code',
-        'mp.created_on',
-        'mp.created_by',
-        'mp.updated_on',
-        'mp.updated_by'
-    ];
-
-    protected array $allowedExistsColumns = [
-        ["machine_code"],
-        ["line_code", "line_number"]
-    ];
-
-    public function __construct(MachineStatusRepository $machineStatusRepo)
+    public function __construct()
     {
-        $this->machineStatusRepo = $machineStatusRepo;
+        $this->table = table('master', 'machine_pressing');
     }
 
     public function all(?array $filters = []): Builder
     {
-        $this->removeColumn(['mp.can_plain', 'mp.can_print', 'mp.can_mug', 'mp.can_bico_lg', 'mp.can_bico_material']);
-        return parent::all()->addSelect(
-            "ms.status_description",
-            DB::raw("
-                case when mp.can_plain = 1 then 'Ya' else 'Tidak' end as can_plain,  
-                case when mp.can_print = 1 then 'Ya' else 'Tidak' end as can_print,  
-                case when mp.can_mug = 1 then 'Ya' else 'Tidak' end as can_mug,  
-                case when mp.can_bico_lg = 1 then 'Ya' else 'Tidak' end as can_bico_lg, 
-                case when mp.can_bico_material = 1 then 'Ya' else 'Tidak' end as can_bico_material 
-            ")
-        )->join(
-            $this->machineStatusRepo->table . ' as ' . $this->machineStatusRepo->as,
-            'mp.machine_status_code',
+        $this->table->except(['can_plain', 'can_print', 'can_mug', 'can_bico_lg', 'can_bico_material']);
+
+        $query = parent::all();
+
+        $machineStatus = table('master', 'machine_status');
+
+        JoinBuilder::leftJoin(
+            $query,
+            $machineStatus,
+            $this->table->column('machine_status_code'),
             '=',
-            $this->machineStatusRepo->primaryKey
+            $machineStatus->column('machine_status_code')
+        );
+
+        return $query->addSelect(
+            $machineStatus->column('status_description'),
+            DB::raw("
+                case when {$this->table->column('can_plain')} = 1 then 'Ya' else 'Tidak' end as can_plain,  
+                case when {$this->table->column('can_print')} = 1 then 'Ya' else 'Tidak' end as can_print,  
+                case when {$this->table->column('can_mug')} = 1 then 'Ya' else 'Tidak' end as can_mug,  
+                case when {$this->table->column('can_bico_lg')} = 1 then 'Ya' else 'Tidak' end as can_bico_lg, 
+                case when {$this->table->column('can_bico_material')} = 1 then 'Ya' else 'Tidak' end as can_bico_material 
+            ")
         )->when($filters['code'] ?? null, function ($query) use ($filters) {
-            return $query->where('mp.machine_code', $filters['code']);
+            return $query->where($this->table->column('machine_code'), $filters['code']);
         })
             ->when(
-                $filters['old_machine_code'] ?? null && $filters['machine_location'] ?? null,
+                $filters['old_code'] ?? null && $filters['location'] ?? null,
                 function ($query) use ($filters) {
-                    return $query->where('mp.old_machine_code', $filters['old_machine_code'])
-                        ->where('mp.machine_location', $filters['machine_location']);
+                    return $query->where($this->table->column('old_machine_code'), $filters['old_machine_code'])
+                        ->where($this->table->column('machine_location'), $filters['machine_location']);
                 }
-            );
+            );;
     }
     // Add custom repository methods here
 }

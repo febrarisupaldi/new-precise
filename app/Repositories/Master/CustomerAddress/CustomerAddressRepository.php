@@ -2,100 +2,84 @@
 
 namespace App\Repositories\Master\CustomerAddress;
 
+use App\Database\JoinBuilder;
+use App\Database\Schema\Table;
 use App\Repositories\BaseRepository;
-use App\Repositories\Master\AddressType\AddressTypeRepository;
-use App\Repositories\Master\City\CityRepository;
-use App\Repositories\Master\Customer\CustomerRepository;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
 
 class CustomerAddressRepository extends BaseRepository
 {
-    private CustomerRepository $customerRepository;
-    private AddressTypeRepository $addressTypeRepository;
-    private CityRepository $cityRepository;
-    protected string $table = 'precise.customer_address';
-    protected string $as = 'ca';
-    protected string $primaryKey = 'ca.customer_address_id';
-    protected array $columns = [
-        'ca.customer_address_id',
-        'ca.customer_id',
-        'ca.address_type_id',
-        'ca.is_default',
-        'ca.address',
-        'ca.subdistrict',
-        'ca.district',
-        'ca.city_id',
-        'ca.zipcode',
-        'ca.phone_number',
-        'ca.fax_number',
-        'ca.email',
-        'ca.website',
-        'ca.off_hour',
-        'ca.contact_person',
-        'ca.religion',
-        'ca.created_on',
-        'ca.created_by',
-        'ca.updated_on',
-        'ca.updated_by'
-    ];
+    protected Table $table;
+    protected Table $city;
+    protected Table $customer;
+    protected Table $addressType;
 
-    public function __construct(CustomerRepository $customerRepository,
-    AddressTypeRepository $addressTypeRepository, 
-    CityRepository $cityRepository)
+    public function __construct()
     {
-        $this->customerRepository = $customerRepository;
-        $this->addressTypeRepository = $addressTypeRepository;
-        $this->cityRepository = $cityRepository;
+        $this->table = table('master', 'customer_address');
+        $this->city = table('master', 'city')->withAlias('ct');
+        $this->customer = table('master', 'customer')->withAlias('cust');
+        $this->addressType = table('master', 'address_type');
+    }
+
+    private function join(Builder $query): void
+    {
+
+
+        JoinBuilder::leftJoin(
+            $query,
+            $this->customer,
+            $this->table->column('customer_id'),
+            '=',
+            $this->customer->column('customer_id')
+        );
+        JoinBuilder::leftJoin(
+            $query,
+            $this->addressType,
+            $this->table->column('address_type_id'),
+            '=',
+            $this->addressType->column('address_type_id')
+        );
+        JoinBuilder::leftJoin(
+            $query,
+            $this->city,
+            $this->table->column('city_id'),
+            '=',
+            $this->city->column('city_id')
+        );
     }
 
     public function index(callable $callback): bool
     {
-        $this->cityRepository->setAlias('ct');
-        $this->cityRepository->setPrimaryKey("ct.city_id");
-        
-        return parent::all()->addSelect(
-            "c.customer_code",
-            "c.customer_name",
-            "ct.city_name",
-            "at.address_type_name"
+        $query = parent::all();
+
+        $this->join($query);
+
+        return $query->addSelect(
+            $this->customer->column('customer_code'),
+            $this->customer->column('customer_name'),
+            $this->city->column('city_name'),
+            $this->addressType->column('address_type_name')
         )
-            ->leftJoin($this->customerRepository->table . ' as ' . $this->customerRepository->as, 
-            'ca.customer_id', 
-            '=', $this->customerRepository->primaryKey)
-            ->leftJoin($this->addressTypeRepository->table . ' as ' . $this->addressTypeRepository->as,
-            'ca.address_type_id', 
-            '=', $this->addressTypeRepository->primaryKey)
-            ->leftJoin($this->cityRepository->table . ' as ' . $this->cityRepository->as, 
-            'ca.city_id', 
-            '=', $this->cityRepository->primaryKey)
-            ->chunkById(20000, function($rows) use ($callback){
-                foreach($rows as $row){
+            ->chunkById(20000, function ($rows) use ($callback) {
+                foreach ($rows as $row) {
                     $callback($row);
                 }
-            }, "customer_address_id");
+            }, $this->table->pk());
     }
 
-    public function show(int $id): Builder
+    public function show(mixed $id): Builder
     {
-        $this->cityRepository->setAlias('ct');
-        
-        return parent::find($id)->addSelect(
-            "c.customer_code",
-            "c.customer_name",
-            "ct.city_name",
-            "at.address_type_name"
-        )
-            ->leftJoin($this->customerRepository->table . ' as ' . $this->customerRepository->as, 
-            'ca.customer_id', 
-            '=', $this->customerRepository->primaryKey)
-            ->leftJoin($this->addressTypeRepository->table . ' as ' . $this->addressTypeRepository->as,
-            'ca.address_type_id', 
-            '=', $this->addressTypeRepository->primaryKey)
-            ->leftJoin($this->cityRepository->table . ' as ' . $this->cityRepository->as, 
-            'ca.city_id', 
-            '=', $this->cityRepository->primaryKey)
-            ->where($this->primaryKey, $id)
-            ;
+        $query = parent::find($id);
+
+        $this->join($query);
+
+        return $query->addSelect(
+            $this->customer->column('customer_code'),
+            $this->customer->column('customer_name'),
+            $this->city->column('city_name'),
+            $this->addressType->column('address_type_name')
+        );
     }
 }

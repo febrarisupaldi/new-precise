@@ -2,6 +2,7 @@
 
 namespace App\Repositories\SalesMarketing\SalesOrder;
 
+use App\Database\Schema\Table;
 use App\Repositories\BaseRepository;
 use App\Repositories\Master\City\CityRepository;
 use App\Repositories\Master\Product\ProductRepository;
@@ -12,53 +13,35 @@ use Illuminate\Support\Facades\DB;
 
 class SalesOrderRepository extends BaseRepository
 {
-    private SalesOrderDetailRepository $salesOrderDetailRepository;
-    private ProductRepository $productRepository;
-    private CityRepository $cityRepository;
-    private WarehouseRepository $warehouseRepository;
-
-    protected string $table = 'precise.sales_order_hd';
-    protected string $as = 'hd';
-    protected string $primaryKey = 'hd.sales_order_hd_id';
+    protected Table $salesOrder;
     protected array $columns = [
-        'hd.sales_order_hd_id',
-        'hd.sales_order_number',
-        'hd.sales_order_date',
-        'hd.cancel_date',
-        'hd.est_delivery_date',
-        'hd.customer_id',
-        'hd.warehouse_id',
-        'hd.purchase_order_number',
-        'hd.sales_order_description',
-        'hd.currency_code',
-        'hd.toc',
-        'hd.ppn_type',
-        'hd.discount_type',
-        'hd.sales_order_status',
-        'hd.sales_person',
-        'hd.is_released',
-        'hd.unreleased_reason',
-        'hd.memo_number',
-        'hd.created_on',
-        'hd.created_by',
-        'hd.updated_on',
-        'hd.updated_by'
+        'sales_order_hd_id',
+        'sales_order_number',
+        'sales_order_date',
+        'cancel_date',
+        'est_delivery_date',
+        'customer_id',
+        'warehouse_id',
+        'purchase_order_number',
+        'sales_order_description',
+        'currency_code',
+        'toc',
+        'ppn_type',
+        'discount_type',
+        'sales_order_status',
+        'sales_person',
+        'is_released',
+        'unreleased_reason',
+        'memo_number',
+        'created_on',
+        'created_by',
+        'updated_on',
+        'updated_by'
     ];
 
-    protected array $allowedExistsColumns = [
-        ["sales_order_number"]
-    ];
-
-    public function __construct(
-        SalesOrderDetailRepository $salesOrderDetailRepository,
-        ProductRepository $productRepository,
-        CityRepository $cityRepository,
-        WarehouseRepository $warehouseRepository
-    ) {
-        $this->salesOrderDetailRepository = $salesOrderDetailRepository;
-        $this->productRepository = $productRepository;
-        $this->cityRepository = $cityRepository;
-        $this->warehouseRepository = $warehouseRepository;
+    public function __construct()
+    {
+        $this->salesOrder = table('sales', 'sales-order.master');
     }
     public function allWithFilter(array $filter): Builder
     {

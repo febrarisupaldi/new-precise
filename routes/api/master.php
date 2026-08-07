@@ -5,12 +5,14 @@ use App\Http\Controllers\Api\Master\{
     CityController,
     ColorTypeController,
     CompanyTypeController,
+    CoolingMethodController,
     CountryController,
     CustomerAddressController,
     CustomerController,
     MachineInjectionController,
     MachinePressingController,
     MachineStatusController,
+    MoldInjectionController,
     MoldPressingController,
     MoldStatusController,
     PackagingController,
@@ -58,6 +60,14 @@ Route::prefix('company-types')->group(function () {
     Route::get('{id}', [CompanyTypeController::class, 'show']);
     Route::post('/', [CompanyTypeController::class, 'store']);
     Route::put('{id}', [CompanyTypeController::class, 'update']);
+});
+
+Route::prefix('cooling-methods')->group(function () {
+    Route::get('/', [CoolingMethodController::class, 'index']);
+    Route::get('check', [CoolingMethodController::class, 'check']);
+    Route::get('{id}', [CoolingMethodController::class, 'show']);
+    Route::post('/', [CoolingMethodController::class, 'store']);
+    Route::put('{id}', [CoolingMethodController::class, 'update']);
 });
 
 // Country
@@ -108,6 +118,14 @@ Route::prefix('machine-statuses')->group(function () {
     Route::get('{id}', [MachineStatusController::class, 'show']);
     Route::post('/', [MachineStatusController::class, 'store']);
     Route::put('{id}', [MachineStatusController::class, 'update']);
+});
+
+Route::prefix('mold-injections')->group(function () {
+    Route::get('/', [MoldInjectionController::class, 'index']);
+    // Route::get('check', [MoldInjectionController::class, 'check']);
+    // Route::get('{id}', [MoldInjectionController::class, 'show']);
+    // Route::post('/', [MoldInjectionController::class, 'store']);
+    // Route::put('{id}', [MoldInjectionController::class, 'update']);
 });
 
 Route::prefix('mold-pressings')->group(function () {

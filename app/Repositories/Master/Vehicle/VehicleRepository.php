@@ -2,34 +2,24 @@
 
 namespace App\Repositories\Master\Vehicle;
 
+use App\Database\Schema\Table;
 use App\Repositories\BaseRepository;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
 
 class VehicleRepository extends BaseRepository
 {
-    protected string $table = 'precise.vehicle';
-    protected string $primaryKey = 'vehicle_id';
-    protected array $columns = [
-        "vehicle_id",
-        "vehicle_model",
-        "license_number",
-        "vehicle_description",
-        "is_owned",
-        "is_active",
-        "created_on",
-        "created_by",
-        "updated_on",
-        "updated_by"
-    ];
-
-    protected array $allowedExistsColumns = [
-        ["license_number"]
-    ];
-
-    // Add custom repository methods here
-    public function findByLicenseNumber(string $licenseNumber): Builder
+    protected Table $table;
+    public function __construct()
     {
-        return DB::table($this->table)->where('license_number', $licenseNumber)->select($this->columns);
+        $this->table = table("master", "vehicle");
+    }
+
+    public function all(?array $filters = null): Builder
+    {
+        return parent::all()
+            ->when($filters['license_number'] ?? null, function ($query) use ($filters) {
+                return $query->where($this->table->column('license_number'), $filters['license_number']);
+            });
     }
 }

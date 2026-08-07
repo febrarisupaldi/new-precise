@@ -85,6 +85,6 @@ class SalesOrderService
 
     public function checkExist(array $conditions): bool
     {
-        return $this->salesOrderRepo->exists($dto->columns, $dto->values);
+        return $this->salesOrderRepo->exists($conditions);
     }
 }

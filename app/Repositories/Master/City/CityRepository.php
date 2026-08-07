@@ -2,55 +2,52 @@
 
 namespace App\Repositories\Master\City;
 
+use App\Database\JoinBuilder;
+use App\Database\Schema\Table;
 use App\Repositories\BaseRepository;
-use App\Repositories\Master\State\StateRepository;
 use Illuminate\Database\Query\Builder;
 
 class CityRepository extends BaseRepository
 {
-    private StateRepository $stateRepo;
-    protected string $table = 'precise.city';
-    protected string $as = "c";
-    protected string $primaryKey = "c.city_id";
-    protected array $columns = [
-        "c.city_id",
-        "c.city_name",
-        "c.state_id",
-        "c.created_by",
-        "c.created_on",
-        "c.updated_by",
-        "c.updated_on"
-    ];
-    protected array $allowedExistsColumns = [
-        ["city_name"],
-        ["city_code"]
-    ];
+    protected Table $table;
+    protected Table $state;
 
-    public function __construct(StateRepository $stateRepo)
+    public function __construct()
     {
-        $this->stateRepo = $stateRepo;
+        $this->table = table('master', 'city');
+        $this->state = table('master', 'state');
+    }
+
+    private function joinState(Builder $query): void
+    {
+        JoinBuilder::leftJoin(
+            $query,
+            $this->state,
+            $this->table->column("state_id"),
+            '=',
+            $this->state->pk()
+        );
     }
 
     public function all(): Builder
     {
-        return parent::all()
-            ->addSelect("s.state_name")
-            ->join(
-                $this->stateRepo->getTable() . " as " . $this->stateRepo->getAlias(),
-                $this->stateRepo->getPrimaryKey(),
-                "=",
-                "c.state_id"
-            );
+        $query = parent::all();
+
+        $this->joinState($query);
+
+        return $query->addSelect(
+            $this->state->column('state_name')
+        );
     }
 
     public function find(mixed $id): Builder
     {
-        return parent::find($id)->addSelect("s.state_name")
-            ->join(
-                $this->stateRepo->getTable() . " as " . $this->stateRepo->getAlias(),
-                $this->stateRepo->getPrimaryKey(),
-                "=",
-                "c.state_id"
-            );
+        $query = parent::find($id);
+
+        $this->joinState($query);
+
+        return $query->addSelect(
+            $this->state->column('state_name')
+        );
     }
 }

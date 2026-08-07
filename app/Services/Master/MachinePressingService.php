@@ -59,6 +59,6 @@ class MachinePressingService
 
     public function checkExist(array $conditions): bool
     {
-        return $this->machinePressingRepo->exists($dto->columns, $dto->values);
+        return $this->machinePressingRepo->exists($conditions);
     }
 }

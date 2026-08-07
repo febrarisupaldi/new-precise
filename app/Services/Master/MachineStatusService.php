@@ -59,6 +59,6 @@ class MachineStatusService
 
     public function checkExist(array $conditions): bool
     {
-        return $this->machineStatusRepo->exists($dto->columns, $dto->values);
+        return $this->machineStatusRepo->exists($conditions);
     }
 }

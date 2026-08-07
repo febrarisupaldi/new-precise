@@ -141,6 +141,6 @@ class PackagingService
 
     public function checkExist(array $conditions): bool
     {
-        return $this->packagingRepo->exists($dto->columns, $dto->values);
+        return $this->packagingRepo->exists($conditions);
     }
 }

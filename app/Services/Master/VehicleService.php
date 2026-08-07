@@ -19,9 +19,9 @@ class VehicleService
         $this->vehicleRepo = $vehicleRepo;
     }
 
-    public function all()
+    public function all(?array $filters = null)
     {
-        return $this->vehicleRepo->all()->get();
+        return $this->vehicleRepo->all($filters)->get();
     }
 
     public function find(int $id): ?object
@@ -30,16 +30,6 @@ class VehicleService
 
         if (!$result) {
             throw new BadRequestException('Vehicle not found', code: 404);
-        }
-        return $result;
-    }
-
-    public function findByLicenseNumber(string $licenseNumber): ?object
-    {
-        $result = $this->vehicleRepo->findByLicenseNumber($licenseNumber)->first();
-
-        if (!$result) {
-            throw new BadRequestException('Vehicle with license number ' . $licenseNumber . ' not found', code: 404);
         }
         return $result;
     }
@@ -74,6 +64,6 @@ class VehicleService
 
     public function checkExist(array $conditions): bool
     {
-        return $this->vehicleRepo->exists($dto->columns, $dto->values);
+        return $this->vehicleRepo->exists($conditions);
     }
 }

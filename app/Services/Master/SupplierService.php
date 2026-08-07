@@ -59,6 +59,6 @@ class SupplierService
 
     public function checkExist(array $conditions): bool
     {
-        return $this->supplierRepo->exists($dto->columns, $dto->values);
+        return $this->supplierRepo->exists($conditions);
     }
 }

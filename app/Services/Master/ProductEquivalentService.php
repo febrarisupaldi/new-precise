@@ -64,6 +64,6 @@ class ProductEquivalentService
 
     public function checkExist(array $conditions): bool
     {
-        return $this->productEquivalentRepo->exists($dto->columns, $dto->values);
+        return $this->productEquivalentRepo->exists($conditions);
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Repositories\Master\MoldPressing;
 
+use App\Database\JoinBuilder;
+use App\Database\Schema\Table;
 use App\Repositories\BaseRepository;
 use App\Repositories\Master\MoldStatus\MoldStatusRepository;
 use Illuminate\Database\Query\Builder;
@@ -9,61 +11,29 @@ use Illuminate\Support\Facades\DB;
 
 class MoldPressingDetailRepository extends BaseRepository
 {
-    private MoldStatusRepository $moldStatusRepo;
+    protected Table $table;
 
-    protected string $table = 'precise.mold_pressing_dt';
-    protected string $as = 'mpdt';
-    protected string $primaryKey = 'mphd.mold_pressing_dt_id';
-    protected array $columns = [
-        'mpdt.mold_pressing_dt_id',
-        'mpdt.mold_pressing_hd_id',
-        'mpdt.mold_code',
-        'mpdt.cavity_number',
-        'mpdt.product_weight',
-        'mpdt.product_weight_uom',
-        'mpdt.is_active',
-        'mpdt.created_on',
-        'mpdt.created_by',
-        'mpdt.updated_on',
-        'mpdt.updated_by'
-    ];
-
-    protected array $allowedExistsColumns = [
-        ["mold_number"]
-    ];
-
-    public function __construct(
-        MoldStatusRepository $moldStatusRepo
-    ) {
-        $this->moldStatusRepo = $moldStatusRepo;
+    public function __construct()
+    {
+        $this->table = table('master', 'mold_pressing.detail');
     }
 
     public function findByMasterID(string|int $id): Builder
     {
-        $query = DB::table("precise.mold_pressing_dt as mpdt")
-            ->select(
-                'mpdt.mold_pressing_dt_id',
-                'mpdt.mold_pressing_hd_id',
-                'mpdt.mold_code',
-                'mpdt.cavity_number',
-                'mpdt.product_weight',
-                'mpdt.product_weight_uom',
-                'mpdt.is_active',
-                'mpdt.created_on',
-                'mpdt.created_by',
-                'mpdt.updated_on',
-                'mpdt.updated_by'
-            );
-        if (is_int($id)) {
-            $query->where("mpdt.mold_pressing_hd_id", $id);
+        if (is_numeric($id)) {
+            $query = parent::findByColumn([$this->table->column("mold_pressing_hd_id") => $id]);
         } else {
-            $query->leftJoin(
-                "precise.mold_pressing_hd as mphd",
-                'mpdt.mold_pressing_hd_id',
+
+            $master = table("master", "mold_pressing.master");
+            $query = parent::findByColumn([$master->column("mold_number") => $id]);
+
+            JoinBuilder::join(
+                $query,
+                $master,
+                $this->table->column('mold_pressing_hd_id'),
                 '=',
-                "mphd.mold_pressing_hd_id"
-            )
-                ->where("mphd.mold_number", $id);
+                $master->column('mold_pressing_hd_id')
+            );
         }
 
         return $query;

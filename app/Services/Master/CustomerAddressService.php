@@ -71,7 +71,7 @@ class CustomerAddressService
                 throw new BadRequestException('CustomerAddress not found', code: 404);
             }
             $this->customerAddressRepo->setAuditSession($data);
-            $success = $this->customerAddressRepo->delete($id, $data);
+            $success = $this->customerAddressRepo->delete($id);
 
             if ($success === false) {
                 throw new Exception('Failed to delete CustomerAddress');

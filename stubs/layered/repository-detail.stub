@@ -3,14 +3,11 @@
 namespace App\Repositories\{{module}};
 
 use App\Repositories\BaseRepository;
+use App\Database\Schema\Table;
 
 class {{name}}Repository extends BaseRepository
 {
-    protected string $table = '{{table}}';
-    protected string $as = '';
-    protected string $primaryKey = '';
-
-    protected array $columns = [];
+    protected Table ${{name}};
 
     /**
      * Bulk insert

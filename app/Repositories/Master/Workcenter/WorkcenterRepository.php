@@ -2,6 +2,8 @@
 
 namespace App\Repositories\Master\Workcenter;
 
+use App\Database\JoinBuilder;
+use App\Database\Schema\Table;
 use App\Repositories\BaseRepository;
 use App\Repositories\Master\Warehouse\WarehouseRepository;
 use Illuminate\Database\Query\Builder;
@@ -9,74 +11,63 @@ use Illuminate\Support\Facades\DB;
 
 class WorkcenterRepository extends BaseRepository
 {
-    private WarehouseRepository $warehouseRepository;
-
-    protected string $table = 'precise.workcenter';
-    protected string $as = 'wc';
-    protected string $primaryKey = 'wc.workcenter_id';
-    protected array $columns = [
-        'wc.workcenter_id',
-        'wc.workcenter_code',
-        'wc.workcenter_name',
-        'wc.workcenter_description',
-        'wc.default_warehouse',
-        'wc.is_active',
-        'wc.production_type',
-        'wc.production_center',
-        'wc.subprocess_level',
-        'wc.created_on',
-        'wc.created_by',
-        'wc.updated_on',
-        'wc.updated_by'
-    ];
-
-    protected array $allowedExistsColumns = [
-        ["workcenter_code"],
-        ["workcenter_name"]
-    ];
-
-    public function __construct(WarehouseRepository $warehouseRepository)
+    protected Table $table;
+    public function __construct()
     {
-        $this->warehouseRepository = $warehouseRepository;
+        $this->table = table("master", "workcenter");
     }
 
     public function all(?array $filters = null): Builder
     {
-        return parent::all()
+        $query = parent::all();
+
+        $warehouse = table("master", "warehouse")->withAlias("wh");
+
+        JoinBuilder::leftJoin(
+            $query,
+            $warehouse,
+            $this->table->column("default_warehouse"),
+            "=",
+            $warehouse->pk(),
+        );
+
+        return $query
             ->addSelect(
                 DB::raw(
-                    "concat(wh.warehouse_code, ' - ', wh.warehouse_name) 'Gudang default'
-                        , case wc.is_active 
+                    "concat({$warehouse->column('warehouse_code')}, ' - ', {$warehouse->column('warehouse_name')}) 'Gudang default'
+                        , case {$this->table->column('is_active')} 
                             when 0 then 'Tidak aktif'
                             when 1 then 'Aktif' 
                         end as 'Status aktif'
                     "
                 )
             )
-            ->leftJoin(
-                $this->warehouseRepository->table . ' as ' . $this->warehouseRepository->as,
-                'wc.default_warehouse',
-                '=',
-                $this->warehouseRepository->primaryKey
-            )->when($filters['code'] ?? null, function ($query) use ($filters) {
-                return $query->where('wc.workcenter_code', $filters['code']);
+            ->when($filters['code'] ?? null, function ($query) use ($filters) {
+                return $query->where($this->table->column('workcenter_code'), $filters['code']);
             });
     }
 
-    public function find(int|string $id): Builder
+    public function find(mixed $id): Builder
     {
-        $this->removeColumn(["wc.default_warehouse"]);
-        return parent::find($id)
+        $this->table->except(["default_warehouse"]);
+
+        $query = parent::find($id);
+
+        $warehouse = table("master", "warehouse");
+
+        JoinBuilder::leftJoin(
+            $query,
+            $warehouse,
+            $this->table->column("default_warehouse"),
+            "=",
+            $warehouse->pk(),
+        );
+
+        return $query
             ->addSelect(
-                "wh.warehouse_id",
-                "wh.warehouse_code",
-                "wh.warehouse_name"
-            )
-            ->leftJoin(
-                $this->warehouseRepository->table . ' as ' . $this->warehouseRepository->as,
-                'wc.default_warehouse',
-                '=',
-                $this->warehouseRepository->primaryKey
+                $warehouse->column("warehouse_id"),
+                $warehouse->column("warehouse_code"),
+                $warehouse->column("warehouse_name")
             );
     }
 }

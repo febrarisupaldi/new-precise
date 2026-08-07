@@ -59,6 +59,6 @@ class MoldStatusService
 
     public function checkExist(array $conditions): bool
     {
-        return $this->moldStatusRepo->exists($dto->columns, $dto->values);
+        return $this->moldStatusRepo->exists($conditions);
     }
 }

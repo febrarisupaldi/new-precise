@@ -64,6 +64,6 @@ class SteelTypeService
 
     public function checkExist(array $conditions): bool
     {
-        return $this->steelTypeRepo->exists($dto->columns, $dto->values);
+        return $this->steelTypeRepo->exists($conditions);
     }
 }

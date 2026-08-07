@@ -64,6 +64,6 @@ class CompanyTypeService
 
     public function checkExist(array $conditions): bool
     {
-        return $this->companyTypeRepo->exists($dto->columns, $dto->values);
+        return $this->companyTypeRepo->exists($conditions);
     }
 }

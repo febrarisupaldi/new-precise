@@ -80,6 +80,6 @@ class WarehouseService
 
     public function checkExist(array $conditions): bool
     {
-        return $this->warehouseRepo->exists($dto->columns, $dto->values);
+        return $this->warehouseRepo->exists($conditions);
     }
 }

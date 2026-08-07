@@ -59,6 +59,6 @@ class MoldInjectionService
 
     public function checkExist(array $conditions): bool
     {
-        return $this->moldInjectionRepo->exists($dto->columns, $dto->values);
+        return $this->moldInjectionRepo->exists($conditions);
     }
 }

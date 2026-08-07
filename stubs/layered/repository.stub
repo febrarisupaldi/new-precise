@@ -2,16 +2,15 @@
 
 namespace App\Repositories\{{module}};
 
+use App\Database\Schema\Table;
 use App\Repositories\BaseRepository;
 
 class {{name}}Repository extends BaseRepository
 {
-    protected string $table = 'precise.{{table}}'; 
-    protected string $as = '';
-    protected string $primaryKey = '';
-    protected array $columns = [
-        
-    ];
+    protected Table $table;
 
-    // Add custom repository methods here
+    public function __construct()
+    {
+        $this->table = table("{{module}}", "{{name}}");
+    }
 }

@@ -76,6 +76,6 @@ class WorkcenterService
 
     public function checkExist(array $conditions): bool
     {
-        return $this->workcenterRepo->exists($dto->columns, $dto->values);
+        return $this->workcenterRepo->exists($conditions);
     }
 }

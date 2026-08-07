@@ -2,66 +2,55 @@
 
 namespace App\Repositories\Master\Warehouse;
 
+use App\Database\JoinBuilder;
+use App\Database\Schema\Table;
 use App\Repositories\BaseRepository;
 use App\Repositories\Master\WarehouseGroup\WarehouseGroupRepository;
 use Illuminate\Database\Query\Builder;
 
 class WarehouseRepository extends BaseRepository
 {
-    private WarehouseGroupRepository $warehouseGroupRepo;
-    protected string $table = 'precise.warehouse';
-    protected string $as = 'wh';
-    protected string $primaryKey = 'wh.warehouse_id';
-    protected array $columns = [
-        'wh.warehouse_id',
-        'wh.warehouse_code',
-        'wh.warehouse_name',
-        'wh.warehouse_alias',
-        'wh.warehouse_group_code',
-        'wh.is_active',
-        'wh.warehouse_pic_1',
-        'wh.warehouse_pic_2',
-        'wh.warehouse_approver',
-        'wh.created_on',
-        'wh.created_by',
-        'wh.updated_on',
-        'wh.updated_by'
-    ];
+    protected Table $table;
 
-    protected array $allowedExistsColumns = [
-        ["warehouse_code"],
-        ["warehouse_name"],
-        ["warehouse_alias"]
-    ];
-
-    public function __construct(WarehouseGroupRepository $warehouseGroupRepo)
+    public function __construct()
     {
-        $this->warehouseGroupRepo = $warehouseGroupRepo;
+        $this->table = table("master", "warehouse");
     }
 
     public function all(?array $filters = null): Builder
     {
-        return parent::all()
-            ->addSelect("wg.warehouse_group_name")
-            ->join(
-                $this->warehouseGroupRepo->getTable() . " as wg",
-                $this->warehouseGroupRepo->getPrimaryKey(),
-                "=",
-                "wh.warehouse_group_code"
-            )
-            ->when(isset($filters['group_code']), function ($query) use ($filters) {
-                return $query->where("wg.warehouse_group_code", $filters['group_code']);
+        $warehouseGroup = table("precise", "warehouse_group");
+
+        $query = parent::all();
+
+        JoinBuilder::join(
+            $query,
+            $warehouseGroup,
+            $this->table->column("warehouse_group_code"),
+            "=",
+            $warehouseGroup->pk(),
+        );
+
+        return $query
+            ->addSelect($warehouseGroup->column("warehouse_group_name"))
+            ->when($filters['group_code'] ?? null, function ($query) use ($filters) {
+                return $query->where($this->table->column("warehouse_group_code"), $filters['group_code']);
             });
     }
 
     public function find(mixed $id): Builder
     {
-        return parent::find($id)->addSelect("wg.warehouse_group_name")
-            ->join(
-                $this->warehouseGroupRepo->getTable() . " as wg",
-                $this->warehouseGroupRepo->getPrimaryKey(),
-                "=",
-                "wh.warehouse_group_code"
-            );
+        $warehouseGroup = table("precise", "warehouse_group");
+        $query = parent::find($id);
+
+        JoinBuilder::join(
+            $query,
+            $warehouseGroup,
+            $this->table->column("warehouse_group_code"),
+            "=",
+            $warehouseGroup->pk(),
+        );
+
+        return $query->addSelect($warehouseGroup->column("warehouse_group_name"));
     }
 }

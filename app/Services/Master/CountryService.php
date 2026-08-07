@@ -64,6 +64,6 @@ class CountryService
 
     public function checkExist(array $conditions): bool
     {
-        return $this->countryRepo->exists($dto->columns, $dto->values);
+        return $this->countryRepo->exists($conditions);
     }
 }
