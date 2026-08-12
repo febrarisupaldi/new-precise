@@ -14,7 +14,9 @@ class CreateCoolingMethodRequest extends BaseApiRequest
     public function rules(): array
     {
         return [
-            'created_by' => ['required','string', 'max:100']
+            'cooling_method_name'        => ['required', 'string', 'max:50'],
+            'cooling_method_description' => ['nullable', 'string', 'max:100'],
+            'created_by'                 => ['required', 'string', 'max:100']
         ];
     }
 }

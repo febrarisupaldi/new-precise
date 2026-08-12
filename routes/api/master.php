@@ -9,10 +9,12 @@ use App\Http\Controllers\Api\Master\{
     CountryController,
     CustomerAddressController,
     CustomerController,
+    DriverController,
     MachineInjectionController,
     MachinePressingController,
     MachineStatusController,
     MoldInjectionController,
+    MoldMakingController,
     MoldPressingController,
     MoldStatusController,
     PackagingController,
@@ -62,6 +64,7 @@ Route::prefix('company-types')->group(function () {
     Route::put('{id}', [CompanyTypeController::class, 'update']);
 });
 
+// Cooling Method
 Route::prefix('cooling-methods')->group(function () {
     Route::get('/', [CoolingMethodController::class, 'index']);
     Route::get('check', [CoolingMethodController::class, 'check']);
@@ -94,6 +97,14 @@ Route::prefix('customer-addresses')->group(function () {
     Route::post('/', [CustomerAddressController::class, 'store']);
     Route::put('{id}', [CustomerAddressController::class, 'update']);
     Route::delete('{id}', [CustomerAddressController::class, 'delete']);
+});
+
+Route::prefix('drivers')->group(function () {
+    Route::get('/', [DriverController::class, 'index']);
+    Route::get('check', [DriverController::class, 'check']);
+    Route::get('{id}', [DriverController::class, 'show']);
+    Route::post('/', [DriverController::class, 'store']);
+    Route::put('{id}', [DriverController::class, 'update']);
 });
 
 Route::prefix('machine-injections')->group(function () {
@@ -134,6 +145,13 @@ Route::prefix('mold-pressings')->group(function () {
     Route::get('{id}', [MoldPressingController::class, 'show']);
     Route::post('/', [MoldPressingController::class, 'store']);
     Route::put('{id}', [MoldPressingController::class, 'update']);
+});
+
+Route::prefix('mold-makings')->group(function () {
+    Route::get('/', [MoldMakingController::class, 'index']);
+    Route::get('{id}', [MoldMakingController::class, 'show']);
+    Route::post('/', [MoldMakingController::class, 'store']);
+    Route::put('{id}', [MoldMakingController::class, 'update']);
 });
 
 Route::prefix('mold-statuses')->group(function () {

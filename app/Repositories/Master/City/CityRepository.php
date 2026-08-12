@@ -44,8 +44,6 @@ class CityRepository extends BaseRepository
     {
         $query = parent::find($id);
 
-        $this->joinState($query);
-
         return $query->addSelect(
             $this->state->column('state_name')
         );

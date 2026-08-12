@@ -194,6 +194,22 @@ return [
             ['country_name']
         ]
     ],
+    'driver' => [
+        'table' => 'precise.driver',
+        'primary_key' => 'driver_nik',
+        'default_alias' => 'd',
+        'columns' => [
+            'driver_nik',
+            'is_active',
+            'created_on',
+            'created_by',
+            'updated_on',
+            'updated_by'
+        ],
+        'exists' => [
+            ['driver_nik']
+        ]
+    ],
     'machine_injection' => [
         'table' => 'precise.machine_injection',
         'primary_key' => 'machine_injection_id',
@@ -357,6 +373,20 @@ return [
             ]
         ]
     ],
+    'mold_making' => [
+        'table' => 'precise.mold_making',
+        'primary_key' => 'mold_making_id',
+        'default_alias' => 'mm',
+        'columns' => [
+            'mold_making_id',
+            'estimation_number',
+            'created_on',
+            'created_by',
+            'updated_on',
+            'updated_by',
+        ],
+        'exists' => []
+    ],
     'mold_pressing' => [
         'master' => [
             'table' => 'precise.mold_pressing_hd',
@@ -407,20 +437,6 @@ return [
                 ['mold_pressing_hd_id', 'cavity_no']
             ]
         ]
-    ],
-    'mold_making' => [
-        'table' => 'precise.mold_making',
-        'primary_key' => 'mold_making_id',
-        'default_alias' => 'mm',
-        'columns' => [
-            'mold_making_id',
-            'estimation_number',
-            'created_on',
-            'created_by',
-            'updated_on',
-            'updated_by'
-        ],
-        'exists' => []
     ],
 
     'mold_status' => [

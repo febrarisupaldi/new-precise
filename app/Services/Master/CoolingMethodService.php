@@ -4,8 +4,7 @@ namespace App\Services\Master;
 
 
 use App\Repositories\Master\CoolingMethod\CoolingMethodRepository;
-use App\DTOs\Master\CoolingMethod\CreateCoolingMethodDTO;
-use App\DTOs\Master\CoolingMethod\UpdateCoolingMethodDTO;
+use App\DTOs\Master\CoolingMethod\{CreateCoolingMethodDTO, UpdateCoolingMethodDTO};
 use App\Exceptions\BadRequestException;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -34,7 +33,7 @@ class CoolingMethodService
         $id = $this->coolingMethodRepo->insert($dto->toArray());
 
         if (!$id) {
-            throw new Exception('Failed to create CoolingMethod');
+            throw new Exception('Failed to create Cooling Method');
         }
 
         return $id;
