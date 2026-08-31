@@ -7,45 +7,61 @@ use Illuminate\Database\Query\Builder;
 
 class JoinBuilder
 {
-    public static function join(
-        Builder $query,
-        Table $table,
-        string $first,
-        string $operator,
-        string $second
-    ): Builder {
-
-        return $query->join(
-
-            $table->from(),
-
-            $first,
-
-            $operator,
-
-            $second
-
-        );
-    }
-
     public static function leftJoin(
         Builder $query,
         Table $table,
         string $first,
         string $operator,
-        string $second
+        string $second,
+        ?callable $callback = null
     ): Builder {
-
         return $query->leftJoin(
-
             $table->from(),
+            function ($join) use (
+                $first,
+                $operator,
+                $second,
+                $callback
+            ) {
+                $join->on(
+                    $first,
+                    $operator,
+                    $second
+                );
 
-            $first,
+                if ($callback) {
+                    $callback($join);
+                }
+            }
+        );
+    }
 
-            $operator,
+    public static function join(
+        Builder $query,
+        Table $table,
+        string $first,
+        string $operator,
+        string $second,
+        ?callable $callback = null
+    ): Builder {
+        return $query->join(
+            $table->from(),
+            function ($join) use (
+                $first,
+                $operator,
+                $second,
+                $callback
+            ) {
+                $join->on(
+                    $first,
+                    $operator,
+                    $second
+                );
 
-            $second
-
+                if ($callback) {
+                    $callback($join);
+                }
+            }
         );
     }
 
@@ -54,19 +70,27 @@ class JoinBuilder
         Table $table,
         string $first,
         string $operator,
-        string $second
+        string $second,
+        ?callable $callback = null
     ): Builder {
-
         return $query->rightJoin(
-
             $table->from(),
+            function ($join) use (
+                $first,
+                $operator,
+                $second,
+                $callback
+            ) {
+                $join->on(
+                    $first,
+                    $operator,
+                    $second
+                );
 
-            $first,
-
-            $operator,
-
-            $second
-
+                if ($callback) {
+                    $callback($join);
+                }
+            }
         );
     }
 }

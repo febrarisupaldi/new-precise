@@ -26,7 +26,7 @@ class StateRepository extends BaseRepository
             $country,
             $this->table->column("country_id"),
             "=",
-            $country->column("country_id")
+            $country->pk()
         );
 
         return $query->addSelect(

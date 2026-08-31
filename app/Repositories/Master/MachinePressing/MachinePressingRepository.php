@@ -52,7 +52,7 @@ class MachinePressingRepository extends BaseRepository
                     return $query->where($this->table->column('old_machine_code'), $filters['old_machine_code'])
                         ->where($this->table->column('machine_location'), $filters['machine_location']);
                 }
-            );;
+            );
     }
     // Add custom repository methods here
 }

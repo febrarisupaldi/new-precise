@@ -71,7 +71,6 @@ return [
             ['company_type_name']
         ]
     ],
-
     'cooling_method' => [
         'table' => 'precise.cooling_method',
         'primary_key' => 'cooling_method_id',
@@ -90,7 +89,23 @@ return [
             ['cooling_method_name']
         ]
     ],
-
+    'cost_center' => [
+        'table' => 'precise.cost_center',
+        'primary_key' => 'cost_center_id',
+        'default_alias' => 'cc',
+        'columns' => [
+            'cost_center_id',
+            'cost_center_code',
+            'cost_center_name',
+            'created_by',
+            'created_on',
+            'updated_by',
+            'updated_on',
+        ],
+        'exists' => [
+            ['cost_center_code']
+        ]
+    ],
     'customer' => [
         'table' => 'precise.customer',
         'primary_key' => 'customer_id',
@@ -144,7 +159,6 @@ return [
             ['customer_name']
         ]
     ],
-
     'customer_address' => [
         'table' => 'precise.customer_address',
         'primary_key' => 'customer_address_id',
@@ -175,7 +189,6 @@ return [
             ['address_type_id', 'customer_id']
         ]
     ],
-
     'country' => [
         'table' => 'precise.country',
         'primary_key' => 'country_id',
@@ -438,7 +451,6 @@ return [
             ]
         ]
     ],
-
     'mold_status' => [
         'table' => 'precise.mold_status',
         'primary_key' => 'status_code',
@@ -456,7 +468,6 @@ return [
             ['status_code']
         ]
     ],
-
     'packaging' => [
         'master' => [
             'table' => 'precise.packaging_hd',
@@ -560,6 +571,25 @@ return [
             'updated_on',
         ],
         'exists' => []
+    ],
+    'retail_type' => [
+        'table' => 'precise.retail_type',
+        'primary_key' => 'retail_type_id',
+        'default_alias' => 'rt',
+        'columns' => [
+            'retail_type_id',
+            'retail_type_code',
+            'retail_type_description',
+            'GroupCodeOnProint',
+            'created_on',
+            'created_by',
+            'updated_on',
+            'updated_by'
+        ],
+        'exists' => [
+            ['retail_type_code'],
+            ['retail_type_description']
+        ]
     ],
     'state' => [
         'table' => 'precise.state',

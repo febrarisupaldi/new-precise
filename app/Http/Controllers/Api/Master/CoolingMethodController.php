@@ -11,7 +11,7 @@ use Dedoc\Scramble\Attributes\Group;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-#[Group("Master|Cooling Method", "Cooling Method")]
+#[Group("MASTER|Cooling Method", "Cooling Method")]
 class CoolingMethodController extends Controller
 {
     protected CoolingMethodService $coolingMethodService;

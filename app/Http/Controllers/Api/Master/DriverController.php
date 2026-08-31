@@ -11,7 +11,7 @@ use Dedoc\Scramble\Attributes\Group;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-#[Group("Master|Driver", "Driver")]
+#[Group("MASTER|Driver", "Driver")]
 class DriverController extends Controller
 {
     private DriverService $driverService;

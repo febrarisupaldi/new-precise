@@ -23,37 +23,34 @@ class SalesOrderService
         $this->salesOrderDetailRepo = $salesOrderDetailRepo;
     }
 
-    public function all(string $start, string $end): object
+    public function all(?array $filters): object
     {
-        return $this->salesOrderRepo->allWithFilter([
-            'start' => $start,
-            'end' => $end
-        ])->get();
+        return $this->salesOrderRepo->all($filters)->get();
     }
 
-    public function find(int $id): ?object
+    public function find(int $id): void
     {
-        $data = $this->salesOrderRepo->find($id)->first();
-        if (!$data) {
-            throw new BadRequestException('Sales Order data not found.', code: 404);
-        }
+        // $data = $this->salesOrderRepo->find($id)->first();
+        // if (!$data) {
+        //     throw new BadRequestException('Sales Order data not found.', code: 404);
+        // }
 
-        $details = $this->salesOrderDetailRepo->findByMasterID($id)->get();
-        $data->details = $details;
-        return $data;
+        // $details = $this->salesOrderDetailRepo->findByMasterID($id)->get();
+        // $data->details = $details;
+        // return $data;
     }
 
-    public function findBySalesNumber(string $number): ?object
-    {
-        $data = $this->salesOrderRepo->allWithFilter(['number' => $number])->first();
-        if (!$data) {
-            throw new BadRequestException('Sales Order data not found.', code: 404);
-        }
+    // public function findBySalesNumber(string $number): ?object
+    // {
+    //     $data = $this->salesOrderRepo->allWithFilter(['number' => $number])->first();
+    //     if (!$data) {
+    //         throw new BadRequestException('Sales Order data not found.', code: 404);
+    //     }
 
-        $details = $this->salesOrderDetailRepo->findByMasterID($number)->get();
-        $data->details = $details;
-        return $data;
-    }
+    //     $details = $this->salesOrderDetailRepo->findByMasterID($number)->get();
+    //     $data->details = $details;
+    //     return $data;
+    // }
 
     public function create(CreateSalesOrderDTO $dto): array
     {

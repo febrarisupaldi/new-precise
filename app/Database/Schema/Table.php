@@ -49,11 +49,6 @@ class Table
         return $this->qualify($column);
     }
 
-    // public function relations(): array
-    // {
-    //     return $this->relations;
-    // }
-
     public function columns(): array
     {
         return array_map(

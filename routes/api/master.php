@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\Master\{
     ColorTypeController,
     CompanyTypeController,
     CoolingMethodController,
+    CostCenterController,
     CountryController,
     CustomerAddressController,
     CustomerController,
@@ -23,6 +24,7 @@ use App\Http\Controllers\Api\Master\{
     SteelTypeController,
     UOMController,
     ProductBrandController,
+    RetailTypeController,
     VehicleController,
     WarehouseController,
     WorkcenterController,
@@ -71,6 +73,14 @@ Route::prefix('cooling-methods')->group(function () {
     Route::get('{id}', [CoolingMethodController::class, 'show']);
     Route::post('/', [CoolingMethodController::class, 'store']);
     Route::put('{id}', [CoolingMethodController::class, 'update']);
+});
+
+Route::prefix('cost-centers')->group(function () {
+    Route::get('/', [CostCenterController::class, 'index']);
+    Route::get('check', [CostCenterController::class, 'check']);
+    Route::get('{id}', [CostCenterController::class, 'show']);
+    Route::post('/', [CostCenterController::class, 'store']);
+    Route::put('{id}', [CostCenterController::class, 'update']);
 });
 
 // Country
@@ -183,6 +193,14 @@ Route::prefix('product-equivalents')->group(function () {
     Route::get('{id}', [ProductEquivalentController::class, 'show']);
     Route::post('/', [ProductEquivalentController::class, 'store']);
     Route::put('{id}', [ProductEquivalentController::class, 'update']);
+});
+
+Route::prefix('retail-types')->group(function () {
+    Route::get('/', [RetailTypeController::class, 'index']);
+    Route::get('check', [RetailTypeController::class, 'check']);
+    Route::get('{id}', [RetailTypeController::class, 'show']);
+    Route::post('/', [RetailTypeController::class, 'store']);
+    Route::put('{id}', [RetailTypeController::class, 'update']);
 });
 
 // State

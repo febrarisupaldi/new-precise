@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Api\SalesMarketing;
 
 use App\Exceptions\BadRequestException;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SalesMarketing\SalesOrder\IndexSalesOrderRequest;
 use App\Services\SalesMarketing\SalesOrderService;
+use Dedoc\Scramble\Attributes\Group;
+use Dedoc\Scramble\Attributes\QueryParameter;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
+#[Group('Sales|Sales Order', 'Sales Orders')]
 class SalesOrderController extends Controller
 {
     protected SalesOrderService $salesOrderService;
@@ -17,17 +20,12 @@ class SalesOrderController extends Controller
         $this->salesOrderService = $salesOrderService;
     }
 
-    public function index(Request $request): JsonResponse{
+    #[QueryParameter("from", type: "string", description: "Start date.", example: "2022-01-01")]
+    #[QueryParameter("to", type: "string", description: "End date.", example: "2022-01-01")]
+    public function index(IndexSalesOrderRequest $request): JsonResponse
+    {
         try {
-            if($request->query('number') != null){
-                $result = $this->salesOrderService->findBySalesNumber($request->query('number'));
-            }else{
-                $result = $this->salesOrderService->all(
-                    $request->query('start', date("Y-m-01")),
-                    $request->query('end', date("Y-m-t"))
-                );
-            }
-
+            $result = $this->salesOrderService->all($request->validated());
 
             return $this->jsonResponse(
                 status: 'ok',
@@ -46,30 +44,31 @@ class SalesOrderController extends Controller
         }
     }
 
-    public function show(int $id): JsonResponse{
-        try {
-            $result = $this->salesOrderService->find($id);
+    // public function show(int $id): JsonResponse
+    // {
+    //     try {
+    //         $result = $this->salesOrderService->find($id);
 
-            return $this->jsonResponse(
-                status: 'ok',
-                message: 'Sales order data retrieved successfully.',
-                data: $result,
-                code: 200
-            );
-        } catch (BadRequestException $e) {
-            return $this->jsonResponse(
-                status: 'error',
-                message: $e->getMessage(),
-                code: $e->getCode()
-            );
-        } catch (\Throwable $e) {
-            $this->logError($e, 'SalesOrderController@show');
+    //         return $this->jsonResponse(
+    //             status: 'ok',
+    //             message: 'Sales order data retrieved successfully.',
+    //             data: $result,
+    //             code: 200
+    //         );
+    //     } catch (BadRequestException $e) {
+    //         return $this->jsonResponse(
+    //             status: 'error',
+    //             message: $e->getMessage(),
+    //             code: $e->getCode()
+    //         );
+    //     } catch (\Throwable $e) {
+    //         $this->logError($e, 'SalesOrderController@show');
 
-            return $this->jsonResponse(
-                status: 'error',
-                message: 'Failed to retrieve sales order data.',
-                code: 500
-            );
-        }
-    }
+    //         return $this->jsonResponse(
+    //             status: 'error',
+    //             message: 'Failed to retrieve sales order data.',
+    //             code: 500
+    //         );
+    //     }
+    // }
 }

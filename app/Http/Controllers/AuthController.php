@@ -16,6 +16,8 @@ class AuthController extends Controller
      * Get a JWT via given credentials.
      *
      * @unauthenticated
+     * @queryParam user_id required
+     * @queryParam password required
      * @return JsonResponse
      */
     public function login(Request $request): JsonResponse

@@ -28,22 +28,27 @@ abstract class BaseRepository
         return $this->all()->where($conditions);
     }
 
+    public function procedure(string $query, array $paremeter): mixed
+    {
+        return DB::select($query, $paremeter);
+    }
+
     public function insert(array $data): int
     {
-        return DB::table($this->table->from())
+        return DB::table(preg_replace('/\s+as\s+.+/i', '', $this->table->from()))
             ->insertGetId($data);
     }
 
     public function update(int|string $id, array $data): bool
     {
-        return DB::table($this->table->from())
+        return DB::table(preg_replace('/\s+as\s+.+/i', '', $this->table->from()))
             ->where($this->table->pk(), $id)
             ->update($data);
     }
 
     public function delete(int|string $id): bool
     {
-        return DB::table($this->table->from())
+        return DB::table(preg_replace('/\s+as\s+.+/i', '', $this->table->from()))
             ->where($this->table->pk(), $id)
             ->delete();
     }
