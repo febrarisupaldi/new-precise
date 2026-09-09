@@ -31,10 +31,30 @@ class MakeRepositoryCommand extends Command
             $this->error("Stub not found at {$stubPath}");
             return;
         }
-        /** * Namespace */ $namespace = "{$module}\\{$master}";
-        /** * Table */ $table = Str::snake(Str::pluralStudly($repositoryName));
-        /** * Stub content */ $stub = File::get($stubPath);
-        $content = str_replace(['{{name}}', '{{module}}', '{{table}}',], [$repositoryName, $namespace, $table,], $stub);
+        /** * Namespace */
+        $namespace = "{$module}\\{$master}";
+
+        /** * Table */
+        $table = Str::snake(Str::pluralStudly($repositoryName));
+
+        /** * Stub content */
+        $stub = File::get($stubPath);
+
+        $content = str_replace(
+            [
+                '{{name}}',
+                '{{namespace}}',
+                '{{module}}',
+                '{{table}}',
+            ],
+            [
+                $repositoryName,
+                $namespace,
+                strtolower($module),
+                $table,
+            ],
+            $stub
+        );
         /** * Folder structure * * Repositories/Transaction/SalesOrder/ */ $targetDir = app_path("Repositories/{$module}/{$master}");
         File::ensureDirectoryExists($targetDir);
         /** * Repository path */ $targetPath = "{$targetDir}/{$repositoryName}Repository.php";

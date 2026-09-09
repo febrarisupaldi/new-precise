@@ -1,0 +1,277 @@
+<?php
+
+namespace App\Http\Controllers\Api\{{module}};
+
+use App\DTOs\{{module}}\{{name}}\{Create{{name}}DTO, Update{{name}}DTO};
+use App\Exceptions\BadRequestException;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\DeleteRequest;
+use App\Http\Requests\{{module}}\{{name}}\{Create{{name}}Request, Update{{name}}Request};
+use App\Services\{{module}}\{{name}}Service;
+use Dedoc\Scramble\Attributes\Group;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+
+#[Group('{{module}}|{{name}}', '{{namePlural}}')]
+class {{name}}Controller extends Controller
+{
+    protected {{name}}Service ${{nameLower}}Service;
+
+    public function __construct({{name}}Service ${{nameLower}}Service)
+    {
+        $this->{{nameLower}}Service = ${{nameLower}}Service;
+    }
+
+    /**
+     * GET /api/{{moduleLower}}/{{routeName}}
+     *
+     * Behavior:
+     *   - Return all {{nameLower}} data
+     *
+     * Authentication:
+     *   - Requires valid bearer Token
+     *
+     * @return JsonResponse
+     */
+    public function index(): JsonResponse
+    {
+        try {
+            $result = $this->{{nameLower}}Service->all();
+
+            return $this->jsonResponse(
+                status: 'ok',
+                message: '{{name}} list retrieved successfully.',
+                data: $result,
+                code: 200
+            );
+        } catch (\Throwable $e) {
+            $this->logError($e, '{{name}}Controller@index');
+
+            return $this->jsonResponse(
+                status: 'error',
+                message: 'Failed to retrieve {{name}} list.',
+                code: 500
+            );
+        }
+    }
+
+    /**
+     * GET /api/{{moduleLower}}/{{routeName}}/{id}
+     *
+     * Behavior:
+     *   - Return single {{nameLower}} data based on id
+     *
+     * Authentication:
+     *   - Requires valid bearer Token
+     *
+     * @routeParam {id} required
+     * @return JsonResponse
+     */
+    public function show(int $id): JsonResponse
+    {
+        try {
+            $result = $this->{{nameLower}}Service->find($id);
+
+            return $this->jsonResponse(
+                status: 'ok',
+                message: '{{name}} retrieved successfully.',
+                data: $result,
+                code: 200
+            );
+        } catch (BadRequestException $e) {
+            return $this->jsonResponse(
+                status: 'fail',
+                message: $e->getMessage(),
+                code: 404
+            );
+        } catch (\Throwable $e) {
+            $this->logError($e, '{{name}}Controller@show', ['id' => $id]);
+
+            return $this->jsonResponse(
+                status: 'error',
+                message: 'Failed to retrieve {{name}}.',
+                code: 500
+            );
+        }
+    }
+
+    /**
+     * POST /api/{{moduleLower}}/{{routeName}}
+     *
+     * Behavior:
+     *   - Create single {{nameLower}} data
+     *
+     * Authentication:
+     *   - Requires valid bearer Token
+     *
+     * @param Create{{name}}Request $request
+     * @return JsonResponse
+     */
+    public function store(Create{{name}}Request $request): JsonResponse
+    {
+        try {
+            $dto = Create{{name}}DTO::fromRequest($request);
+            $result = $this->{{nameLower}}Service->create($dto);
+
+            return $this->jsonResponse(
+                status: 'ok',
+                message: '{{name}} created successfully.',
+                data: $dto->toArray(),
+                id: $result,
+                code: 201
+            );
+        } catch (\Throwable $e) {
+            $this->logError(
+                $e,
+                '{{name}}Controller@store',
+                ['payload' => $request->all()]
+            );
+
+            return $this->jsonResponse(
+                status: 'error',
+                message: 'Failed to create {{name}}.',
+                code: 500
+            );
+        }
+    }
+
+    /**
+     * PUT /api/{{moduleLower}}/{{routeName}}/{id}
+     *
+     * Behavior:
+     *   - Update single {{nameLower}} data based on id
+     *
+     * @routeParam {id} required
+     * @param Update{{name}}Request $request
+     * @return JsonResponse
+     */
+    public function update(
+        int $id,
+        Update{{name}}Request $request
+    ): JsonResponse {
+        try {
+            $dto = Update{{name}}DTO::fromRequest($request);
+
+            $this->{{nameLower}}Service->update($id, $dto);
+
+            return $this->jsonResponse(
+                status: 'ok',
+                message: '{{name}} updated successfully.',
+                id: $id,
+                data: $dto->toArray(),
+                code: 200
+            );
+        } catch (BadRequestException $e) {
+            return $this->jsonResponse(
+                status: 'fail',
+                message: $e->getMessage(),
+                code: 404
+            );
+        } catch (\Throwable $e) {
+            $this->logError(
+                $e,
+                '{{name}}Controller@update',
+                [
+                    'id' => $id,
+                    'payload' => $request->all(),
+                ]
+            );
+
+            return $this->jsonResponse(
+                status: 'error',
+                message: 'Failed to update {{name}}.',
+                code: 500
+            );
+        }
+    }
+
+    /**
+     * DELETE /api/{{moduleLower}}/{{routeName}}/{id}
+     *
+     * Behavior:
+     *   - Delete single {{nameLower}} data based on id
+     *
+     * @routeParam {id} required
+     * @param DeleteRequest $request
+     * @return JsonResponse
+     */
+    public function delete(
+        int $id,
+        DeleteRequest $request
+    ): JsonResponse {
+        try {
+            $this->{{nameLower}}Service->delete(
+                $id,
+                $request->toArray()
+            );
+
+            return $this->jsonResponse(
+                status: 'ok',
+                message: '{{name}} deleted successfully.',
+                data: $request->toArray(),
+                id: $id,
+                code: 200
+            );
+        } catch (BadRequestException $e) {
+            return $this->jsonResponse(
+                status: 'fail',
+                message: $e->getMessage(),
+                code: 400
+            );
+        } catch (\Throwable $e) {
+            $this->logError(
+                $e,
+                '{{name}}Controller@delete'
+            );
+
+            return $this->jsonResponse(
+                status: 'error',
+                message: 'Failed to delete {{name}}.',
+                code: 500
+            );
+        }
+    }
+
+    /**
+     * GET /api/{{moduleLower}}/{{routeName}}/check
+     *
+     * Behavior:
+     *   - Check if data already exists
+     *
+     * Query Parameters:
+     *   - columns[] required
+     *   - values[] required
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function check(Request $request): JsonResponse
+    {
+        try {
+            $exists = $this->{{nameLower}}Service->checkExist(
+                $request->query()
+            );
+
+            return $this->jsonResponse(
+                status: 'ok',
+                message: 'Check completed.',
+                data: [
+                    'exists' => $exists,
+                ],
+                code: 200
+            );
+        } catch (\Throwable $e) {
+            $this->logError(
+                $e,
+                '{{name}}Controller@check',
+                ['query' => $request->query()]
+            );
+
+            return $this->jsonResponse(
+                status: 'error',
+                message: 'Failed to perform check.',
+                code: 500
+            );
+        }
+    }
+}

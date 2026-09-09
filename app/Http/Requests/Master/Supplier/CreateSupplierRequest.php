@@ -14,7 +14,7 @@ class CreateSupplierRequest extends BaseApiRequest
     public function rules(): array
     {
         return [
-            // Define validation rules here
+            'created_by'    => ['required', 'string', 'max:50']
         ];
     }
 }

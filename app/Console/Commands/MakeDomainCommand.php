@@ -34,7 +34,10 @@ class MakeDomainCommand extends Command
         $this->call('make:api-request', ['name' => $name, 'module' => $module,]);
 
         /** * ===================================================== * CONTROLLER * ===================================================== */
-        $this->call('make:controller', ['name' => "Api/{$module}/{$name}Controller"]);
+        $this->call('make:api-controller', [
+            'name' => $name,
+            'module' => $module,
+        ]);
 
         /** * Summary */
         $this->showSummary($name, $module, $detail, $isDetail);

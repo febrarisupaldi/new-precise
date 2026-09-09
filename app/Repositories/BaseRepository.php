@@ -18,12 +18,27 @@ abstract class BaseRepository
             ->select($this->table->columns());
     }
 
+    public function chunk(
+        Builder $query,
+        int $chunkSize,
+        callable $callback,
+        ?string $column = null,
+        ?string $alias = null
+    ): bool {
+        return $query->chunkById(
+            $chunkSize,
+            $callback,
+            $column ?? $this->table->pk(),
+            $alias
+        );
+    }
+
     public function find(int|string $id): Builder
     {
         return $this->all()->where($this->table->pk(), $id);
     }
 
-    public function findByColumn(array $conditions): Builder
+    public function findByColumns(array $conditions): Builder
     {
         return $this->all()->where($conditions);
     }

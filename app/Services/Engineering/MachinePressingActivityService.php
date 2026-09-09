@@ -27,7 +27,7 @@ class MachinePressingActivityService
     public function all(array $filters): object
     {
         if (
-            !isset($filters['trans_date']) &&
+            !isset($filters['date']) &&
             !isset($filters['shift']) &&
             !isset($filters['location'])
         ) {

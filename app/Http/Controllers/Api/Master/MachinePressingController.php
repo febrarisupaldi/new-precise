@@ -72,11 +72,11 @@ class MachinePressingController extends Controller
     public function show(int $id): JsonResponse
     {
         try {
-            $machineInjection = $this->machinePressingService->find($id);
+            $machinePressing = $this->machinePressingService->find($id);
             return $this->jsonResponse(
                 status: 'ok',
                 message: 'Machine Pressing retrieved successfully.',
-                data: $machineInjection,
+                data: $machinePressing,
                 code: 200
             );
         } catch (BadRequestException $e) {
@@ -90,6 +90,32 @@ class MachinePressingController extends Controller
             return $this->jsonResponse(
                 status: 'error',
                 message: 'Failed to retrieve Machine Pressing.',
+                code: 500
+            );
+        }
+    }
+
+    public function showLastActivity(int $id): JsonResponse
+    {
+        try {
+            $machinePressing = $this->machinePressingService->showLastActivity($id);
+            return $this->jsonResponse(
+                status: 'ok',
+                message: 'Machine Pressing last activity retrieved successfully.',
+                data: $machinePressing,
+                code: 200
+            );
+        } catch (BadRequestException $e) {
+            return $this->jsonResponse(
+                status: 'fail',
+                message: $e->getMessage(),
+                code: 404
+            );
+        } catch (\Throwable $e) {
+            $this->logError($e, 'MachinePressingController@showLastActivity', ['id' => $id]);
+            return $this->jsonResponse(
+                status: 'error',
+                message: 'Failed to retrieve Machine Pressing last activity.',
                 code: 500
             );
         }

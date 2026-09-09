@@ -82,7 +82,7 @@ class MoldPressingRepository extends BaseRepository
         if (is_numeric($id)) {
             $query = parent::find($id);
         } else {
-            $query = parent::findByColumn([$this->table->column("mold_number") => $id]);
+            $query = parent::findByColumns([$this->table->column("mold_number") => $id]);
         }
         return $query;
     }

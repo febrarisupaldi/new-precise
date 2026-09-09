@@ -21,11 +21,11 @@ class MoldPressingDetailRepository extends BaseRepository
     public function findByMasterID(string|int $id): Builder
     {
         if (is_numeric($id)) {
-            $query = parent::findByColumn([$this->table->column("mold_pressing_hd_id") => $id]);
+            $query = parent::findByColumns([$this->table->column("mold_pressing_hd_id") => $id]);
         } else {
 
             $master = table("master", "mold_pressing.master");
-            $query = parent::findByColumn([$master->column("mold_number") => $id]);
+            $query = parent::findByColumns([$master->column("mold_number") => $id]);
 
             JoinBuilder::join(
                 $query,

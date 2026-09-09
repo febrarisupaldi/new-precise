@@ -29,6 +29,11 @@ class MachinePressingService
         return $this->machinePressingRepo->find($id)->first();
     }
 
+    public function showLastActivity(int $id): ?object
+    {
+        return $this->machinePressingRepo->showLastActivity($id)->first();
+    }
+
     public function create(CreateMachinePressingDTO $dto): mixed
     {
         $id = $this->machinePressingRepo->insert($dto->toArray());

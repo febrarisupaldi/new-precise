@@ -527,10 +527,41 @@ return [
             'product_id',
             'product_code',
             'product_name',
+            'product_alias',
             'product_group_id',
-            'default_packaging_id',
-            'product_description',
-            'product_status_code',
+            'product_barcode',
+            'product_serial_number',
+            'uom_code',
+            'product_std_price',
+            'stock_coa_id',
+            'hpp_coa_id',
+            'sales_coa_id',
+            'sales_return_coa_id',
+            'discount_coa_id',
+            'unbilled_purchase_coa_id',
+            'unbilled_delivery_coa_id',
+            'min_stock_level_week',
+            'max_stock_level_week',
+            'purchase_lead_time',
+            'moq',
+            'is_included_in_mrp_ml',
+            'is_included_in_mrp_pl',
+            'is_active',
+            'product_article',
+            'product_sell_Price',
+            'is_PPN',
+            'PPN',
+            'is_PPNBM',
+            'PPNBM',
+            'is_BOM',
+            'is_royalty',
+            'is_inventory',
+            'is_sold',
+            'is_buy',
+            'is_production',
+            'is_supplier',
+            'is_fixed_asset',
+            'is_expedition',
             'created_on',
             'created_by',
             'updated_on',
@@ -538,6 +569,22 @@ return [
         ],
         'exists' => [
             ['product_code']
+        ]
+    ],
+    'product_appearance' => [
+        'table' => 'precise.product_appearance',
+        'primary_key' => 'appearance_id',
+        'default_alias' => 'pa',
+        'columns' => [
+            'appearance_id',
+            'appearance_name',
+            'created_on',
+            'created_by',
+            'updated_on',
+            'updated_by'
+        ],
+        'exists' => [
+            ['product_appearance_code']
         ]
     ],
     'product_brand' => [
@@ -557,6 +604,35 @@ return [
             ['product_brand_name']
         ]
     ],
+    'product_design' => [
+        'table' => 'precise.product_design',
+        'primary_key' => 'design_id',
+        'default_alias' => 'pd',
+        'columns' => [
+            'design_id',
+            'design_code',
+            'design_name',
+            'design_description',
+            'appearance_id',
+            'license_type_id',
+            'color_type_id',
+            'polos_printing',
+            'color_type',
+            'color_group',
+            'order_type',
+            'material_group',
+            'is_active_sell',
+            'is_active_production',
+            'is_active',
+            'created_on',
+            'created_by',
+            'updated_on',
+            'updated_by'
+        ],
+        'exists' => [
+            ['product_design_name']
+        ]
+    ],
     'product_equivalent' => [
         'table' => 'precise.product_equivalent',
         'primary_key' => 'equivalent_id',
@@ -571,6 +647,87 @@ return [
             'updated_on',
         ],
         'exists' => []
+    ],
+    'product_group' => [
+        'table' => 'precise.product_group',
+        'primary_key' => 'product_group_id',
+        'default_alias' => 'pg',
+        'columns' => [
+            'product_group_id',
+            'product_group_code',
+            'product_group_name',
+            'product_type_id',
+            'stock_coa_id',
+            'hpp_coa_id',
+            'sales_coa_id',
+            'sales_return_coa_id',
+            'discount_coa_id',
+            'invt_sub_ledger',
+            'invt_resp_code',
+            'unbilled_purchase_coa_id',
+            'unbilled_delivery_coa_id',
+            'created_on',
+            'created_by',
+            'updated_on',
+            'updated_by'
+        ],
+        'exists' => [
+            ['product_group_code'],
+            ['product_group_name']
+        ]
+    ],
+    'product_license_type' => [
+        'table' => 'precise.product_license_type',
+        'primary_key' => 'license_type_id',
+        'default_alias' => 'lt',
+        'columns' => [
+            'license_type_id',
+            'license_type_name',
+            'created_on',
+            'created_by',
+            'updated_on',
+            'updated_by'
+        ],
+        'exists' => [
+            ['product_license_type_code'],
+            ['product_license_type_name']
+        ]
+    ],
+    'product_series' => [
+        'table' => 'precise.product_series',
+        'primary_key' => 'product_series_id',
+        'default_alias' => 'ps',
+        'columns' => [
+            'series_id',
+            'series_name',
+            'series_description',
+            'created_on',
+            'created_by',
+            'updated_on',
+            'updated_by'
+        ],
+        'exists' => [
+            ['series_name']
+        ]
+    ],
+    'product_type' => [
+        'table' => 'precise.product_type',
+        'primary_key' => 'product_type_id',
+        'default_alias' => 'pt',
+        'columns' => [
+            'product_type_id',
+            'product_type_code',
+            'product_type_name',
+            'is_active',
+            'created_on',
+            'created_by',
+            'updated_on',
+            'updated_by'
+        ],
+        'exists' => [
+            ['product_type_code'],
+            ['product_type_name']
+        ]
     ],
     'retail_type' => [
         'table' => 'precise.retail_type',

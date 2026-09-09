@@ -6,6 +6,7 @@ use App\Database\JoinBuilder;
 use App\Database\Schema\Table;
 use App\Repositories\BaseRepository;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Facades\DB;
 use InvalidArgumentException;
 
 class MachinePressingActivityRepository extends BaseRepository
@@ -57,14 +58,14 @@ class MachinePressingActivityRepository extends BaseRepository
         $this->joinTable($query);
 
         if (
-            isset($filters['trans_date']) &&
+            isset($filters['date']) &&
             isset($filters['shift']) &&
             isset($filters['location'])
         ) {
             $query->where([
-                [$this->table->column('trans_date'), '=', $filters['trans_date']],
+                [$this->table->column('trans_date'), '=', $filters['date']],
                 [$this->table->column('shift'), '=', $filters['shift']],
-                [$this->table->column('machine_location'), '=', $filters['location']],
+                [$this->machinePressing->column('machine_location'), '=', $filters['location']],
             ]);
         } else {
             throw new InvalidArgumentException("Invalid Arguments");

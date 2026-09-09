@@ -1,13 +1,18 @@
 <?php
 
-namespace App\Repositories\{{module}};
+namespace App\Repositories\{{namespace}};
 
 use App\Repositories\BaseRepository;
 use App\Database\Schema\Table;
 
 class {{name}}Repository extends BaseRepository
 {
-    protected Table ${{name}};
+    protected Table $table;
+
+    public function __construct()
+    {
+        $this->table = table("{{module}}", "{{table}}");
+    }
 
     /**
      * Bulk insert

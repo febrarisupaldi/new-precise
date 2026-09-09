@@ -3,25 +3,25 @@
 namespace App\Services\Master;
 
 
-use App\Repositories\Master\ProductRepository;
-use App\DTOs\Master\CreateProductDTO;
-use App\DTOs\Master\UpdateProductDTO;
+use App\DTOs\Master\Product\CreateProductDTO;
+use App\DTOs\Master\Product\UpdateProductDTO;
 use App\Exceptions\BadRequestException;
+use App\Repositories\Master\Product\ProductRepository;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
 class ProductService
 {
-    protected $productRepo;
+    protected ProductRepository $productRepo;
 
     public function __construct(ProductRepository $productRepo)
     {
         $this->productRepo = $productRepo;
     }
 
-    public function all(): object
+    public function stream(callable $callback): bool
     {
-        return $this->productRepo->all()->get();
+        return $this->productRepo->stream($callback);
     }
 
     public function find(mixed $id): ?object
@@ -31,7 +31,7 @@ class ProductService
 
     public function create(CreateProductDTO $dto): mixed
     {
-        $id = $this->productRepo->create($dto->toArray());
+        $id = $this->productRepo->insert($dto->toArray());
 
         if (!$id) {
             throw new Exception('Failed to create Product');

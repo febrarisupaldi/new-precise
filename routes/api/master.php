@@ -19,14 +19,23 @@ use App\Http\Controllers\Api\Master\{
     MoldPressingController,
     MoldStatusController,
     PackagingController,
+    ProductAppearanceController,
     ProductEquivalentController,
     StateController,
     SteelTypeController,
     UOMController,
     ProductBrandController,
+    ProductController,
+    ProductDesignController,
+    ProductGroupController,
+    ProductLicenseTypeController,
+    ProductSeriesController,
+    ProductTypeController,
     RetailTypeController,
+    SupplierController,
     VehicleController,
     WarehouseController,
+    WarehouseGroupController,
     WorkcenterController,
 };
 use Illuminate\Support\Facades\Route;
@@ -129,6 +138,7 @@ Route::prefix('machine-pressings')->group(function () {
     Route::get('/', [MachinePressingController::class, 'index']);
     Route::get('check', [MachinePressingController::class, 'check']);
     Route::get('{id}', [MachinePressingController::class, 'show']);
+    Route::get('{id}/last-activity', [MachinePressingController::class, 'showLastActivity']);
     Route::post('/', [MachinePressingController::class, 'store']);
     Route::put('{id}', [MachinePressingController::class, 'update']);
 });
@@ -149,19 +159,19 @@ Route::prefix('mold-injections')->group(function () {
     // Route::put('{id}', [MoldInjectionController::class, 'update']);
 });
 
+Route::prefix('mold-makings')->group(function () {
+    Route::get('/', [MoldMakingController::class, 'index']);
+    Route::get('{id}', [MoldMakingController::class, 'show']);
+    Route::post('/', [MoldMakingController::class, 'store']);
+    Route::put('{id}', [MoldMakingController::class, 'update']);
+});
+
 Route::prefix('mold-pressings')->group(function () {
     Route::get('/', [MoldPressingController::class, 'index']);
     Route::get('check', [MoldPressingController::class, 'check']);
     Route::get('{id}', [MoldPressingController::class, 'show']);
     Route::post('/', [MoldPressingController::class, 'store']);
     Route::put('{id}', [MoldPressingController::class, 'update']);
-});
-
-Route::prefix('mold-makings')->group(function () {
-    Route::get('/', [MoldMakingController::class, 'index']);
-    Route::get('{id}', [MoldMakingController::class, 'show']);
-    Route::post('/', [MoldMakingController::class, 'store']);
-    Route::put('{id}', [MoldMakingController::class, 'update']);
 });
 
 Route::prefix('mold-statuses')->group(function () {
@@ -179,6 +189,21 @@ Route::prefix('packagings')->group(function () {
     Route::put('{id}', [PackagingController::class, 'update']);
 });
 
+Route::prefix('products')->group(function () {
+    Route::get('/', [ProductController::class, 'index']);
+    // Route::get('{id}', [ProductController::class, 'show']);
+    // Route::post('/', [ProductController::class, 'store']);
+    // Route::put('{id}', [ProductController::class, 'update']);
+    // Route::delete('{id}', [ProductController::class, 'delete']);
+});
+
+Route::prefix('product-appearances')->group(function () {
+    Route::get('/', [ProductAppearanceController::class, 'index']);
+    Route::get('{id}', [ProductAppearanceController::class, 'show']);
+    Route::post('/', [ProductAppearanceController::class, 'store']);
+    Route::put('{id}', [ProductAppearanceController::class, 'update']);
+});
+
 Route::prefix('product-brands')->group(function () {
     Route::get('/', [ProductBrandController::class, 'index']);
     Route::get('check', [ProductBrandController::class, 'check']);
@@ -187,12 +212,53 @@ Route::prefix('product-brands')->group(function () {
     Route::put('{id}', [ProductBrandController::class, 'update']);
 });
 
+Route::prefix('product-designs')->group(function () {
+    Route::get('/', [ProductDesignController::class, 'index']);
+    Route::get('check', [ProductDesignController::class, 'check']);
+    Route::get('{id}', [ProductDesignController::class, 'show']);
+    Route::post('/', [ProductDesignController::class, 'store']);
+    Route::put('{id}', [ProductDesignController::class, 'update']);
+    Route::delete('{id}', [ProductDesignController::class, 'delete']);
+});
+
 Route::prefix('product-equivalents')->group(function () {
     Route::get('/', [ProductEquivalentController::class, 'index']);
     Route::get('check', [ProductEquivalentController::class, 'check']);
     Route::get('{id}', [ProductEquivalentController::class, 'show']);
     Route::post('/', [ProductEquivalentController::class, 'store']);
     Route::put('{id}', [ProductEquivalentController::class, 'update']);
+});
+
+Route::prefix('product-groups')->group(function () {
+    Route::get('/', [ProductGroupController::class, 'index']);
+    Route::get('check', [ProductGroupController::class, 'check']);
+    Route::get('{id}', [ProductGroupController::class, 'show']);
+    Route::post('/', [ProductGroupController::class, 'store']);
+    Route::put('{id}', [ProductGroupController::class, 'update']);
+});
+
+Route::prefix('product-license-types')->group(function () {
+    Route::get('/', [ProductLicenseTypeController::class, 'index']);
+    Route::get('check', [ProductLicenseTypeController::class, 'check']);
+    Route::get('{id}', [ProductLicenseTypeController::class, 'show']);
+    Route::post('/', [ProductLicenseTypeController::class, 'store']);
+    Route::put('{id}', [ProductLicenseTypeController::class, 'update']);
+});
+
+Route::prefix('product-series')->group(function () {
+    Route::get('/', [ProductSeriesController::class, 'index']);
+    Route::get('check', [ProductSeriesController::class, 'check']);
+    Route::get('{id}', [ProductSeriesController::class, 'show']);
+    Route::post('/', [ProductSeriesController::class, 'store']);
+    Route::put('{id}', [ProductSeriesController::class, 'update']);
+});
+
+Route::prefix('product-types')->group(function () {
+    Route::get('/', [ProductTypeController::class, 'index']);
+    Route::get('check', [ProductTypeController::class, 'check']);
+    Route::get('{id}', [ProductTypeController::class, 'show']);
+    Route::post('/', [ProductTypeController::class, 'store']);
+    Route::put('{id}', [ProductTypeController::class, 'update']);
 });
 
 Route::prefix('retail-types')->group(function () {
@@ -221,6 +287,14 @@ Route::prefix('steel-types')->group(function () {
     Route::put('{id}', [SteelTypeController::class, 'update']);
 });
 
+Route::prefix('suppliers')->group(function () {
+    Route::get('/', [SupplierController::class, 'index']);
+    Route::get('check', [SupplierController::class, 'check']);
+    Route::get('{id}', [SupplierController::class, 'show']);
+    Route::post('/', [SupplierController::class, 'store']);
+    Route::put('{id}', [SupplierController::class, 'update']);
+});
+
 // UOM
 Route::prefix('uoms')->group(function () {
     Route::get('/', [UOMController::class, 'index']);
@@ -247,6 +321,14 @@ Route::prefix('warehouses')->group(function () {
     Route::post('/', [WarehouseController::class, 'store']);
     Route::put('{id}', [WarehouseController::class, 'update']);
     Route::delete('{id}', [WarehouseController::class, 'delete']);
+});
+
+Route::prefix('warehouse-groups')->group(function () {
+    Route::get('/', [WarehouseGroupController::class, 'index']);
+    Route::get('check', [WarehouseGroupController::class, 'check']);
+    Route::get('{id}', [WarehouseGroupController::class, 'show']);
+    Route::post('/', [WarehouseGroupController::class, 'store']);
+    Route::put('{id}', [WarehouseGroupController::class, 'update']);
 });
 
 Route::prefix('workcenters')->group(function () {

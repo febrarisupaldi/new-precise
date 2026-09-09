@@ -57,6 +57,23 @@ class {{name}}Service
         });
     }
 
+    public function delete(int $id, Update{{name}}DTO $dto): void
+    {
+        DB::transaction(function () use ($id, $dto) {
+            $exists = $this->{{nameLower}}Repo->find($id)->first();
+
+            if (!$exists) {
+                throw new BadRequestException('{{name}} not found', code: 404);
+            }
+            $this->{{nameLower}}Repo->setAuditSession($dto->toAuditArray());
+            $success = $this->{{nameLower}}Repo->delete($id, $dto->withoutAuditArray());
+
+            if ($success === false) {
+                throw new Exception('Failed to delete {{name}}');
+            }
+        });
+    }
+
     public function checkExist(array $conditions): bool
     {
         return $this->{{nameLower}}Repo->exists($conditions);
