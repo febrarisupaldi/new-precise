@@ -11,17 +11,25 @@ use Illuminate\Http\Request;
 class UpdateMoldMakingDTO extends BaseDTO
 {
     // Define properties here
-     use AuditDTO;
- public string $updated_by;
- public string $reason;
+    use AuditDTO;
 
+    public function __construct(
+        public readonly string $estimation_number,
+        public readonly string $updated_by,
+        public readonly string $reason
+    ) {}
+
+    public static function fromArray(array $data): static
+    {
+        return new static(
+            estimation_number: (string) $data['estimation_number'],
+            updated_by: (string) $data['updated_by'],
+            reason: (string) $data['reason']
+        );
+    }
 
     public static function fromRequest(Request $request): static
     {
-        $dto = new self();
-         $dto->updated_by = $request->input('updated_by');
- $dto->reason = $request->input('reason');
-
-        return $dto;
+        return static::fromArray($request->validated());
     }
 }

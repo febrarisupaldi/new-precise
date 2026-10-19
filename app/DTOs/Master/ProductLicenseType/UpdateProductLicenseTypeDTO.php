@@ -11,17 +11,20 @@ use Illuminate\Http\Request;
 class UpdateProductLicenseTypeDTO extends BaseDTO
 {
     // Define properties here
-     use AuditDTO;
- public string $updated_by;
- public string $reason;
+    use AuditDTO;
 
+    public function __construct(
+        public readonly string $license_type_name,
+        public readonly string $updated_by,
+        public readonly string $reason
+    ) {}
 
     public static function fromRequest(Request $request): static
     {
-        $dto = new self();
-         $dto->updated_by = $request->input('updated_by');
- $dto->reason = $request->input('reason');
-
-        return $dto;
+        return new static(
+            license_type_name: (string) $request->input('license_type_name'),
+            updated_by: (string) $request->input('updated_by'),
+            reason: (string) $request->input('reason')
+        );
     }
 }

@@ -11,17 +11,30 @@ use Illuminate\Http\Request;
 class UpdateCoolingMethodDTO extends BaseDTO
 {
     // Define properties here
-     use AuditDTO;
- public string $updated_by;
- public string $reason;
+    use AuditDTO;
 
+    public function __construct(
+        public readonly string $cooling_method_name,
+        public readonly ?string $cooling_method_description,
+        public readonly ?bool $is_active,
+        public readonly string $updated_by,
+        public readonly string $reason
+    ) {}
+
+
+    public static function fromArray(array $data): static
+    {
+        return new static(
+            cooling_method_name: (string) $data['cooling_method_name'],
+            cooling_method_description: (string) $data['cooling_method_description'] ?? null,
+            is_active: (bool) $data['is_active'],
+            updated_by: (string) $data['updated_by'],
+            reason: (string) $data['reason']
+        );
+    }
 
     public static function fromRequest(Request $request): static
     {
-        $dto = new self();
-         $dto->updated_by = $request->input('updated_by');
- $dto->reason = $request->input('reason');
-
-        return $dto;
+        return static::fromArray($request->validated());
     }
 }

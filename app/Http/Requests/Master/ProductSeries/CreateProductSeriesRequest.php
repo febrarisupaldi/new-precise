@@ -14,9 +14,9 @@ class CreateProductSeriesRequest extends BaseApiRequest
     public function rules(): array
     {
         return [
-            'series_name' => ['required', 'string', 'max:50'],
-            'series_description' => ['nullable', 'string', 'max:100'],
-            'created_by' => ['required', 'string', 'max:100']
+            'series_name'           => ['required', 'string', 'max:50'],
+            'series_description'    => ['nullable', 'string', 'max:100'],
+            'created_by'            => ['required', 'string', 'max:100']
         ];
     }
 }

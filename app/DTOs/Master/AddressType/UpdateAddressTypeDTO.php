@@ -10,18 +10,25 @@ class UpdateAddressTypeDTO extends BaseDTO
 {
     use AuditDTO;
 
-    public string $address_type_name;
-    public ?string $address_type_description;
-    public string $updated_by;
-    public string $reason;
+    public function __construct(
+        public readonly string $address_type_name,
+        public readonly ?string $address_type_description,
+        public readonly string $updated_by,
+        public readonly string $reason
+    ) {}
+
+    public static function fromArray(array $data): static
+    {
+        return new static(
+            address_type_name: (string) $data['address_type_name'],
+            address_type_description: (string) $data['address_type_description'] ?? null,
+            updated_by: (string) $data['updated_by'],
+            reason: (string) $data['reason']
+        );
+    }
 
     public static function fromRequest(Request $request): static
     {
-        $dto = new self();
-        $dto->address_type_name        = $request->input('address_type_name');
-        $dto->address_type_description = $request->input('address_type_description');
-        $dto->updated_by               = $request->input('updated_by');
-        $dto->reason                   = $request->input('reason');
-        return $dto;
+        return static::fromArray($request->validated());
     }
 }

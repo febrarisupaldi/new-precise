@@ -11,18 +11,25 @@ class UpdateCountryDTO extends BaseDTO
 
     use AuditDTO;
 
-    public string $country_code;
-    public string $country_name;
-    public string $updated_by;
-    public string $reason;
+    public function __construct(
+        public readonly string $country_code,
+        public readonly string $country_name,
+        public readonly string $updated_by,
+        public readonly string $reason
+    ) {}
+
+    public static function fromArray(array $data): static
+    {
+        return new static(
+            country_code: (string) $data['country_code'],
+            country_name: (string) $data['country_name'],
+            updated_by: (string) $data['updated_by'],
+            reason: (string) $data['reason']
+        );
+    }
 
     public static function fromRequest(Request $request): static
     {
-        $dto = new self();
-        $dto->country_code = $request->input('country_code');
-        $dto->country_name = $request->input('country_name');
-        $dto->updated_by   = $request->input('updated_by');
-        $dto->reason       = $request->input('reason');
-        return $dto;
+        return static::fromArray($request->validated());
     }
 }

@@ -15,7 +15,7 @@ class CreateMachinePressingActivityRequest extends BaseApiRequest
     {
         return [
             'machine_pressing_id'   => ['required', 'exists:machine_pressing,machine_pressing_id'],
-            'mold_pressing_hd_id'   => ['required'],
+            'mold_pressing_hd_id'   => ['required', 'exists:mold_pressing_hd,mold_pressing_hd_id'],
             'activity_date'         => ['required', 'date_format:Y-m-d H:i:s'],
             'trans_date'            => ['required', 'date_format:Y-m-d'],
             'machine_status_code'   => ['required', 'exists:machine_status,status_code'],

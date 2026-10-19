@@ -7,28 +7,30 @@ use Illuminate\Http\Request;
 
 class CreateWarehouseDTO extends BaseDTO
 {
-    public string $warehouse_code;
-    public string $warehouse_name;
-    public ?string $warehouse_alias;
-    public string $warehouse_group_code;
-    public ?bool $is_active;
-    public ?int $warehouse_pic_1;
-    public ?int $warehouse_pic_2;
-    public ?int $warehouse_approver;
-    public string $created_by;
+    public function __construct(
+        public readonly string $warehouse_code,
+        public readonly string $warehouse_name,
+        public readonly ?string $warehouse_alias,
+        public readonly string $warehouse_group_code,
+        public readonly bool $is_active,
+        public readonly ?int $warehouse_pic_1,
+        public readonly ?int $warehouse_pic_2,
+        public readonly ?int $warehouse_approver,
+        public readonly string $created_by
+    ) {}
 
     public static function fromRequest(Request $request): static
     {
-        $dto = new self();
-        $dto->warehouse_code = strtoupper($request->input('warehouse_code'));
-        $dto->warehouse_name = $request->input('warehouse_name');
-        $dto->warehouse_alias = $request->input('warehouse_alias');
-        $dto->warehouse_group_code = $request->input('warehouse_group_code');
-        $dto->is_active = $request->input('is_active') ?? 1;
-        $dto->warehouse_pic_1 = (int) $request->input('warehouse_pic_1');
-        $dto->warehouse_pic_2 = (int) $request->input('warehouse_pic_2');
-        $dto->warehouse_approver = (int) $request->input('warehouse_approver');
-        $dto->created_by = $request->input('created_by');
-        return $dto;
+        return new static(
+            warehouse_code: (string) strtoupper($request->input('warehouse_code')),
+            warehouse_name: (string) $request->input('warehouse_name'),
+            warehouse_alias: (string) $request->input('warehouse_alias'),
+            warehouse_group_code: (string) $request->input('warehouse_group_code'),
+            is_active: (bool) $request->input('is_active', true),
+            warehouse_pic_1: (int) $request->input('warehouse_pic_1'),
+            warehouse_pic_2: (int) $request->input('warehouse_pic_2'),
+            warehouse_approver: (int) $request->input('warehouse_approver'),
+            created_by: (string) $request->input('created_by')
+        );
     }
 }

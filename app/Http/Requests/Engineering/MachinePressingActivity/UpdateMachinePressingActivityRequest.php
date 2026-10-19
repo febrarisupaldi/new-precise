@@ -14,7 +14,16 @@ class UpdateMachinePressingActivityRequest extends BaseApiRequest
     public function rules(): array
     {
         return [
-            // Define validation rules here
+            'machine_pressing_id'   => ['required', 'exists:machine_pressing,machine_pressing_id'],
+            'mold_pressing_hd_id'   => ['required', 'exists:mold_pressing_hd,mold_pressing_hd_id'],
+            'activity_date'         => ['required', 'date_format:Y-m-d H:i:s'],
+            'trans_date'            => ['required', 'date_format:Y-m-d'],
+            'machine_status_code'   => ['required', 'exists:machine_status,status_code'],
+            'mold_status_code'      => ['required', 'exists:mold_status,status_code'],
+            'setter_mold_nik'       => ['required', 'exists:users,user_id'],
+            'shift'                 => ['required', 'numeric', 'between:1,3'],
+            'activity_location'     => ['required'],
+            'description'           => ['nullable'],
             'updated_by' => ['required', 'string', 'max:100'],
             'reason'     => ['required', 'string'],
         ];

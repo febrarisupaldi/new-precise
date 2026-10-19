@@ -6,21 +6,21 @@ use App\DTOs\BaseDTO;
 use App\DTOs\Traits\AuditDTO;
 use Illuminate\Http\Request;
 
-class UpdateMoldPressingDTO extends BaseDTO
+class UpdateMoldPressingDTO extends UpdateMoldPressingMasterDTO
 {
 
-    use AuditDTO;
-    // Define properties here
-    public string $updated_by;
-    public string $reason;
-
+    public function __construct(
+        public readonly UpdateMoldPressingMasterDTO $master,
+        public readonly array $details
+    ) {}
 
     public static function fromRequest(Request $request): static
     {
-        $dto = new self();
-         $dto->updated_by = $request->input('updated_by');
- $dto->reason = $request->input('reason');
+        $master = parent::fromArray($request->toArray());
+        $details = collect(
+            $request->input('details', [])
+        )->map(fn(array $detail) => UpdateMoldPressingDetailDTO::fromArray($detail))->toArray();
 
-        return $dto;
+        return new static($master, $details);
     }
 }

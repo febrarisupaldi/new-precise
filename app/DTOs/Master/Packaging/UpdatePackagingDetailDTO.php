@@ -22,9 +22,9 @@ class UpdatePackagingDetailDTO extends BaseDTO
     public static function fromRequest(Request $request): static
     {
         $dto = new self();
-        $dto->packaging_dt_id = (int) $request->input('packaging_dt_id') ?? null;
+        $dto->packaging_dt_id = (int) $request->input('packaging_dt_id');
         $dto->product_id = (int) $request->input('product_id');
-        $dto->item_id = (int) $request->input('item_id') ?? null;
+        $dto->item_id = (int) $request->input('item_id');
         $dto->item_code = $request->input('item_code');
         $dto->product_qty = (int) $request->input('product_qty');
         $dto->priority = (int) $request->input('priority');

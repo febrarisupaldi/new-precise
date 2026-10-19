@@ -9,22 +9,27 @@ use App\DTOs\Traits\AuditDTO;
 class UpdateMachineStatusDTO extends BaseDTO
 {
     use AuditDTO;
-    public string $status_code;
-    public string $status_description;
-    public ?bool $is_active;
-    public string $updated_by;
-    public string $reason;
+    public function __construct(
+        public readonly string $status_code,
+        public readonly string $status_description,
+        public readonly ?bool $is_active,
+        public readonly string $updated_by,
+        public readonly string $reason
+    ) {}
 
+    public static function fromArray(array $data): static
+    {
+        return new static(
+            status_code: (string) $data['status_code'],
+            status_description: (string) $data['status_description'],
+            is_active: (bool) $data['is_active'],
+            updated_by: (string) $data['updated_by'],
+            reason: (string) $data['reason']
+        );
+    }
 
     public static function fromRequest(Request $request): static
     {
-        $dto = new self();
-        $dto->status_code = $request->get('status_code');
-        $dto->status_description = $request->get('status_description');
-        $dto->is_active = $request->get('is_active');
-        $dto->updated_by = $request->input('updated_by');
-        $dto->reason = $request->input('reason');
-
-        return $dto;
+        return static::fromArray($request->validated());
     }
 }

@@ -57,25 +57,15 @@ class Table
         );
     }
 
-    public function only(array $columns): array
+    public function only(array $columns): static
     {
-        return array_map(
-            fn($column) => $this->column($column),
-            $columns
-        );
+        $this->columns = $columns;
+        return $this;
     }
 
     public function except(array $columns): array
     {
-        return collect($this->columns())
-            ->reject(function ($column) use ($columns) {
-                return in_array(
-                    str_replace($this->alias() . '.', '', $column),
-                    $columns
-                );
-            })
-            ->values()
-            ->all();
+        return array_diff($this->columns, $columns);
     }
 
     public function existsConditions(): array

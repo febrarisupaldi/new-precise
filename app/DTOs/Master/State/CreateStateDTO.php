@@ -7,18 +7,20 @@ use Illuminate\Http\Request;
 
 class CreateStateDTO extends BaseDTO
 {
-    public string $state_code;
-    public string $state_name;
-    public int $country_id;
-    public string $created_by;
+    public function __construct(
+        public readonly string $state_code,
+        public readonly string $state_name,
+        public readonly int $country_id,
+        public readonly string $created_by
+    ) {}
 
     public static function fromRequest(Request $request): static
     {
-        $dto = new self();
-        $dto->state_code = $request->input('state_code');
-        $dto->state_name = $request->input('state_name');
-        $dto->country_id = (int) $request->input('country_id');
-        $dto->created_by = $request->input('created_by');
-        return $dto;
+        return new static(
+            state_code: (string) $request->input('state_code'),
+            state_name: (string) $request->input('state_name'),
+            country_id: (int) $request->input('country_id'),
+            created_by: (string) $request->input('created_by')
+        );
     }
 }

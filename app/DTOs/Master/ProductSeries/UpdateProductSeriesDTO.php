@@ -11,20 +11,22 @@ use Illuminate\Http\Request;
 class UpdateProductSeriesDTO extends BaseDTO
 {
     use AuditDTO;
-    public string $series_name;
-    public ?string $series_description;
-    public string $updated_by;
-    public string $reason;
+
+    public function __construct(
+        public readonly string $series_name,
+        public readonly ?string $series_description,
+        public readonly string $updated_by,
+        public readonly string $reason
+    ) {}
 
 
     public static function fromRequest(Request $request): static
     {
-        $dto = new self();
-        $dto->series_name = $request->input('series_name');
-        $dto->series_description = $request->input('series_description');
-        $dto->updated_by = $request->input('updated_by');
-        $dto->reason = $request->input('reason');
-
-        return $dto;
+        return new static(
+            series_name: (string) $request->input('series_name'),
+            series_description: (string) $request->input('series_description'),
+            updated_by: (string) $request->input('updated_by'),
+            reason: (string) $request->input('reason')
+        );
     }
 }

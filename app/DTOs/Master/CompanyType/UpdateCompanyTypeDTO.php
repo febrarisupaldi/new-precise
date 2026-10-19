@@ -10,18 +10,25 @@ class UpdateCompanyTypeDTO extends BaseDTO
 {
     use AuditDTO;
 
-    public string $company_type_code;
-    public ?string $company_type_description;
-    public string $updated_by;
-    public string $reason;
+    public function __construct(
+        public readonly string $company_type_code,
+        public readonly ?string $company_type_description,
+        public readonly string $updated_by,
+        public readonly string $reason
+    ) {}
+
+    public static function fromArray(array $data): static
+    {
+        return new static(
+            company_type_code: (string) $data['company_type_code'],
+            company_type_description: (string) $data['company_type_description'] ?? null,
+            updated_by: (string) $data['updated_by'],
+            reason: (string) $data['reason']
+        );
+    }
 
     public static function fromRequest(Request $request): static
     {
-        $dto = new self();
-        $dto->company_type_code        = $request->input('company_type_code');
-        $dto->company_type_description = $request->input('company_type_description');
-        $dto->updated_by               = $request->input('updated_by');
-        $dto->reason                   = $request->input('reason');
-        return $dto;
+        return static::fromArray($request->validated());
     }
 }

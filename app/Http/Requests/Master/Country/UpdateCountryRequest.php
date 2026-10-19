@@ -15,8 +15,18 @@ class UpdateCountryRequest extends BaseApiRequest
     public function rules(): array
     {
         return [
-            'country_code' => ['required', 'string', 'max:15', Rule::unique('country')->ignore($this->country_code, 'country_code')],
-            'country_name' => ['required', 'string', 'max:50', Rule::unique('country')->ignore($this->country_name, 'country_name')],
+            'country_code' => [
+                'required',
+                'string',
+                'max:15',
+                Rule::unique('country')->ignore($this->country_code, 'country_code')
+            ],
+            'country_name' => [
+                'required',
+                'string',
+                'max:50',
+                Rule::unique('country')->ignore($this->country_name, 'country_name')
+            ],
             'updated_by'   => ['required', 'string', 'max:100'],
             'reason'       => ['required', 'string'],
         ];

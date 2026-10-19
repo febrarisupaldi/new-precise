@@ -57,9 +57,9 @@ class {{name}}Service
         });
     }
 
-    public function delete(int $id, Update{{name}}DTO $dto): void
+    public function delete(int $id, array $data): void
     {
-        DB::transaction(function () use ($id, $dto) {
+        DB::transaction(function () use ($id, $data) {
             $exists = $this->{{nameLower}}Repo->find($id)->first();
 
             if (!$exists) {

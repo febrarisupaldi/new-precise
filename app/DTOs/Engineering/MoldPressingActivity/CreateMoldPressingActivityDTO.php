@@ -8,24 +8,25 @@ use Illuminate\Http\Request;
 
 class CreateMoldPressingActivityDTO extends BaseDTO
 {
-    // Define properties here
-    // public $property;
-    public int $mold_pressing_hd_id;
-    public string $activity_date;
-    public string $activity_type;
-    public string $location;
-    public ?string $description;
-    public string $created_by;
+    public function __construct(
+        public readonly int $mold_pressing_hd_id,
+        public readonly string $activity_date,
+        public readonly string $activity_type,
+        public readonly string $location,
+        public readonly ?string $description,
+        public readonly string $created_by
+    ) {}
+
 
     public static function fromRequest(Request $request): static
     {
-        $dto = new self();
-        $dto->mold_pressing_hd_id = (int) $request->input('mold_pressing_hd_id');
-        $dto->activity_date = $request->input('activity_date');
-        $dto->activity_type = $request->input('mold_status_code');
-        $dto->location = $request->input('activity_location');
-        $dto->description = $request->input('description');
-        $dto->created_by = $request->input('created_by');
-        return $dto;
+        return new static(
+            mold_pressing_hd_id: (int) $request->input('mold_pressing_hd_id'),
+            activity_date: (string) $request->input('activity_date') ?? $request->input('trans_date'),
+            activity_type: (string) $request->input('mold_status_code'),
+            location: (string) $request->input('location'),
+            description: (string) $request->input('description'),
+            created_by: (string) $request->input('created_by')
+        );
     }
 }

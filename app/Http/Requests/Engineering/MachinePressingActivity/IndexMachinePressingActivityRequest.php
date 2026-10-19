@@ -14,10 +14,10 @@ class IndexMachinePressingActivityRequest extends BaseApiRequest
     public function rules(): array
     {
         return [
-            'date' => ['required_with:shift,location', 'date_format:Y-m-d'],
-            'shift' => ['required_with:date,location', 'in:1,2,3'],
-            'location' => ['required_with:date,shift'],
-            'machine_pressing' => ['nullable', 'exists:machine_pressing,machine_pressing_id']
+            'date'              => ['required_with:shift,location', 'date_format:Y-m-d'],
+            'shift'             => ['required_with:date,location', 'in:1,2,3'],
+            'location'          => ['required_with:date,shift'],
+            'machine_pressing'  => ['nullable', 'exists:machine_pressing,machine_pressing_id']
         ];
     }
 }

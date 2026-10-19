@@ -7,23 +7,24 @@ use Illuminate\Http\Request;
 
 class CreateVehicleDTO extends BaseDTO
 {
-    // Define properties here
-    public string $vehicle_model;
-    public string $license_number;
-    public string $vehicle_description;
-    public int $is_owned;
-    public int $is_active;
-    public string $created_by;
+    public function __construct(
+        public readonly string $vehicle_model,
+        public readonly string $license_number,
+        public readonly string $vehicle_description,
+        public readonly int $is_owned,
+        public readonly ?bool $is_active,
+        public readonly string $created_by
+    ) {}
 
     public static function fromRequest(Request $request): static
     {
-        $dto = new self();
-        $dto->vehicle_model = $request->input('vehicle_model');
-        $dto->license_number = $request->input('license_number');
-        $dto->vehicle_description = $request->input('vehicle_description');
-        $dto->is_owned = $request->input('is_owned');
-        $dto->is_active = $request->input('is_active', 1);
-        $dto->created_by = $request->input('created_by');
-        return $dto;
+        return new static(
+            vehicle_model: (string) $request->input('vehicle_model'),
+            license_number: (string) $request->input('license_number'),
+            vehicle_description: (string) $request->input('vehicle_description'),
+            is_owned: (int) $request->input('is_owned'),
+            is_active: (bool) $request->input('is_active', true),
+            created_by: (string) $request->input('created_by')
+        );
     }
 }

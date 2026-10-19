@@ -8,16 +8,17 @@ use Illuminate\Http\Request;
 
 class CreateProductAppearanceDTO extends BaseDTO
 {
-    // Define properties here
-    // public $property;
-    public ?string $appearance_name;
-    public string $created_by;
+
+    public function __construct(
+        public readonly ?string $appearance_name,
+        public readonly string $created_by
+    ) {}
 
     public static function fromRequest(Request $request): static
     {
-        $dto = new self();
-        $dto->appearance_name = $request->input('appearance_name');
-        $dto->created_by = $request->input('created_by');
-        return $dto;
+        return new static(
+            appearance_name: (string) $request->input('appearance_name'),
+            created_by: (string) $request->input('created_by')
+        );
     }
 }

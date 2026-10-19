@@ -7,19 +7,20 @@ use Illuminate\Http\Request;
 
 class CreateUOMDTO extends BaseDTO
 {
-    // Define properties here
-    public string $uom_code;
-    public string $uom_name;
-    public bool $is_active;
-    public string $created_by;
+    public function __construct(
+        public readonly string $uom_code,
+        public readonly string $uom_name,
+        public readonly ?bool $is_active,
+        public readonly string $created_by
+    ) {}
 
     public static function fromRequest(Request $request): static
     {
-        $dto = new self();
-        $dto->uom_code = $request->input('uom_code');
-        $dto->uom_name = $request->input('uom_name');
-        $dto->is_active = (bool) $request->input('is_active');
-        $dto->created_by = $request->input('created_by');
-        return $dto;
+        return new static(
+            uom_code: (string) $request->input('uom_code'),
+            uom_name: (string) $request->input('uom_name'),
+            is_active: (bool) $request->input('is_active') ?? true,
+            created_by: (string) $request->input('created_by')
+        );
     }
 }

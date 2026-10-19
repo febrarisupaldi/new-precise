@@ -10,7 +10,7 @@ use Dedoc\Scramble\Attributes\Group;
 use Dedoc\Scramble\Attributes\QueryParameter;
 use Illuminate\Http\JsonResponse;
 
-#[Group('Sales|Sales Order', 'Sales Orders')]
+#[Group('SALES|Sales Order', 'Sales Orders')]
 class SalesOrderController extends Controller
 {
     protected SalesOrderService $salesOrderService;

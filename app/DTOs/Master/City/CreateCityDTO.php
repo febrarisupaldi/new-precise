@@ -7,18 +7,27 @@ use Illuminate\Http\Request;
 
 class CreateCityDTO extends BaseDTO
 {
-    public string $city_code;
-    public string $city_name;
-    public string $state_id;
-    public string $created_by;
+
+    public function __construct(
+        public readonly string $city_code,
+        public readonly string $city_name,
+        public readonly string $state_id,
+        public readonly string $created_by
+    ) {}
+
+
+    public static function fromArray(array $data): static
+    {
+        return new static(
+            city_code: (string) $data['city_code'],
+            city_name: (string) $data['city_name'],
+            state_id: (string) $data['state_id'],
+            created_by: (string) $data['created_by']
+        );
+    }
 
     public static function fromRequest(Request $request): static
     {
-        $dto = new self();
-        $dto->city_code = $request->input('city_code');
-        $dto->city_name = $request->input('city_name');
-        $dto->state_id = $request->input('state_id');
-        $dto->created_by = $request->input('created_by');
-        return $dto;
+        return static::fromArray($request->validated());
     }
 }

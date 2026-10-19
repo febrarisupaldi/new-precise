@@ -10,20 +10,22 @@ class UpdateStateDTO extends BaseDTO
 {
     use AuditDTO;
 
-    public string $state_code;
-    public string $state_name;
-    public int $country_id;
-    public string $updated_by;
-    public string $reason;
+    public function __construct(
+        public readonly string $state_code,
+        public readonly string $state_name,
+        public readonly int $country_id,
+        public readonly string $updated_by,
+        public readonly string $reason
+    ) {}
 
     public static function fromRequest(Request $request): static
     {
-        $dto = new self();
-        $dto->state_code = $request->input('state_code');
-        $dto->state_name = $request->input('state_name');
-        $dto->country_id = (int) $request->input('country_id');
-        $dto->updated_by = $request->input('updated_by');
-        $dto->reason     = $request->input('reason');
-        return $dto;
+        return new static(
+            state_code: (string) $request->input('state_code'),
+            state_name: (string) $request->input('state_name'),
+            country_id: (int) $request->input('country_id'),
+            updated_by: (string) $request->input('updated_by'),
+            reason: (string) $request->input('reason')
+        );
     }
 }

@@ -10,19 +10,26 @@ class UpdateColorTypeDTO extends BaseDTO
 {
     // Define properties here
     use AuditDTO;
-    public string $color_type_code;
-    public string $color_type_name;
-    public string $updated_by;
-    public string $reason;
 
+    public function __construct(
+        public readonly string $color_type_code,
+        public readonly string $color_type_name,
+        public readonly string $updated_by,
+        public readonly string $reason
+    ) {}
+
+    public static function fromArray(array $data): static
+    {
+        return new static(
+            color_type_code: (string) $data['color_type_code'],
+            color_type_name: (string) $data['color_type_name'],
+            updated_by: (string) $data['updated_by'],
+            reason: (string) $data['reason']
+        );
+    }
 
     public static function fromRequest(Request $request): static
     {
-        $dto = new self();
-        $dto->color_type_code = $request->input('color_type_code');
-        $dto->color_type_name = $request->input('color_type_name');
-        $dto->updated_by = $request->input('updated_by');
-        $dto->reason = $request->input('reason');
-        return $dto;
+        return static::fromArray($request->validated());
     }
 }

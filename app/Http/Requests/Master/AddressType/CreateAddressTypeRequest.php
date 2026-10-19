@@ -15,7 +15,7 @@ class CreateAddressTypeRequest extends BaseApiRequest
     {
         return [
             'address_type_name'        => ['required', 'string', 'max:25', 'unique:address_type,address_type_name'],
-            'address_type_description' => ['nullable', 'string', 'max:255'],
+            'address_type_description' => ['required', 'string', 'max:255'],
             'created_by'               => ['required', 'string', 'max:100'],
         ];
     }

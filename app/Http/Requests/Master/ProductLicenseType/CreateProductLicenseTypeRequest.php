@@ -14,7 +14,8 @@ class CreateProductLicenseTypeRequest extends BaseApiRequest
     public function rules(): array
     {
         return [
-            'created_by' => ['required','string', 'max:100']
+            'license_type_name' => ['required', 'string', 'max:100', 'unique:product_license_type,license_type_name'],
+            'created_by' => ['required', 'string', 'max:100']
         ];
     }
 }

@@ -27,10 +27,13 @@ use App\Http\Controllers\Api\Master\{
     ProductBrandController,
     ProductController,
     ProductDesignController,
+    ProductDictionaryController,
     ProductGroupController,
+    ProductItemController,
     ProductLicenseTypeController,
     ProductSeriesController,
     ProductTypeController,
+    ProductVariantController,
     RetailTypeController,
     SupplierController,
     VehicleController,
@@ -154,8 +157,8 @@ Route::prefix('machine-statuses')->group(function () {
 Route::prefix('mold-injections')->group(function () {
     Route::get('/', [MoldInjectionController::class, 'index']);
     // Route::get('check', [MoldInjectionController::class, 'check']);
-    // Route::get('{id}', [MoldInjectionController::class, 'show']);
-    // Route::post('/', [MoldInjectionController::class, 'store']);
+    Route::get('{id}', [MoldInjectionController::class, 'show']);
+    Route::post('/', [MoldInjectionController::class, 'store']);
     // Route::put('{id}', [MoldInjectionController::class, 'update']);
 });
 
@@ -221,6 +224,14 @@ Route::prefix('product-designs')->group(function () {
     Route::delete('{id}', [ProductDesignController::class, 'delete']);
 });
 
+Route::prefix('product-dictionaries')->group(function () {
+    Route::get('/', [ProductDictionaryController::class, 'index']);
+    // Route::get('check', [ProductDictionaryController::class, 'check']);
+    Route::get('{id}', [ProductDictionaryController::class, 'show']);
+    // Route::post('/', [ProductDictionaryController::class, 'store']);
+    // Route::put('{id}', [ProductDictionaryController::class, 'update']);
+});
+
 Route::prefix('product-equivalents')->group(function () {
     Route::get('/', [ProductEquivalentController::class, 'index']);
     Route::get('check', [ProductEquivalentController::class, 'check']);
@@ -235,6 +246,14 @@ Route::prefix('product-groups')->group(function () {
     Route::get('{id}', [ProductGroupController::class, 'show']);
     Route::post('/', [ProductGroupController::class, 'store']);
     Route::put('{id}', [ProductGroupController::class, 'update']);
+});
+
+Route::prefix('product-items')->group(function () {
+    Route::get('/', [ProductItemController::class, 'index']);
+    // Route::get('check', [ProductItemController::class, 'check']);
+    Route::get('{id}', [ProductItemController::class, 'show']);
+    // Route::post('/', [ProductItemController::class, 'store']);
+    // Route::put('{id}', [ProductItemController::class, 'update']);
 });
 
 Route::prefix('product-license-types')->group(function () {
@@ -259,6 +278,14 @@ Route::prefix('product-types')->group(function () {
     Route::get('{id}', [ProductTypeController::class, 'show']);
     Route::post('/', [ProductTypeController::class, 'store']);
     Route::put('{id}', [ProductTypeController::class, 'update']);
+});
+
+Route::prefix('product-variants')->group(function () {
+    Route::get('/', [ProductVariantController::class, 'index']);
+    Route::get('{id}', [ProductVariantController::class, 'show']);
+    Route::post('/', [ProductVariantController::class, 'store']);
+    Route::put('{id}', [ProductVariantController::class, 'update']);
+    Route::delete('{id}', [ProductVariantController::class, 'delete']);
 });
 
 Route::prefix('retail-types')->group(function () {

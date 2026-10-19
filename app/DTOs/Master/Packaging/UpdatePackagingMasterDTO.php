@@ -11,7 +11,6 @@ class UpdatePackagingMasterDTO extends BaseDTO
     use AuditDTO;
     // Define properties here
     // public $property;
-    public int $packaging_id;
     public string $packaging_alias;
     public int $inner_length;
     public int $inner_width;
@@ -31,7 +30,6 @@ class UpdatePackagingMasterDTO extends BaseDTO
     public static function fromRequest(Request $request): static
     {
         $dto = new self();
-        $dto->packaging_id = (int) $request->input('packaging_id');
         $dto->packaging_alias = $request->input('packaging_alias');
         $dto->inner_length = (int) $request->input('inner_length');
         $dto->inner_width = (int) $request->input('inner_width');

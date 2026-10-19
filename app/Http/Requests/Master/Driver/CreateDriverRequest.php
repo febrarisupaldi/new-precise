@@ -14,8 +14,9 @@ class CreateDriverRequest extends BaseApiRequest
     public function rules(): array
     {
         return [
-            'driver_nik' => ['required', 'exists:employee,employee_nik'],
-            'created_by' => ['required', 'string', 'max:100']
+            'driver_nik'    => ['required', 'exists:employee,employee_nik'],
+            'is_active'     => ['nullable', 'boolean'],
+            'created_by'    => ['required', 'string', 'max:100']
         ];
     }
 }

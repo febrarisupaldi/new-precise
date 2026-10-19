@@ -57,6 +57,24 @@ class ProductDesignService
         });
     }
 
+    public function delete(int $id, array $data): void
+    {
+        DB::transaction(function () use ($id, $data) {
+            $exists = $this->productDesignRepo->find($id)->first();
+
+            if (!$exists) {
+                throw new BadRequestException('ProductDesign not found', code: 404);
+            }
+
+            $this->productDesignRepo->setAuditSession($data);
+            $success = $this->productDesignRepo->delete($id);
+
+            if ($success === false) {
+                throw new Exception('Failed to delete ProductDesign');
+            }
+        });
+    }
+
     public function checkExist(array $conditions): bool
     {
         return $this->productDesignRepo->exists($conditions);

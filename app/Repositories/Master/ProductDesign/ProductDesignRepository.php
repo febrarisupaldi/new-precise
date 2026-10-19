@@ -6,6 +6,7 @@ use App\Database\JoinBuilder;
 use App\Database\Schema\Table;
 use App\Repositories\BaseRepository;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Facades\DB;
 
 class ProductDesignRepository extends BaseRepository
 {
@@ -22,10 +23,8 @@ class ProductDesignRepository extends BaseRepository
         $this->colorType = table("master", "color_type");
     }
 
-    public function all(): Builder
+    private function joinTable(Builder $query): void
     {
-        $query = parent::all();
-
         JoinBuilder::leftJoin(
             $query,
             $this->productAppearance,
@@ -48,6 +47,46 @@ class ProductDesignRepository extends BaseRepository
             $this->table->column("color_type_id"),
             '=',
             $this->colorType->pk()
+        );
+    }
+
+    public function all(): Builder
+    {
+        $query = parent::all();
+        $this->joinTable($query);
+
+        $this->table->except(
+            [
+                'is_active_sell',
+                'is_active_production',
+                'is_active'
+            ]
+        );
+
+        $query->addSelect(
+            $this->productAppearance->column('appearance_name'),
+            $this->productLicenseType->column('license_type_name'),
+            DB::raw(
+                "concat({$this->colorType->column('color_type_code')}, ' - ', {$this->colorType->column('color_type_name')}) as 'color_type'"
+            ),
+            DB::raw(
+                " case {$this->table->column('is_active_sell')}
+                        when 0 then 'Tidak aktif'
+                        when 1 then 'Aktif' 
+                    end as 'is_active_sell'"
+            ),
+            DB::raw(
+                " case {$this->table->column('is_active_production')}
+                        when 0 then 'Tidak aktif'
+                        when 1 then 'Aktif' 
+                    end as 'is_active_production'"
+            ),
+            DB::raw(
+                " case {$this->table->column('is_active')}
+                        when 0 then 'Tidak aktif'
+                        when 1 then 'Aktif' 
+                    end as 'is_active'"
+            )
         );
 
         return $query;

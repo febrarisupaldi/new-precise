@@ -10,18 +10,20 @@ class UpdateSteelTypeDTO extends BaseDTO
 {
     use AuditDTO;
 
-    public string $steel_type_name;
-    public bool $is_active;
-    public string $updated_by;
-    public string $reason;
+    public function __construct(
+        public readonly string $steel_type_name,
+        public readonly bool $is_active,
+        public readonly string $updated_by,
+        public readonly string $reason
+    ) {}
 
     public static function fromRequest(Request $request): static
     {
-        $dto = new self();
-        $dto->steel_type_name = $request->input('steel_type_name');
-        $dto->is_active        = $request->input('is_active');
-        $dto->updated_by      = $request->input('updated_by');
-        $dto->reason          = $request->input('reason');
-        return $dto;
+        return new static(
+            steel_type_name: (string) $request->input('steel_type_name'),
+            is_active: (bool) $request->input('is_active'),
+            updated_by: (string) $request->input('updated_by'),
+            reason: (string) $request->input('reason')
+        );
     }
 }

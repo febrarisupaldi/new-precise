@@ -14,8 +14,8 @@ class CreateProductAppearanceRequest extends BaseApiRequest
     public function rules(): array
     {
         return [
-            'appearance_name' => ['nullable', 'string', 'max:100'],
-            'created_by' => ['required', 'string', 'max:100']
+            'appearance_name'   => ['required', 'string', 'max:100', 'unique:product_appearance,appearance_name'],
+            'created_by'        => ['required', 'string', 'max:100']
         ];
     }
 }

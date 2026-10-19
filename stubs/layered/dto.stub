@@ -11,10 +11,16 @@ class {{name}}DTO extends BaseDTO
     // Define properties here
     // public $property;
 
+    public function __construct(  )
+    {
+
+    }
+
+
     public static function fromRequest(Request $request): static
     {
-        $dto = new self();
-        // $dto->property = $request->input('property');
-        return $dto;
+        return new static(
+            
+        );
     }
 }

@@ -7,16 +7,24 @@ use Illuminate\Http\Request;
 
 class CreateColorTypeDTO extends BaseDTO
 {
-    public string $color_type_code;
-    public string $color_type_name;
-    public string $created_by;
+
+    public function __construct(
+        public readonly string $color_type_code,
+        public readonly string $color_type_name,
+        public readonly string $created_by
+    ) {}
+
+    public static function fromArray(array $data): static
+    {
+        return new static(
+            color_type_code: (string) $data['color_type_code'],
+            color_type_name: (string) $data['color_type_name'],
+            created_by: (string) $data['created_by']
+        );
+    }
 
     public static function fromRequest(Request $request): static
     {
-        $dto = new self();
-        $dto->color_type_code = $request->input('color_type_code');
-        $dto->color_type_name = $request->input('color_type_name');
-        $dto->created_by      = $request->input('created_by');
-        return $dto;
+        return static::fromArray($request->validated());
     }
 }

@@ -47,7 +47,8 @@ class ProductRepository extends BaseRepository
                 foreach ($rows as $row) {
                     $callback($row);
                 }
-            }
+            },
+            'dictionary_id'
         );
     }
 }

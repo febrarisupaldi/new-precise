@@ -14,10 +14,10 @@ class UpdateProductSeriesRequest extends BaseApiRequest
     public function rules(): array
     {
         return [
-            'series_name' => ['required', 'string', 'max:50'],
-            'series_description' => ['nullable', 'string', 'max:100'],
-            'updated_by' => ['required', 'string', 'max:100'],
-            'reason' => ['required', 'string', 'max:255'],
+            'series_name'           => ['required', 'string', 'max:50'],
+            'series_description'    => ['nullable', 'string', 'max:100'],
+            'updated_by'            => ['required', 'string', 'max:100'],
+            'reason'                => ['required', 'string', 'max:255'],
         ];
     }
 }

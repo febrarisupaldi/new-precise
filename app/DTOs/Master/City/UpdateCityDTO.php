@@ -11,21 +11,28 @@ class UpdateCityDTO extends BaseDTO
 
     use AuditDTO;
     // Define properties here
-    public string $city_code;
-    public string $city_name;
-    public string $state_id;
-    public string $updated_by;
-    public string $reason;
+
+    public function __construct(
+        public readonly string $city_code,
+        public readonly string $city_name,
+        public readonly string $state_id,
+        public readonly string $updated_by,
+        public readonly string $reason
+    ) {}
+
+    public static function fromArray(array $data): static
+    {
+        return new static(
+            city_code: (string) $data['city_code'],
+            city_name: (string) $data['city_name'],
+            state_id: (string) $data['state_id'],
+            updated_by: (string) $data['updated_by'],
+            reason: (string) $data['reason']
+        );
+    }
 
     public static function fromRequest(Request $request): static
     {
-        $dto = new self();
-        $dto->city_code = $request->input('city_code');
-        $dto->city_name = $request->input('city_name');
-        $dto->state_id = $request->input('state_id');
-        $dto->updated_by = $request->input('updated_by');
-        $dto->reason     = $request->input('reason');
-
-        return $dto;
+        return static::fromArray($request->validated());
     }
 }

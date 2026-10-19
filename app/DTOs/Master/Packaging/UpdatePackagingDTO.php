@@ -7,23 +7,20 @@ use Illuminate\Http\Request;
 
 class UpdatePackagingDTO extends UpdatePackagingMasterDTO
 {
-    // Define properties here
-    public UpdatePackagingMasterDTO $master;
 
-    /**
-     * @var array<UpdatePackagingDetailDTO>
-     */
-    public array $details = [];
+    public function __construct(
+        public readonly UpdatePackagingMasterDTO $master,
+        public readonly array $details
+    ) {}
 
 
     public static function fromRequest(Request $request): static
     {
-        $dto = new self();
-        $dto = parent::fromArray($request->toArray());
-        $dto->details = collect(
+        $master = parent::fromArray($request->toArray());
+        $details = collect(
             $request->input('details', [])
         )->map(fn(array $detail) => UpdatePackagingDetailDTO::fromArray($detail))->toArray();
-        
-        return $dto;
+
+        return new static($master, $details);
     }
 }

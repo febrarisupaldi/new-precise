@@ -12,7 +12,7 @@ abstract class BaseDTO
      * @param Request $request
      * @return static
      */
-    abstract public static function fromRequest(Request $request);
+    abstract public static function fromRequest(Request $request): static;
 
     /**
      * Convert DTO to array
@@ -26,24 +26,23 @@ abstract class BaseDTO
 
     public static function fromArray(array $data): static
     {
-        $dto = new static();
-        $dto->fill($data);
-        return $dto;
+        return new static(...$data);
     }
 
-    /**
-     * Fill DTO from array
-     *
-     * @param array $data
-     * @return void
-     */
-    protected function fill(array $data): void{
-        foreach($data as $key => $value){
-            if(property_exists($this, $key)){
-                $this->{$key} = $value;
-            }
-        }
-    }
+    // /**
+    //  * Fill DTO from array
+    //  *
+    //  * @param array $data
+    //  * @return void
+    //  */
+    // protected function fill(array $data): void
+    // {
+    //     foreach ($data as $key => $value) {
+    //         if (property_exists($this, $key)) {
+    //             $this->{$key} = $value;
+    //         }
+    //     }
+    // }
 
     /**
      * Remove keys from DTO
@@ -51,8 +50,8 @@ abstract class BaseDTO
      * @param array $keys
      * @return array
      */
-    public function except(array $keys): array {
+    public function except(array $keys): array
+    {
         return collect($this->toArray())->except($keys)->toArray();
     }
-
 }

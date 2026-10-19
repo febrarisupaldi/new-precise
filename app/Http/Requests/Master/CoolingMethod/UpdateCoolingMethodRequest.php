@@ -14,10 +14,11 @@ class UpdateCoolingMethodRequest extends BaseApiRequest
     public function rules(): array
     {
         return [
-            'cooling_method_name'        => ['required', 'string', 'max:50'],
-            'cooling_method_description' => ['nullable', 'string', 'max:100'],
-            'updated_by' => ['required', 'string', 'max:100'],
-            'reason'     => ['required', 'string'],
+            'cooling_method_name'           => ['required', 'string', 'max:50'],
+            'cooling_method_description'    => ['nullable', 'string', 'max:100'],
+            'is_active'                     => ['nullable', 'boolean'],
+            'updated_by'                    => ['required', 'string', 'max:100'],
+            'reason'                        => ['required', 'string'],
         ];
     }
 }

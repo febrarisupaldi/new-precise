@@ -7,16 +7,23 @@ use Illuminate\Http\Request;
 
 class CreateCountryDTO extends BaseDTO
 {
-    public string $country_code;
-    public string $country_name;
-    public string $created_by;
+    public function __construct(
+        public readonly string $country_code,
+        public readonly string $country_name,
+        public readonly string $created_by
+    ) {}
+
+    public static function fromArray(array $data): static
+    {
+        return new static(
+            country_code: (string) $data['country_code'],
+            country_name: (string) $data['country_name'],
+            created_by: (string) $data['created_by']
+        );
+    }
 
     public static function fromRequest(Request $request): static
     {
-        $dto = new self();
-        $dto->country_code = $request->input('country_code');
-        $dto->country_name = $request->input('country_name');
-        $dto->created_by   = $request->input('created_by');
-        return $dto;
+        return static::fromArray($request->validated());
     }
 }

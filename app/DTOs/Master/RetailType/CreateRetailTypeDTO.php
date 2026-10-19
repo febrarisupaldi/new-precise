@@ -9,18 +9,20 @@ use Illuminate\Http\Request;
 class CreateRetailTypeDTO extends BaseDTO
 {
     // Define properties here
-    public string $retail_type_code;
-    public string $retail_type_description;
-    public string $groupcodeonproint;
-    public string $created_by;
+    public function __construct(
+        public readonly string $retail_type_code,
+        public readonly ?string $retail_type_description,
+        public readonly string $groupcodeonproint,
+        public readonly string $created_by
+    ) {}
 
     public static function fromRequest(Request $request): static
     {
-        $dto = new self();
-        $dto->retail_type_code = $request->input('retail_type_code');
-        $dto->retail_type_description = $request->input('retail_type_description');
-        $dto->groupcodeonproint = $request->input('groupcodeonproint');
-        $dto->created_by = $request->input('created_by');
-        return $dto;
+        return new static(
+            retail_type_code: (string) $request->input('retail_type_code'),
+            retail_type_description: (string) $request->input('retail_type_description'),
+            groupcodeonproint: (string) $request->input('groupcodeonproint'),
+            created_by: (string) $request->input('created_by')
+        );
     }
 }

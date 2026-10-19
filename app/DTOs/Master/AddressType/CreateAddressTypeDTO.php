@@ -7,16 +7,24 @@ use Illuminate\Http\Request;
 
 class CreateAddressTypeDTO extends BaseDTO
 {
-    public string $address_type_name;
-    public ?string $address_type_description;
-    public string $created_by;
+
+    public function __construct(
+        public readonly string $address_type_name,
+        public readonly ?string $address_type_description,
+        public readonly string $created_by
+    ) {}
 
     public static function fromRequest(Request $request): static
     {
-        $dto = new self();
-        $dto->address_type_name        = $request->input('address_type_name');
-        $dto->address_type_description = $request->input('address_type_description');
-        $dto->created_by               = $request->input('created_by');
-        return $dto;
+        return static::fromArray($request->validated());
+    }
+
+    public static function fromArray(array $data): static
+    {
+        return new static(
+            address_type_name: (string) $data['address_type_name'],
+            address_type_description: (string) $data['address_type_description'] ?? null,
+            created_by: (string) $data['created_by']
+        );
     }
 }

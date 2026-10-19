@@ -110,4 +110,25 @@ class MoldInjectionRepository extends BaseRepository
             $this->moldMaking->column("estimation_number")
         );
     }
+
+    public function show(int $id): Builder
+    {
+        $query = parent::all();
+        $this->baseQuery($query);
+        return $query->addSelect(
+            $this->moldInjectionDetailCavity->column("mold_injection_cavity_id"),
+            $this->moldInjectionDetail->column("mold_group"),
+            $this->moldInjectionDetail->column("item_code"),
+            $this->moldInjectionDetail->column("item_description"),
+            $this->steelType->column("steel_type_name"),
+            $this->customer->column("customer_code"),
+            $this->customer->column("customer_name"),
+            $this->moldInjectionDetailCavity->column("cavity_number"),
+            $this->moldInjectionDetailCavity->column("product_weight"),
+            $this->moldInjectionDetailCavity->column("product_weight_uom"),
+            $this->coolingMethod->column("cooling_method_name"),
+            $this->moldStatus->column("status_description"),
+            $this->moldMaking->column("estimation_number")
+        )->where($this->table->pk(), $id);
+    }
 }

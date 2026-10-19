@@ -22,13 +22,16 @@ abstract class BaseRepository
         Builder $query,
         int $chunkSize,
         callable $callback,
-        ?string $column = null,
+        string $column,
         ?string $alias = null
     ): bool {
+
         return $query->chunkById(
             $chunkSize,
-            $callback,
-            $column ?? $this->table->pk(),
+            function ($rows) use ($callback) {
+                return $callback($rows);
+            },
+            $column,
             $alias
         );
     }
@@ -103,7 +106,7 @@ abstract class BaseRepository
 
     public function setAuditSession(array $data): void
     {
-        DB::statement("SET @updated_by = ?, @reason = ?", [$data['updated_by'], $data['reason']]);
+        DB::statement("SET @userName = ?, @reason = ?", [$data['updated_by'], $data['reason']]);
     }
 
     // use RelationRepository;

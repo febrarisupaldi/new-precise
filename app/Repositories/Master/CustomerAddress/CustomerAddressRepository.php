@@ -56,17 +56,21 @@ class CustomerAddressRepository extends BaseRepository
 
         $this->join($query);
 
-        return $query->addSelect(
+        $query->addSelect(
             $this->customer->column('customer_code'),
             $this->customer->column('customer_name'),
             $this->city->column('city_name'),
             $this->addressType->column('address_type_name')
-        )
-            ->chunkById(20000, function ($rows) use ($callback) {
+        );
+        return $this->chunk(
+            $query,
+            20000,
+            function ($rows) use ($callback) {
                 foreach ($rows as $row) {
                     $callback($row);
                 }
-            }, $this->table->pk());
+            }
+        );
     }
 
     public function show(mixed $id): Builder

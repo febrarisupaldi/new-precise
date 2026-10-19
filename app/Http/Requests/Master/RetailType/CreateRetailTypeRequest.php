@@ -14,10 +14,10 @@ class CreateRetailTypeRequest extends BaseApiRequest
     public function rules(): array
     {
         return [
-            'retail_type_code' => ['required', 'string', 'unique:retail_type,retail_type_code'],
+            'retail_type_code'        => ['required', 'string', 'unique:retail_type,retail_type_code'],
             'retail_type_description' => ['required', 'string', 'unique:retail_type,retail_type_description'],
-            'GroupCodeOnProint' => ['required', 'string', 'unique:retail_type,GroupCodeOnProint'],
-            'CreatedBy' => ['required', 'string', 'max:100']
+            'GroupCodeOnProint'       => ['required', 'string', 'unique:retail_type,GroupCodeOnProint'],
+            'CreatedBy'               => ['required', 'string', 'max:100']
         ];
     }
 }

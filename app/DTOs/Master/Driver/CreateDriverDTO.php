@@ -7,14 +7,23 @@ use Illuminate\Http\Request;
 
 class CreateDriverDTO extends BaseDTO
 {
-    public string $driver_nik;
-    public string $created_by;
+    public function __construct(
+        public readonly ?bool $is_active,
+        public readonly string $driver_nik,
+        public readonly string $created_by
+    ) {}
+
+    public static function fromArray(array $data): static
+    {
+        return new static(
+            is_active: (bool) $data['is_active'],
+            driver_nik: (string) $data['driver_nik'],
+            created_by: (string) $data['created_by']
+        );
+    }
 
     public static function fromRequest(Request $request): static
     {
-        $dto = new self();
-        $dto->driver_nik = $request->input('driver_nik');
-        $dto->created_by = $request->input('created_by');
-        return $dto;
+        return static::fromArray($request->validated());
     }
 }

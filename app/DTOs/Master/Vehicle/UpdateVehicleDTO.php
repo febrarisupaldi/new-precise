@@ -9,26 +9,27 @@ use Illuminate\Http\Request;
 class UpdateVehicleDTO extends BaseDTO
 {
     use AuditDTO;
-    // Define properties here
-    // public $property;
-    public string $vehicle_model;
-    public string $license_number;
-    public string $vehicle_description;
-    public int $is_owned;
-    public int $is_active;
-    public string $updated_by;
-    public string $reason;
+
+    public function __construct(
+        public readonly string $vehicle_model,
+        public readonly string $license_number,
+        public readonly string $vehicle_description,
+        public readonly bool $is_owned,
+        public readonly ?bool $is_active,
+        public readonly string $updated_by,
+        public readonly string $reason
+    ) {}
 
     public static function fromRequest(Request $request): self
     {
-        $dto = new self();
-        $dto->vehicle_model = $request->input('vehicle_model');
-        $dto->license_number = $request->input('license_number');
-        $dto->vehicle_description = $request->input('vehicle_description');
-        $dto->is_owned = $request->input('is_owned');
-        $dto->is_active = $request->input('is_active');
-        $dto->updated_by = $request->input('updated_by');
-        $dto->reason = $request->input('reason');
-        return $dto;
+        return new static(
+            vehicle_model: (string) $request->input('vehicle_model'),
+            license_number: (string) $request->input('license_number'),
+            vehicle_description: (string) $request->input('vehicle_description'),
+            is_owned: (bool) $request->input('is_owned'),
+            is_active: (bool) $request->input('is_active'),
+            updated_by: (string) $request->input('updated_by'),
+            reason: (string) $request->input('reason')
+        );
     }
 }

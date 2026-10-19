@@ -11,32 +11,33 @@ class UpdateWorkcenterDTO extends BaseDTO
     // Define properties here
 
     use AuditDTO;
-    public ?string $workcenter_code;
-    public ?string $workcenter_name;
-    public ?string $workcenter_description;
-    public ?int $default_warehouse;
-    public ?string $production_type;
-    public ?string $production_center;
-    public ?int $subprocess_level;
-    public ?bool $is_active;
-    public string $updated_by;
-    public string $reason;
 
+    public function __construct(
+        public readonly string $workcenter_code,
+        public readonly string $workcenter_name,
+        public readonly ?string $workcenter_description,
+        public readonly ?int $default_warehouse,
+        public readonly ?string $production_type,
+        public readonly ?string $production_center,
+        public readonly ?int $subprocess_level,
+        public readonly ?bool $is_active,
+        public readonly string $updated_by,
+        public readonly string $reason
+    ) {}
 
     public static function fromRequest(Request $request): static
     {
-        $dto = new self();
-        $dto->workcenter_code = $request->input('workcenter_code');
-        $dto->workcenter_name = $request->input('workcenter_name');
-        $dto->workcenter_description = $request->input('workcenter_description');
-        $dto->default_warehouse = (int) $request->input('default_warehouse');
-        $dto->production_type = $request->input('production_type');
-        $dto->production_center = $request->input('production_center');
-        $dto->subprocess_level = (int) $request->input('subprocess_level');
-        $dto->is_active = (bool) $request->input('is_active');
-        $dto->updated_by = $request->input('updated_by');
-        $dto->reason = $request->input('reason');
-
-        return $dto;
+        return new static(
+            workcenter_code: (string) strtoupper($request->input('workcenter_code')),
+            workcenter_name: (string) $request->input('workcenter_name'),
+            workcenter_description: (string) $request->input('workcenter_description'),
+            default_warehouse: (int) $request->input('default_warehouse'),
+            production_type: (string) $request->input('production_type'),
+            production_center: (string) $request->input('production_center'),
+            subprocess_level: (int) $request->input('subprocess_level'),
+            is_active: (bool) $request->input('is_active'),
+            updated_by: (string) $request->input('updated_by'),
+            reason: (string) $request->input('reason')
+        );
     }
 }

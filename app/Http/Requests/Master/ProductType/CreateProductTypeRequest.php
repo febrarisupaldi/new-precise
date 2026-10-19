@@ -16,7 +16,7 @@ class CreateProductTypeRequest extends BaseApiRequest
         return [
             'product_type_code' => ['required', 'string', 'max:1', 'unique:product_type,product_type_code'],
             'product_type_name' => ['required', 'string', 'max:255'],
-            'created_by' => ['required', 'string', 'max:100']
+            'created_by'        => ['required', 'string', 'max:100']
         ];
     }
 }

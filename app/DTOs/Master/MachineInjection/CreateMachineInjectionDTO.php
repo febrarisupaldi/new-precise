@@ -7,35 +7,41 @@ use Illuminate\Http\Request;
 
 class CreateMachineInjectionDTO extends BaseDTO
 {
-    public string $machine_code;
-    public ?string $old_machine_code;
-    public ?string $line_code;
-    public ?string $line_number;
-    public ?int $tonnage;
-    public ?string $serial_number;
-    public ?int $production_year;
-    public ?string $brand;
-    public ?float $motor_power;
-    public ?float $heater_power;
-    public ?string $machine_status_code;
-    public ?string $created_by;
+    public function __construct(
+        public readonly string $machine_code,
+        public readonly ?string $old_machine_code,
+        public readonly ?string $line_code,
+        public readonly ?string $line_number,
+        public readonly ?int $tonnage,
+        public readonly ?string $serial_number,
+        public readonly ?int $production_year,
+        public readonly ?string $brand,
+        public readonly ?float $motor_power,
+        public readonly ?float $heater_power,
+        public readonly ?string $machine_status_code,
+        public readonly ?string $created_by
+    ) {}
+
+    public static function fromArray(array $data): static
+    {
+        return new static(
+            machine_code: (string) $data['machine_code'],
+            old_machine_code: (string) $data['old_machine_code'],
+            line_code: (string) $data['line_code'],
+            line_number: (string) $data['line_number'],
+            tonnage: (int) $data['tonnage'],
+            serial_number: (string) $data['serial_number'],
+            production_year: (int) $data['production_year'],
+            brand: (string) $data['brand'],
+            motor_power: (float) $data['motor_power'],
+            heater_power: (float) $data['heater_power'],
+            machine_status_code: (string) $data['machine_status_code'],
+            created_by: (string) $data['created_by']
+        );
+    }
 
     public static function fromRequest(Request $request): static
     {
-        $dto = new self();
-
-        $dto->machine_code = $request->input('machine_code');
-        $dto->old_machine_code = $request->input('old_machine_code');
-        $dto->line_code = $request->input('line_code');
-        $dto->line_number = $request->input('line_number');
-        $dto->tonnage = (int)$request->input('tonnage');
-        $dto->serial_number = $request->input('serial_number');
-        $dto->production_year = (int)$request->input('production_year');
-        $dto->brand = $request->input('brand');
-        $dto->motor_power = (float)$request->input('motor_power');
-        $dto->heater_power = (float)$request->input('heater_power');
-        $dto->machine_status_code = $request->input('machine_status_code');
-        $dto->created_by = $request->input('created_by');
-        return $dto;
+        return static::fromArray($request->validated());
     }
 }

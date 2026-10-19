@@ -73,16 +73,22 @@ abstract class Controller
         string $message = 'Success'
     ) {
         return response()->stream(function () use ($callback, $message) {
-
-            echo '{"status":"success","message":"' . $message . '","data":[';
-
+            echo '{"status":"success","message":'
+                . json_encode($message)
+                . ',"data":[';
+            flush();
             $first = true;
 
-            $callback($first);
-
-            echo ']}';
+            try {
+                $callback($first);
+            } finally {
+                echo ']}';
+            }
+            flush();
         }, 200, [
             'Content-Type' => 'application/json',
+            'Cache-Control' => 'no-cache, no-store, must-revalidate',
+            'X-Accel-Buffering' => 'no',
         ]);
     }
 }

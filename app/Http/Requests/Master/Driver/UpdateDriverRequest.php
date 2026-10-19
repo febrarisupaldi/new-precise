@@ -14,9 +14,9 @@ class UpdateDriverRequest extends BaseApiRequest
     public function rules(): array
     {
         return [
-            'is_active'  => ['required', 'boolean'],
-            'updated_by' => ['required', 'string', 'max:100'],
-            'reason'     => ['required', 'string'],
+            'is_active'     => ['required', 'boolean'],
+            'updated_by'    => ['required', 'string', 'max:100'],
+            'reason'        => ['required', 'string'],
         ];
     }
 }

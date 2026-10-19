@@ -22,8 +22,8 @@ class UpdateProductTypeRequest extends BaseApiRequest
                 Rule::unique('product_type')->ignore($this->product_type_code, 'product_type_code')
             ],
             'product_type_name' => ['required', 'string', 'max:255'],
-            'updated_by' => ['required', 'string', 'max:100'],
-            'reason'     => ['required', 'string'],
+            'updated_by'        => ['required', 'string', 'max:100'],
+            'reason'            => ['required', 'string'],
         ];
     }
 }

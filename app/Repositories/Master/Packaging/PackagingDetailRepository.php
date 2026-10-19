@@ -19,7 +19,7 @@ class PackagingDetailRepository extends BaseRepository
     public function findByHeaderID(int $id): Builder
     {
         return DB::table($this->table)
-            ->where("dt.packaging_id", $id);
+            ->where($this->table->column("packaging_id"), $id);
     }
 
     public function bulkUpdateDetails(array $rows): void

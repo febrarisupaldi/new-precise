@@ -25,8 +25,8 @@ class UpdateProductGroupRequest extends BaseApiRequest
             'discount_coa_id'           => ['required', 'numeric'],
             'unbilled_purchase_coa_id'  => ['required', 'numeric'],
             'unbilled_delivery_coa_id'  => ['required', 'numeric'],
-            'updated_by' => ['required', 'string', 'max:100'],
-            'reason'     => ['required', 'string'],
+            'updated_by'                => ['required', 'string', 'max:100'],
+            'reason'                    => ['required', 'string'],
         ];
     }
 }

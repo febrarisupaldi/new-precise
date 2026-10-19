@@ -31,7 +31,7 @@ class CreateMachinePressingRequest extends BaseApiRequest
             'can_bico_lg'           => ['nullable', 'boolean'],
             'can_bico_material'     => ['nullable', 'boolean'],
             'priority_rank'         => ['required', 'integer'],
-            'machine_status_code'   => ['required', 'string', 'exists:machine_status,status_code', 'max:1'],
+            'machine_status_code'   => ['required', 'exists:machine_status,status_code'],
             'created_by'            => ['required', 'string'],
         ];
     }

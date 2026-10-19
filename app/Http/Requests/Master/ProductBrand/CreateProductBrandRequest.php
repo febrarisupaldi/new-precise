@@ -14,9 +14,9 @@ class CreateProductBrandRequest extends BaseApiRequest
     public function rules(): array
     {
         return [
-            'product_brand_name' => ['required', 'string', 'max:100'],
-            'is_active' => ['required', 'boolean'],
-            'created_by' => ['required', 'string', 'max:100']
+            'product_brand_name'    => ['required', 'string', 'max:100', 'unique:product_brand,product_brand_name'],
+            'is_active'             => ['required', 'boolean'],
+            'created_by'            => ['required', 'string', 'max:100']
         ];
     }
 }

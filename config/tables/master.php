@@ -348,20 +348,17 @@ return [
             'columns' => [
                 'mold_injection_dt_id',
                 'mold_injection_hd_id',
-                'mold_number',
-                'cavity_no',
-                'cavity_name',
-                'article_code',
-                'tonnage_min',
-                'tonnage_max',
-                'cycle_time',
-                'cycle_time_std',
-                'cavity_life_cycle',
-                'cavity_status_code',
+                'mold_group',
+                'item_id',
+                'item_code',
+                'item_description',
                 'created_on',
                 'created_by',
                 'updated_on',
-                'updated_by',
+                'updated_by'
+            ],
+            'exists' => [
+                ['mold_injection_hd_id']
             ],
             'cavity' => [
                 'table' => 'precise.mold_injection_cavity',
@@ -380,9 +377,6 @@ return [
                     'updated_by'
                 ],
                 'exists' => []
-            ],
-            'exists' => [
-                ['mold_injection_hd_id', 'cavity_number']
             ]
         ]
     ],
@@ -633,6 +627,42 @@ return [
             ['product_design_name']
         ]
     ],
+    'product_dictionary' => [
+        'table' => 'precise.product_dictionary',
+        'primary_key' => 'dictionary_id',
+        'default_alias' => 'pd',
+        'columns' => [
+            'dictionary_id',
+            'product_id',
+            'item_id',
+            'item_on_packing',
+            'design_on_packing',
+            'design_id',
+            'variant_id',
+            'process_type_id',
+            'brand_id',
+            'etching',
+            'color_id',
+            'packing_qty',
+            'packaging_id',
+            'pcs_product_id',
+            'is_using_lg',
+            'is_active_sell',
+            'is_active_production',
+            'packing_label_size',
+            'ms_packing_id',
+            'tech_std_pressing_id',
+            'tech_std_injection_id',
+            'note',
+            'created_on',
+            'created_by',
+            'updated_on',
+            'updated_by'
+        ],
+        'exists' => [
+            []
+        ]
+    ],
     'product_equivalent' => [
         'table' => 'precise.product_equivalent',
         'primary_key' => 'equivalent_id',
@@ -676,6 +706,49 @@ return [
             ['product_group_name']
         ]
     ],
+    'product_item' => [
+        'table' => 'precise.product_item',
+        'primary_key' => 'item_id',
+        'default_alias' => 'pi',
+        'columns' => [
+            'item_id',
+            'item_code',
+            'item_name',
+            'item_name_en',
+            'item_alias',
+            'mold_code',
+            'kind_code',
+            'series_id',
+            'brand_id',
+            'is_set',
+            'is_active_sell',
+            'is_active_production',
+            'item_weight',
+            'item_depth',
+            'item_width',
+            'item_height',
+            'etching_text',
+            'inner_packing_length',
+            'inner_packing_width',
+            'inner_packing_height',
+            'inner_packing_qty',
+            'inner_net_weight_kg',
+            'inner_gross_weight_kg',
+            'master_packing_length',
+            'master_packing_width',
+            'master_packing_height',
+            'master_packing_qty',
+            'master_net_weight_kg',
+            'master_gross_weight_kg',
+            'created_on',
+            'created_by',
+            'updated_on',
+            'updated_by'
+        ],
+        'exists' => [
+            ['product_id', 'item_id']
+        ]
+    ],
     'product_license_type' => [
         'table' => 'precise.product_license_type',
         'primary_key' => 'license_type_id',
@@ -695,7 +768,7 @@ return [
     ],
     'product_series' => [
         'table' => 'precise.product_series',
-        'primary_key' => 'product_series_id',
+        'primary_key' => 'series_id',
         'default_alias' => 'ps',
         'columns' => [
             'series_id',
@@ -727,6 +800,27 @@ return [
         'exists' => [
             ['product_type_code'],
             ['product_type_name']
+        ]
+    ],
+    'product_variant' => [
+        'table' => 'precise.product_variant',
+        'primary_key' => 'product_variant_id',
+        'default_alias' => 'pv',
+        'columns' => [
+            'product_variant_id',
+            'product_item_id',
+            'product_variant_code',
+            'product_variant_name',
+            'product_variant_description',
+            'is_active',
+            'created_on',
+            'created_by',
+            'updated_on',
+            'updated_by'
+        ],
+        'exists' => [
+            ['product_variant_code'],
+            ['product_variant_name']
         ]
     ],
     'retail_type' => [

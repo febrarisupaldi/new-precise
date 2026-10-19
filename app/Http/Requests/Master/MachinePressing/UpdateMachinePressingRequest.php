@@ -15,8 +15,13 @@ class UpdateMachinePressingRequest extends BaseApiRequest
     public function rules(): array
     {
         return [
-            'machine_code'          => ['required', 'string', 'max:10', Rule::unique('machine_pressing','machine_code')
-                                            ->ignore($this->machine_code, 'machine_code')],
+            'machine_code'          => [
+                'required',
+                'string',
+                'max:10',
+                Rule::unique('machine_pressing', 'machine_code')
+                    ->ignore($this->machine_code, 'machine_code')
+            ],
             'old_machine_code'      => ['nullable', 'string', 'max:10'],
             'machine_location'      => ['required', 'string', 'max:25'],
             'line_code'             => ['required', 'string', 'max:1'],
@@ -25,8 +30,8 @@ class UpdateMachinePressingRequest extends BaseApiRequest
             'serial_number'         => ['required', 'string', 'max:25'],
             'production_year'       => ['required', 'date_format:Y'],
             'brand'                 => ['required', 'string'],
-            'motor_power'           => ['required', 'decimal:5,2'],
-            'heater_power'          => ['required', 'decimal:5,2'],
+            'motor_power'           => ['required', 'decimal:2'],
+            'heater_power'          => ['required', 'decimal:2'],
             'can_plain'             => ['nullable', 'boolean'],
             'can_print'             => ['nullable', 'boolean'],
             'can_mug'               => ['nullable', 'boolean'],
