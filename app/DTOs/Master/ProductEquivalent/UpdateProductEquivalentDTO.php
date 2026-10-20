@@ -19,15 +19,20 @@ class UpdateProductEquivalentDTO extends BaseDTO
         public readonly string $reason
     ) {}
 
-    public static function fromRequest(Request $request): static
+    public static function fromArray(array $data): static
     {
         return new static(
-            product_code: (string) $request->input('product_code'),
-            uom_code: (string) $request->input('uom_code'),
-            qty_std: (int) $request->input('qty_std'),
-            qty_conversion: (int) $request->input('qty_conversion'),
-            updated_by: (string) $request->input('updated_by'),
-            reason: (string) $request->input('reason')
+            product_code: (string) $data['product_code'],
+            uom_code: (string) $data['uom_code'],
+            qty_std: (int) $data['qty_std'],
+            qty_conversion: (int) $data['qty_conversion'],
+            updated_by: (string) $data['updated_by'],
+            reason: (string) $data['reason']
         );
+    }
+
+    public static function fromRequest(Request $request): static
+    {
+        return static::fromArray($request->validated());
     }
 }

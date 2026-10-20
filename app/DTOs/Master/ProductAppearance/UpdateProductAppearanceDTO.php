@@ -18,12 +18,17 @@ class UpdateProductAppearanceDTO extends BaseDTO
         public readonly string $reason
     ) {}
 
-    public static function fromRequest(Request $request): static
+    public static function fromArray(array $data): static
     {
         return new static(
-            appearance_name: (string) $request->input('appearance_name'),
-            updated_by: (string) $request->input('updated_by'),
-            reason: (string) $request->input('reason')
+            appearance_name: (string) $data['appearance_name'],
+            updated_by: (string) $data['updated_by'],
+            reason: (string) $data['reason']
         );
+    }
+
+    public static function fromRequest(Request $request): static
+    {
+        return static::fromArray($request->validated());
     }
 }

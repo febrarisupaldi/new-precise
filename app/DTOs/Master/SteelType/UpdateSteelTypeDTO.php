@@ -17,13 +17,18 @@ class UpdateSteelTypeDTO extends BaseDTO
         public readonly string $reason
     ) {}
 
-    public static function fromRequest(Request $request): static
+    public static function fromArray(array $data): static
     {
         return new static(
-            steel_type_name: (string) $request->input('steel_type_name'),
-            is_active: (bool) $request->input('is_active'),
-            updated_by: (string) $request->input('updated_by'),
-            reason: (string) $request->input('reason')
+            steel_type_name: (string) $data['steel_type_name'],
+            is_active: (bool) $data['is_active'],
+            updated_by: (string) $data['updated_by'],
+            reason: (string) $data['reason']
         );
+    }
+
+    public static function fromRequest(Request $request): static
+    {
+        return static::fromArray($request->validated());
     }
 }

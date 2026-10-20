@@ -20,14 +20,18 @@ class UpdateProductTypeDTO extends BaseDTO
         public readonly string $reason
     ) {}
 
+    public static function fromArray(array $data): static
+    {
+        return new static(
+            product_type_code: (string) $data['product_type_code'],
+            product_type_name: (string) $data['product_type_name'],
+            updated_by: (string) $data['updated_by'],
+            reason: (string) $data['reason']
+        );
+    }
 
     public static function fromRequest(Request $request): static
     {
-        return new static(
-            product_type_code: (string) $request->input('product_type_code'),
-            product_type_name: (string) $request->input('product_type_name'),
-            updated_by: (string) $request->input('updated_by'),
-            reason: (string) $request->input('reason')
-        );
+        return static::fromArray($request->validated());
     }
 }

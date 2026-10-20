@@ -13,7 +13,6 @@ class UpdateProductVariantDTO extends BaseDTO
     use AuditDTO;
 
     public function __construct(
-        public readonly int $product_variant_id,
         public readonly string $product_variant_code,
         public readonly string $product_variant_name,
         public readonly ?string $product_variant_description,
@@ -23,18 +22,21 @@ class UpdateProductVariantDTO extends BaseDTO
         public readonly string $reason
     ) {}
 
+    public static function fromArray(array $data): static
+    {
+        return new static(
+            product_variant_code: (string) $data['product_variant_code'],
+            product_variant_name: (string) $data['product_variant_name'],
+            product_variant_description: (string) $data['product_variant_description'],
+            product_item_id: (int) $data['product_item_id'],
+            is_active: (bool) $data['is_active'],
+            updated_by: (string) $data['updated_by'],
+            reason: (string) $data['reason']
+        );
+    }
 
     public static function fromRequest(Request $request): static
     {
-        return new static(
-            product_variant_id: (int) $request->input('product_variant_id'),
-            product_variant_code: (string) $request->input('product_variant_code'),
-            product_variant_name: (string) $request->input('product_variant_name'),
-            product_variant_description: (string) $request->input('product_variant_description'),
-            product_item_id: (int) $request->input('product_item_id'),
-            is_active: (bool) $request->input('is_active'),
-            updated_by: (string) $request->input('updated_by'),
-            reason: (string) $request->input('reason')
-        );
+        return static::fromArray($request->validated());
     }
 }

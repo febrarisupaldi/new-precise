@@ -15,12 +15,17 @@ class CreateProductSeriesDTO extends BaseDTO
         public readonly string $created_by
     ) {}
 
-    public static function fromRequest(Request $request): static
+    public static function fromArray(array $data): static
     {
         return new static(
-            series_name: (string) $request->input('series_name'),
-            series_description: (string) $request->input('series_description'),
-            created_by: (string) $request->input('created_by')
+            series_name: (string) $data['series_name'],
+            series_description: (string) $data['series_description'],
+            created_by: (string) $data['created_by']
         );
+    }
+
+    public static function fromRequest(Request $request): static
+    {
+        return static::fromArray($request->validated());
     }
 }

@@ -13,12 +13,17 @@ class CreateSteelTypeDTO extends BaseDTO
         public readonly string $created_by
     ) {}
 
-    public static function fromRequest(Request $request): static
+    public static function fromArray(array $data): static
     {
         return new static(
-            steel_type_name: (string) $request->input('steel_type_name'),
-            is_active: (bool) $request->input('is_active') ?? true,
-            created_by: (string) $request->input('created_by')
+            steel_type_name: (string) $data['steel_type_name'],
+            is_active: (bool) $data['is_active'],
+            created_by: (string) $data['created_by']
         );
+    }
+
+    public static function fromRequest(Request $request): static
+    {
+        return static::fromArray($request->validated());
     }
 }

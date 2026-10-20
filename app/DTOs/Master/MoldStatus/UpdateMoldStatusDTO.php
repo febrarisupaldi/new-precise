@@ -18,14 +18,19 @@ class UpdateMoldStatusDTO extends BaseDTO
         public readonly string $reason
     ) {}
 
-    public static function fromRequest(Request $request): static
+    public static function fromArray(array $data): static
     {
         return new static(
-            status_code: (string) $request->input('status_code'),
-            status_description: (string) $request->input('status_description'),
-            is_active: (bool) $request->input('is_active'),
-            updated_by: (string) $request->input('updated_by'),
-            reason: (string) $request->input('reason')
+            status_code: (string) $data['status_code'],
+            status_description: (string) $data['status_description'],
+            is_active: (bool) $data['is_active'],
+            updated_by: (string) $data['updated_by'],
+            reason: (string) $data['reason']
         );
+    }
+
+    public static function fromRequest(Request $request): static
+    {
+        return static::fromArray($request->validated());
     }
 }

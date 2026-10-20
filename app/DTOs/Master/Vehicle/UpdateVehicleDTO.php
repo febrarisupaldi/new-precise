@@ -20,16 +20,21 @@ class UpdateVehicleDTO extends BaseDTO
         public readonly string $reason
     ) {}
 
-    public static function fromRequest(Request $request): self
+    public static function fromArray(array $data): static
     {
         return new static(
-            vehicle_model: (string) $request->input('vehicle_model'),
-            license_number: (string) $request->input('license_number'),
-            vehicle_description: (string) $request->input('vehicle_description'),
-            is_owned: (bool) $request->input('is_owned'),
-            is_active: (bool) $request->input('is_active'),
-            updated_by: (string) $request->input('updated_by'),
-            reason: (string) $request->input('reason')
+            vehicle_model: (string) $data['vehicle_model'],
+            license_number: (string) $data['license_number'],
+            vehicle_description: (string) $data['vehicle_description'],
+            is_owned: (bool) $data['is_owned'],
+            is_active: (bool) $data['is_active'],
+            updated_by: (string) $data['updated_by'],
+            reason: (string) $data['reason']
         );
+    }
+
+    public static function fromRequest(Request $request): static
+    {
+        return static::fromArray($request->validated());
     }
 }

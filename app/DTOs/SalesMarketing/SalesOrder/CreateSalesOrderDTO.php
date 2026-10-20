@@ -7,19 +7,17 @@ use Illuminate\Http\Request;
 
 class CreateSalesOrderDTO extends BaseDTO
 {
-    // Define properties here
-     public CreateSalesOrderMasterDTO $master;
+    public function __construct() {}
 
- /**
- * @var array<CreateSalesOrderDetailDTO>
- */
- public array $details = [];
-
-
-    public static function fromRequest(Request $request)
+    public static function fromRequest(Request $request): static
     {
-        $dto = new self();
-        // $dto->property = $request->input('property');
-        return $dto;
+        return static::fromArray($request->validated());
+    }
+
+    public static function fromArray(array $data): static
+    {
+        return new static(
+            // Define properties here
+        );
     }
 }

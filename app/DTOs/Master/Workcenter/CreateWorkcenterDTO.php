@@ -20,18 +20,23 @@ class CreateWorkcenterDTO extends BaseDTO
         public readonly string $created_by
     ) {}
 
-    public static function fromRequest(Request $request): static
+    public static function fromArray(array $data): static
     {
         return new static(
-            workcenter_code: (string) strtoupper($request->input('workcenter_code')),
-            workcenter_name: (string) $request->input('workcenter_name'),
-            workcenter_description: (string) $request->input('workcenter_description'),
-            default_warehouse: (int) $request->input('default_warehouse'),
-            production_type: (string) $request->input('production_type'),
-            production_center: (string) $request->input('production_center'),
-            subprocess_level: (int) $request->input('subprocess_level'),
-            is_active: (bool) $request->input('is_active'),
-            created_by: (string) $request->input('created_by')
+            workcenter_code: (string) strtoupper($data['workcenter_code']),
+            workcenter_name: (string) $data['workcenter_name'],
+            workcenter_description: (string) $data['workcenter_description'],
+            default_warehouse: (int) $data['default_warehouse'],
+            production_type: (string) $data['production_type'],
+            production_center: (string) $data['production_center'],
+            subprocess_level: (int) $data['subprocess_level'],
+            is_active: (bool) $data['is_active'],
+            created_by: (string) $data['created_by']
         );
+    }
+
+    public static function fromRequest(Request $request): static
+    {
+        return static::fromArray($request->validated());
     }
 }

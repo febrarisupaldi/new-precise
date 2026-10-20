@@ -19,12 +19,17 @@ class UpdateProductLicenseTypeDTO extends BaseDTO
         public readonly string $reason
     ) {}
 
-    public static function fromRequest(Request $request): static
+    public static function fromArray(array $data): static
     {
         return new static(
-            license_type_name: (string) $request->input('license_type_name'),
-            updated_by: (string) $request->input('updated_by'),
-            reason: (string) $request->input('reason')
+            license_type_name: (string) $data['license_type_name'],
+            updated_by: (string) $data['updated_by'],
+            reason: (string) $data['reason']
         );
+    }
+
+    public static function fromRequest(Request $request): static
+    {
+        return static::fromArray($request->validated());
     }
 }

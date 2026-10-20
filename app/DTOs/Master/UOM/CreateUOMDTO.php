@@ -14,13 +14,18 @@ class CreateUOMDTO extends BaseDTO
         public readonly string $created_by
     ) {}
 
-    public static function fromRequest(Request $request): static
+    public static function fromArray(array $data): static
     {
         return new static(
-            uom_code: (string) $request->input('uom_code'),
-            uom_name: (string) $request->input('uom_name'),
-            is_active: (bool) $request->input('is_active') ?? true,
-            created_by: (string) $request->input('created_by')
+            uom_code: (string) $data['uom_code'],
+            uom_name: (string) $data['uom_name'],
+            is_active: (bool) $data['is_active'],
+            created_by: (string) $data['created_by']
         );
+    }
+
+    public static function fromRequest(Request $request): static
+    {
+        return static::fromArray($request->validated());
     }
 }

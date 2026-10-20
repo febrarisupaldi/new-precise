@@ -19,18 +19,23 @@ class CreateWarehouseDTO extends BaseDTO
         public readonly string $created_by
     ) {}
 
-    public static function fromRequest(Request $request): static
+    public static function fromArray(array $data): static
     {
         return new static(
-            warehouse_code: (string) strtoupper($request->input('warehouse_code')),
-            warehouse_name: (string) $request->input('warehouse_name'),
-            warehouse_alias: (string) $request->input('warehouse_alias'),
-            warehouse_group_code: (string) $request->input('warehouse_group_code'),
-            is_active: (bool) $request->input('is_active', true),
-            warehouse_pic_1: (int) $request->input('warehouse_pic_1'),
-            warehouse_pic_2: (int) $request->input('warehouse_pic_2'),
-            warehouse_approver: (int) $request->input('warehouse_approver'),
-            created_by: (string) $request->input('created_by')
+            warehouse_code: (string) strtoupper($data['warehouse_code']),
+            warehouse_name: (string) $data['warehouse_name'],
+            warehouse_alias: (string) $data['warehouse_alias'],
+            warehouse_group_code: (string) $data['warehouse_group_code'],
+            is_active: (bool) $data['is_active'],
+            warehouse_pic_1: (int) $data['warehouse_pic_1'],
+            warehouse_pic_2: (int) $data['warehouse_pic_2'],
+            warehouse_approver: (int) $data['warehouse_approver'],
+            created_by: (string) $data['created_by']
         );
+    }
+
+    public static function fromRequest(Request $request): static
+    {
+        return static::fromArray($request->validated());
     }
 }

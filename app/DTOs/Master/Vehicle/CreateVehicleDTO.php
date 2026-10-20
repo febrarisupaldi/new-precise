@@ -16,15 +16,20 @@ class CreateVehicleDTO extends BaseDTO
         public readonly string $created_by
     ) {}
 
-    public static function fromRequest(Request $request): static
+    public static function fromArray(array $data): static
     {
         return new static(
-            vehicle_model: (string) $request->input('vehicle_model'),
-            license_number: (string) $request->input('license_number'),
-            vehicle_description: (string) $request->input('vehicle_description'),
-            is_owned: (int) $request->input('is_owned'),
-            is_active: (bool) $request->input('is_active', true),
-            created_by: (string) $request->input('created_by')
+            vehicle_model: (string) $data['vehicle_model'],
+            license_number: (string) $data['license_number'],
+            vehicle_description: (string) $data['vehicle_description'],
+            is_owned: (int) $data['is_owned'],
+            is_active: (bool) $data['is_active'],
+            created_by: (string) $data['created_by']
         );
+    }
+
+    public static function fromRequest(Request $request): static
+    {
+        return static::fromArray($request->validated());
     }
 }

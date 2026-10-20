@@ -14,13 +14,18 @@ class CreateMoldStatusDTO extends BaseDTO
         public readonly string $created_by
     ) {}
 
-    public static function fromRequest(Request $request): static
+    public static function fromArray(array $data): static
     {
         return new static(
-            status_code: (string) $request->input('status_code'),
-            status_description: (string) $request->input('status_description'),
-            is_active: (bool) $request->input('is_active'),
-            created_by: (string) $request->input('created_by')
+            status_code: (string) $data['status_code'],
+            status_description: (string) $data['status_description'],
+            is_active: (bool) $data['is_active'],
+            created_by: (string) $data['created_by']
         );
+    }
+
+    public static function fromRequest(Request $request): static
+    {
+        return static::fromArray($request->validated());
     }
 }

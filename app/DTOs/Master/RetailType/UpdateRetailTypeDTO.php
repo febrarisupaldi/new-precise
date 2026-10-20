@@ -21,17 +21,19 @@ class UpdateRetailTypeDTO extends BaseDTO
         public readonly string $reason
     ) {}
 
+    public static function fromArray(array $data): static
+    {
+        return new static(
+            retail_type_code: (string) $data['retail_type_code'],
+            retail_type_description: (string) $data['retail_type_description'],
+            groupcodeonproint: (string) $data['groupcodeonproint'],
+            updated_by: (string) $data['updated_by'],
+            reason: (string) $data['reason']
+        );
+    }
 
     public static function fromRequest(Request $request): static
     {
-        return new static(
-            retail_type_code: (string) $request->input('retail_type_code'),
-            retail_type_description: (string) $request->input('retail_type_description'),
-            groupcodeonproint: (string) $request->input('groupcodeonproint'),
-            updated_by: (string) $request->input('updated_by'),
-            reason: (string) $request->input('reason')
-        );
-
-        return $dto;
+        return static::fromArray($request->validated());
     }
 }

@@ -27,24 +27,29 @@ class CreateProductDesignDTO extends BaseDTO
         public readonly string $created_by
     ) {}
 
-    public static function fromRequest(Request $request): static
+    public static function fromArray(array $data): static
     {
         return new static(
-            design_code: (string) $request->input('design_code'),
-            design_name: (string) $request->input('design_name'),
-            design_description: (string) $request->input('design_description'),
-            appearance_id: (int) $request->input('appearance_id'),
-            license_type_id: (int) $request->input('license_type_id'),
-            color_type_id: (int) $request->input('color_type_id'),
-            polos_printing: (string) $request->input('polos_printing'),
-            color_type: (string) $request->input('color_type'),
-            color_group: (string) $request->input('color_group'),
-            order_type: (string) $request->input('order_type'),
-            material_group: (string) $request->input('material_group'),
-            is_active_sell: (bool) $request->input('is_active_sell'),
-            is_active_production: (bool) $request->input('is_active_production'),
-            is_active: (bool) $request->input('is_active'),
-            created_by: (string) $request->input('created_by')
+            design_code: (string) $data['design_code'],
+            design_name: (string) $data['design_name'],
+            design_description: (string) $data['design_description'],
+            appearance_id: (int) $data['appearance_id'],
+            license_type_id: (int) $data['license_type_id'],
+            color_type_id: (int) $data['color_type_id'],
+            polos_printing: (string) $data['polos_printing'],
+            color_type: (string) $data['color_type'],
+            color_group: (string) $data['color_group'],
+            order_type: (string) $data['order_type'],
+            material_group: (string) $data['material_group'],
+            is_active_sell: (bool) $data['is_active_sell'],
+            is_active_production: (bool) $data['is_active_production'],
+            is_active: (bool) $data['is_active'],
+            created_by: (string) $data['created_by']
         );
+    }
+
+    public static function fromRequest(Request $request): static
+    {
+        return static::fromArray($request->validated());
     }
 }

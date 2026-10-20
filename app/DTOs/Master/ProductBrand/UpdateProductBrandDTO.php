@@ -18,13 +18,18 @@ class UpdateProductBrandDTO extends BaseDTO
         public readonly string $reason
     ) {}
 
-    public static function fromRequest(Request $request): static
+    public static function fromArray(array $data): static
     {
         return new static(
-            product_brand_name: (string) $request->input('product_brand_name'),
-            is_active: (bool) $request->input('is_active'),
-            updated_by: (string) $request->input('updated_by'),
-            reason: (string) $request->input('reason')
+            product_brand_name: (string) $data['product_brand_name'],
+            is_active: (bool) $data['is_active'],
+            updated_by: (string) $data['updated_by'],
+            reason: (string) $data['reason']
         );
+    }
+
+    public static function fromRequest(Request $request): static
+    {
+        return static::fromArray($request->validated());
     }
 }

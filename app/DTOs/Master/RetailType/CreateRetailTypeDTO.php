@@ -16,13 +16,18 @@ class CreateRetailTypeDTO extends BaseDTO
         public readonly string $created_by
     ) {}
 
-    public static function fromRequest(Request $request): static
+    public static function fromArray(array $data): static
     {
         return new static(
-            retail_type_code: (string) $request->input('retail_type_code'),
-            retail_type_description: (string) $request->input('retail_type_description'),
-            groupcodeonproint: (string) $request->input('groupcodeonproint'),
-            created_by: (string) $request->input('created_by')
+            retail_type_code: (string) $data['retail_type_code'],
+            retail_type_description: (string) $data['retail_type_description'],
+            groupcodeonproint: (string) $data['groupcodeonproint'],
+            created_by: (string) $data['created_by']
         );
+    }
+
+    public static function fromRequest(Request $request): static
+    {
+        return static::fromArray($request->validated());
     }
 }

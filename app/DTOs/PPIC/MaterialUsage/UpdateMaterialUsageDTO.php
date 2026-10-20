@@ -18,10 +18,14 @@ class UpdateMaterialUsageDTO extends BaseDTO
 
     public static function fromRequest(Request $request): static
     {
-        $dto = new self();
-        $dto->updated_by = $request->input('updated_by');
-        $dto->reason = $request->input('reason');
+        return static::fromArray($request->validated());
+    }
 
-        return $dto;
+    public static function fromArray(array $data): static
+    {
+        return new static(
+            updated_by: (string) $data['updated_by'],
+            reason: (string) $data['reason']
+        );
     }
 }

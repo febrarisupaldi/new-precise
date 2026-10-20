@@ -18,14 +18,19 @@ class UpdateStateDTO extends BaseDTO
         public readonly string $reason
     ) {}
 
-    public static function fromRequest(Request $request): static
+    public static function fromArray(array $data): static
     {
         return new static(
-            state_code: (string) $request->input('state_code'),
-            state_name: (string) $request->input('state_name'),
-            country_id: (int) $request->input('country_id'),
-            updated_by: (string) $request->input('updated_by'),
-            reason: (string) $request->input('reason')
+            state_code: (string) $data['state_code'],
+            state_name: (string) $data['state_name'],
+            country_id: (int) $data['country_id'],
+            updated_by: (string) $data['updated_by'],
+            reason: (string) $data['reason']
         );
+    }
+
+    public static function fromRequest(Request $request): static
+    {
+        return static::fromArray($request->validated());
     }
 }

@@ -19,14 +19,18 @@ class UpdateProductSeriesDTO extends BaseDTO
         public readonly string $reason
     ) {}
 
+    public static function fromArray(array $data): static
+    {
+        return new static(
+            series_name: (string) $data['series_name'],
+            series_description: (string) $data['series_description'],
+            updated_by: (string) $data['updated_by'],
+            reason: (string) $data['reason']
+        );
+    }
 
     public static function fromRequest(Request $request): static
     {
-        return new static(
-            series_name: (string) $request->input('series_name'),
-            series_description: (string) $request->input('series_description'),
-            updated_by: (string) $request->input('updated_by'),
-            reason: (string) $request->input('reason')
-        );
+        return static::fromArray($request->validated());
     }
 }
