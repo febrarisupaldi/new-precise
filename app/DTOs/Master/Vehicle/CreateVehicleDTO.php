@@ -27,9 +27,4 @@ class CreateVehicleDTO extends BaseDTO
             created_by: (string) $data['created_by']
         );
     }
-
-    public static function fromRequest(Request $request): static
-    {
-        return static::fromArray($request->validated());
-    }
 }

@@ -47,9 +47,4 @@ class CreatePackagingDTO extends BaseDTO
             details: (array) $data['details']
         );
     }
-
-    public static function fromRequest(Request $request): static
-    {
-        return static::fromArray($request->validated());
-    }
 }

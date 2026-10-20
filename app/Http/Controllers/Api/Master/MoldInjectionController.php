@@ -51,8 +51,9 @@ class MoldInjectionController extends Controller
     }
 
     /**
+     * Return single mold injection data
      * 
-     * 
+     * @routeParam {id}
      * @return JsonResponse
      */
     public function show(int $id): JsonResponse
@@ -75,6 +76,11 @@ class MoldInjectionController extends Controller
         }
     }
 
+    /**
+     * Create new mold injection
+     *
+     * @return JsonResponse
+     */
     public function store(CreateMoldInjectionRequest $request): JsonResponse
     {
         try {

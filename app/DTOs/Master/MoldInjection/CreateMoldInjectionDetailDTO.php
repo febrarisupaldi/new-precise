@@ -48,9 +48,4 @@ class CreateMoldInjectionDetailDTO extends BaseDTO
             cavities: $this->cavities
         );
     }
-
-    public static function fromRequest(Request $request): static
-    {
-        return static::fromArray($request->validated());
-    }
 }

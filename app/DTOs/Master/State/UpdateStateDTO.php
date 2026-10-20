@@ -28,9 +28,4 @@ class UpdateStateDTO extends BaseDTO
             reason: (string) $data['reason']
         );
     }
-
-    public static function fromRequest(Request $request): static
-    {
-        return static::fromArray($request->validated());
-    }
 }

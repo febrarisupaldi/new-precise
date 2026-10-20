@@ -28,9 +28,4 @@ class CreateProductEquivalentDTO extends BaseDTO
             updated_by: (string) $data['updated_by']
         );
     }
-
-    public static function fromRequest(Request $request): static
-    {
-        return static::fromArray($request->validated());
-    }
 }

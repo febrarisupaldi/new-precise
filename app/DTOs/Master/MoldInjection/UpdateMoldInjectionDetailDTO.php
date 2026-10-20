@@ -22,10 +22,7 @@ class UpdateMoldInjectionDetailDTO extends BaseDTO
         public readonly array $cavities
     ) {}
 
-    public static function fromRequest(Request $request): static
-    {
-        return static::fromArray($request->validated());
-    }
+
 
     public static function fromArray(array $data): static
     {

@@ -35,10 +35,7 @@ class CreateMoldInjectionDTO extends BaseDTO
         public readonly array $details
     ) {}
 
-    public static function fromRequest(Request $request): static
-    {
-        return static::fromArray($request->validated());
-    }
+
 
     public static function fromArray(
         array $data
