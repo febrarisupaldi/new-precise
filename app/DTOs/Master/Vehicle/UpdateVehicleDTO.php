@@ -13,8 +13,8 @@ class UpdateVehicleDTO extends BaseDTO
     public function __construct(
         public readonly string $vehicle_model,
         public readonly string $license_number,
-        public readonly string $vehicle_description,
-        public readonly bool $is_owned,
+        public readonly ?string $vehicle_description,
+        public readonly ?bool $is_owned,
         public readonly ?bool $is_active,
         public readonly string $updated_by,
         public readonly string $reason
@@ -25,9 +25,9 @@ class UpdateVehicleDTO extends BaseDTO
         return new static(
             vehicle_model: (string) $data['vehicle_model'],
             license_number: (string) $data['license_number'],
-            vehicle_description: (string) $data['vehicle_description'],
-            is_owned: (bool) $data['is_owned'],
-            is_active: (bool) $data['is_active'],
+            vehicle_description: (string) $data['vehicle_description'] ?? null,
+            is_owned: isset($data['is_owned']) ? (int) $data['is_owned'] : null,
+            is_active: isset($data['is_active']) ? (bool) $data['is_active'] : null,
             updated_by: (string) $data['updated_by'],
             reason: (string) $data['reason']
         );

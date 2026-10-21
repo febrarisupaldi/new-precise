@@ -19,7 +19,7 @@ class CreateUOMDTO extends BaseDTO
         return new static(
             uom_code: (string) $data['uom_code'],
             uom_name: (string) $data['uom_name'],
-            is_active: (bool) $data['is_active'],
+            is_active: isset($data['is_active']) ? (bool) $data['is_active'] : null,
             created_by: (string) $data['created_by']
         );
     }

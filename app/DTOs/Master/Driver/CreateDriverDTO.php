@@ -16,7 +16,7 @@ class CreateDriverDTO extends BaseDTO
     public static function fromArray(array $data): static
     {
         return new static(
-            is_active: (bool) $data['is_active'],
+            is_active: isset($data['is_active']) ? (bool) $data['is_active'] : null,
             driver_nik: (string) $data['driver_nik'],
             created_by: (string) $data['created_by']
         );

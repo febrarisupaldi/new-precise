@@ -12,8 +12,8 @@ class CreateMoldInjectionDetailDTO extends BaseDTO
         public readonly ?int $mold_injection_hd_id,
         public readonly ?int $mold_group,
         public readonly ?int $item_id,
-        public readonly ?string $item_code,
-        public readonly ?string $item_description,
+        public readonly string $item_code,
+        public readonly string $item_description,
         public readonly string $created_by,
         public readonly array $cavities
     ) {}

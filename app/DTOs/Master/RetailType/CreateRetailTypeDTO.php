@@ -11,7 +11,7 @@ class CreateRetailTypeDTO extends BaseDTO
     // Define properties here
     public function __construct(
         public readonly string $retail_type_code,
-        public readonly ?string $retail_type_description,
+        public readonly string $retail_type_description,
         public readonly string $groupcodeonproint,
         public readonly string $created_by
     ) {}

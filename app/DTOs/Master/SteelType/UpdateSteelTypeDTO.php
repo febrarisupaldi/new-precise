@@ -21,7 +21,7 @@ class UpdateSteelTypeDTO extends BaseDTO
     {
         return new static(
             steel_type_name: (string) $data['steel_type_name'],
-            is_active: (bool) $data['is_active'],
+            is_active: isset($data['is_active']) ? (bool) $data['is_active'] : null,
             updated_by: (string) $data['updated_by'],
             reason: (string) $data['reason']
         );

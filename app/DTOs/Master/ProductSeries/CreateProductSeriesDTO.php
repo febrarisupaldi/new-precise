@@ -19,7 +19,7 @@ class CreateProductSeriesDTO extends BaseDTO
     {
         return new static(
             series_name: (string) $data['series_name'],
-            series_description: (string) $data['series_description'],
+            series_description: (string) $data['series_description'] ?? null,
             created_by: (string) $data['created_by']
         );
     }

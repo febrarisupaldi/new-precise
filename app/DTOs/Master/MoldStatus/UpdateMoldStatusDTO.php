@@ -23,7 +23,7 @@ class UpdateMoldStatusDTO extends BaseDTO
         return new static(
             status_code: (string) $data['status_code'],
             status_description: (string) $data['status_description'],
-            is_active: (bool) $data['is_active'],
+            is_active: isset($data['is_active']) ? (bool) $data['is_active'] : null,
             updated_by: (string) $data['updated_by'],
             reason: (string) $data['reason']
         );

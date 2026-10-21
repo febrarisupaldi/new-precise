@@ -13,7 +13,7 @@ class UpdateProductAppearanceDTO extends BaseDTO
     use AuditDTO;
 
     public function __construct(
-        public readonly ?string $appearance_name,
+        public readonly string $appearance_name,
         public readonly string $updated_by,
         public readonly string $reason
     ) {}

@@ -11,7 +11,7 @@ class CreateProductDesignDTO extends BaseDTO
 
     public function __construct(
         public readonly string $design_code,
-        public readonly string $design_name,
+        public readonly ?string $design_name,
         public readonly ?string $design_description,
         public readonly ?int $appearance_id,
         public readonly ?int $license_type_id,
@@ -31,19 +31,19 @@ class CreateProductDesignDTO extends BaseDTO
     {
         return new static(
             design_code: (string) $data['design_code'],
-            design_name: (string) $data['design_name'],
-            design_description: (string) $data['design_description'],
-            appearance_id: (int) $data['appearance_id'],
-            license_type_id: (int) $data['license_type_id'],
+            design_name: (string) $data['design_name'] ?? null,
+            design_description: (string) $data['design_description'] ?? null,
+            appearance_id: (int) $data['appearance_id'] ?? null,
+            license_type_id: (int) $data['license_type_id'] ?? null,
             color_type_id: (int) $data['color_type_id'],
-            polos_printing: (string) $data['polos_printing'],
-            color_type: (string) $data['color_type'],
-            color_group: (string) $data['color_group'],
-            order_type: (string) $data['order_type'],
-            material_group: (string) $data['material_group'],
-            is_active_sell: (bool) $data['is_active_sell'],
-            is_active_production: (bool) $data['is_active_production'],
-            is_active: (bool) $data['is_active'],
+            polos_printing: (string) $data['polos_printing'] ?? null,
+            color_type: (string) $data['color_type'] ?? null,
+            color_group: (string) $data['color_group'] ?? null,
+            order_type: (string) $data['order_type'] ?? null,
+            material_group: (string) $data['material_group'] ?? null,
+            is_active_sell: isset($data['is_active_sell']) ? (bool) $data['is_active_sell'] : null,
+            is_active_production: isset($data['is_active_production']) ? (bool) $data['is_active_production'] : null,
+            is_active: isset($data['is_active']) ? (bool) $data['is_active'] : null,
             created_by: (string) $data['created_by']
         );
     }

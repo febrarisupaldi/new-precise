@@ -9,28 +9,28 @@ use App\DTOs\Traits\AuditDTO;
 class UpdatePackagingDetailDTO extends BaseDTO
 {
     use AuditDTO;
-    // Define properties here
-    public int $packaging_dt_id;
-    public int $product_id;
-    public ?int $item_id = null;
-    public string $item_code;
-    public int $product_qty;
-    public int $priority;
-    public int $usage_per_unit;
-    public string $updated_by;
 
-    public static function fromRequest(Request $request): static
+    public function __construct(
+        public readonly ?int $packaging_dt_id,
+        public readonly ?int $product_id,
+        public readonly ?int $item_id,
+        public readonly string $item_code,
+        public readonly int $product_qty,
+        public readonly int $priority,
+        public readonly ?int $usage_per_unit,
+        public readonly string $updated_by
+    ) {}
+    public static function fromArray(array $data): static
     {
-        $dto = new self();
-        $dto->packaging_dt_id = (int) $request->input('packaging_dt_id');
-        $dto->product_id = (int) $request->input('product_id');
-        $dto->item_id = (int) $request->input('item_id');
-        $dto->item_code = $request->input('item_code');
-        $dto->product_qty = (int) $request->input('product_qty');
-        $dto->priority = (int) $request->input('priority');
-        $dto->usage_per_unit = (int) $request->input('usage_per_unit');
-        $dto->updated_by = $request->input('updated_by');
-
-        return $dto;
+        return new static(
+            packaging_dt_id: (int) $data['packaging_dt_id'] ?? null,
+            product_id: (int) $data['product_id'] ?? null,
+            item_id: (int) $data['item_id'] ?? null,
+            item_code: (string) $data['item_code'],
+            product_qty: (int) $data['product_qty'],
+            priority: (int) $data['priority'],
+            usage_per_unit: (int) $data['usage_per_unit'] ?? null,
+            updated_by: (string) $data['updated_by']
+        );
     }
 }

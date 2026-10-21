@@ -23,7 +23,7 @@ class UpdateProductSeriesDTO extends BaseDTO
     {
         return new static(
             series_name: (string) $data['series_name'],
-            series_description: (string) $data['series_description'],
+            series_description: (string) $data['series_description'] ?? null,
             updated_by: (string) $data['updated_by'],
             reason: (string) $data['reason']
         );

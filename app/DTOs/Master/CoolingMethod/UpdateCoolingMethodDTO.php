@@ -27,7 +27,7 @@ class UpdateCoolingMethodDTO extends BaseDTO
         return new static(
             cooling_method_name: (string) $data['cooling_method_name'],
             cooling_method_description: (string) $data['cooling_method_description'] ?? null,
-            is_active: (bool) $data['is_active'],
+            is_active: isset($data['is_active']) ? (bool) $data['is_active'] : null,
             updated_by: (string) $data['updated_by'],
             reason: (string) $data['reason']
         );

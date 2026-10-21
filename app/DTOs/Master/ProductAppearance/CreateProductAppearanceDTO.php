@@ -10,7 +10,7 @@ class CreateProductAppearanceDTO extends BaseDTO
 {
 
     public function __construct(
-        public readonly ?string $appearance_name,
+        public readonly string $appearance_name,
         public readonly string $created_by
     ) {}
 

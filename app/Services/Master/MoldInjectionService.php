@@ -78,12 +78,35 @@ class MoldInjectionService
                 throw new BadRequestException('MoldInjection not found', code: 404);
             }
             $this->moldInjectionRepo->setAuditSession($dto->toAuditArray());
-            $success = $this->moldInjectionRepo->update($id, $dto->withoutAuditArray());
+            $this->moldInjectionRepo->update($id, $dto->except(['details', 'details_delete_ids', 'details_cavity_delete_ids', 'reason']));
 
-            if ($success === false) {
-                throw new Exception('Failed to update MoldInjection');
+            $details = $dto->details;
+            foreach ($details as $detail) {
+                $detailID = (int) $detail->mold_injection_dt_id ?? null;
+
+                if ($detailID) {
+                    $this->moldInjectionDetailRepo->update($detailID, $detail->except(['cavities']));
+                } else {
+                    $this->moldInjectionDetailRepo->insert($detail->except(['cavities']));
+                }
+
+                $cavities = $detail->cavities;
+                foreach ($cavities as $cavity) {
+                    $cavityId = (int) $cavity->mold_injection_cavity_id ?? null;
+                    if ($cavityId) {
+                        $this->moldInjectionDetailCavityRepo->update($cavityId, $cavity->toArray());
+                    } else {
+                        $this->moldInjectionDetailCavityRepo->insert($cavity->toArray());
+                    }
+                }
             }
-        });
+
+            $delete_id = (array) ($details->detail_delete_ids ?? []);
+
+            if (!empty($delete_id)) {
+                $this->moldInjectionDetailRepo->deleteIn($delete_id);
+            }
+        }, 3);
     }
 
     public function checkExist(array $conditions): bool

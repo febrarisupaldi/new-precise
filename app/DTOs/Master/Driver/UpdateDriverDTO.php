@@ -22,7 +22,7 @@ class UpdateDriverDTO extends BaseDTO
     public static function fromArray(array $data): static
     {
         return new static(
-            is_active: (bool) $data['is_active'],
+            is_active: isset($data['is_active']) ? (bool) $data['is_active'] : null,
             updated_by: (string) $data['updated_by'],
             reason: (string) $data['reason']
         );

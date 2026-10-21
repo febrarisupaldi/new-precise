@@ -71,6 +71,13 @@ abstract class BaseRepository
             ->delete();
     }
 
+    public function deleteIn(array $data): bool
+    {
+        return DB::table(preg_replace('/\s+as\s+.+/i', '', $this->table->from()))
+            ->whereIn($this->table->pk(), $data)
+            ->delete();
+    }
+
     public function exists(array $conditions): bool
     {
 

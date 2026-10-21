@@ -9,7 +9,7 @@ class CreateMachineStatusDTO extends BaseDTO
 {
     public function __construct(
         public readonly string $status_code,
-        public readonly string $status_description,
+        public readonly ?string $status_description,
         public readonly ?bool $is_active,
         public readonly string $created_by
     ) {}
@@ -18,8 +18,8 @@ class CreateMachineStatusDTO extends BaseDTO
     {
         return new static(
             status_code: (string) $data['status_code'],
-            status_description: (string) $data['status_description'],
-            is_active: (bool) $data['is_active'],
+            status_description: (string) $data['status_description'] ?? null,
+            is_active: isset($data['is_active']) ? (bool) $data['is_active'] : null,
             created_by: (string) $data['created_by']
         );
     }

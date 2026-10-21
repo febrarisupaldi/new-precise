@@ -37,7 +37,9 @@ class UpdateMoldInjectionDTO extends BaseDTO
         public readonly ?string $plate_size_uom,
         public readonly string $updated_by,
         public readonly string $reason,
-        public readonly array $details
+        public readonly array $details,
+        public readonly ?array $detail_delete_ids,
+        public readonly ?array $detail_cavity_delete_ids,
     ) {}
 
 
@@ -50,31 +52,33 @@ class UpdateMoldInjectionDTO extends BaseDTO
 
         return new static(
             mold_number: (string) $data['mold_number'],
-            mmit_code_dont_use: (string) $data['mmit_code_dont_use'],
+            mmit_code_dont_use: (string) $data['mmit_code_dont_use'] ?? null,
             mold_name: (string) $data['mold_name'],
-            is_family_mold: (bool) $data['is_family_mold'],
-            customer_id: (int) $data['customer_id'],
+            is_family_mold: (bool) $data['is_family_mold'] ?? null,
+            customer_id: (int) $data['customer_id'] ?? null,
             status_code: (string) $data['status_code'],
-            remake_from: (string) $data['remake_from'],
+            remake_from: (string) $data['remake_from'] ?? null,
             production_date: (string) $data['production_date'],
-            tonnage_std: (int) $data['tonnage_std'],
-            tonnage_min: (int) $data['tonnage_min'],
-            tonnage_max: (int) $data['tonnage_max'],
-            steel_type_id: (int) $data['steel_type_id'],
-            mold_making_id: (int) $data['mold_making_id'],
-            mold_maker: (string) $data['mold_maker'],
-            cooling_method_id: (int) $data['cooling_method_id'],
-            mold_description: (string) $data['mold_description'],
-            length: (int) $data['length'],
-            width: (int) $data['width'],
-            height: (int) $data['height'],
-            dimension_uom: (string) $data['dimension_uom'],
-            plate_size_length: (int) $data['plate_size_length'],
-            plate_size_width: (int) $data['plate_size_width'],
-            plate_size_uom: (string) $data['plate_size_uom'],
+            tonnage_std: (int) $data['tonnage_std'] ?? null,
+            tonnage_min: (int) $data['tonnage_min'] ?? null,
+            tonnage_max: (int) $data['tonnage_max'] ?? null,
+            steel_type_id: (int) $data['steel_type_id'] ?? null,
+            mold_making_id: (int) $data['mold_making_id'] ?? null,
+            mold_maker: (string) $data['mold_maker'] ?? null,
+            cooling_method_id: (int) $data['cooling_method_id'] ?? null,
+            mold_description: (string) $data['mold_description'] ?? null,
+            length: (int) $data['length'] ?? null,
+            width: (int) $data['width'] ?? null,
+            height: (int) $data['height'] ?? null,
+            dimension_uom: (string) $data['dimension_uom'] ?? null,
+            plate_size_length: (int) $data['plate_size_length'] ?? null,
+            plate_size_width: (int) $data['plate_size_width'] ?? null,
+            plate_size_uom: (string) $data['plate_size_uom'] ?? null,
             updated_by: (string) $data['updated_by'],
             reason: (string) $data['reason'],
-            details: $details
+            details: $details,
+            detail_delete_ids: (array) ($data['detail_delete_ids'] ?? []),
+            detail_cavity_delete_ids: (array) ($data['detail_cavity_delete_ids'] ?? [])
         );
     }
 }
