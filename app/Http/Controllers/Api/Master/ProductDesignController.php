@@ -48,11 +48,11 @@ class ProductDesignController extends Controller
                 code: 200
             );
         } catch (\Throwable $e) {
-            $this->logError($e, 'ProductItemController@index');
+            $this->logError($e, 'ProductDesignController@index');
 
             return $this->jsonResponse(
                 status: 'error',
-                message: 'Failed to retrieve ProductItem list.',
+                message: 'Failed to retrieve ProductDesign list.',
                 code: 500
             );
         }

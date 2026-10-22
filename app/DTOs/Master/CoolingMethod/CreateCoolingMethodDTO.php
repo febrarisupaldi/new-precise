@@ -2,9 +2,7 @@
 
 namespace App\DTOs\Master\CoolingMethod;
 
-// php namespace
 use App\DTOs\BaseDTO;
-use Illuminate\Http\Request;
 
 class CreateCoolingMethodDTO extends BaseDTO
 {
